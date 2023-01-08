@@ -34,7 +34,7 @@ export default function BurgerIngredients({ingredients}) {
     acc[item.type].push(item);
     return acc;
   }, {})
-  console.log(ingredientsGroup);
+  // console.log(ingredientsGroup);
   
   return (
     <section className={`${burgerIngredientsStyles.ingredients} mr-10`}>

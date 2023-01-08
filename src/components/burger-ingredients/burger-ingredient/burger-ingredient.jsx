@@ -3,10 +3,14 @@ import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-c
 import ingedientStyles from './burger-ingredient.module.scss'
 
 export default function BurgerIngredient({ingredient}) {
-  const [count, setCount] = useState(0);  
+  const [count, setCount] = useState(0);
+  
+  const handleSelectIngredient = (ingredient) => {
+    setCount(count + 1);
+  }
 
   return (
-    <div className={ingedientStyles.ingredient} onClick={()=>setCount(count + 1)}>
+    <div className={ingedientStyles.ingredient} onClick={()=> handleSelectIngredient(ingredient)}>
       {count > 0 ? <Counter count={count} size="default" extraClass="m-1" /> : null}
       <div className="pl-4 pr-4">
         <img src={ingredient.image_large} className={ingedientStyles.ingredientImg} alt={ingredient.name} />
