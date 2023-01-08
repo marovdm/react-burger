@@ -1,0 +1,19 @@
+.link {
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    transition: var(--common-transition);
+    & > svg {
+        transition: var(--common-transition);
+    }
+    &.align-right {
+        justify-content: flex-end;
+    }
+    &:hover {
+        color: var(--text-primary-color);  
+        svg {
+            fill: var(--text-primary-color);
+        }
+    }
+}
+
