@@ -2,11 +2,13 @@ import { useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import ingedientStyles from './burger-ingredient.module.scss'
 
-export default function BurgerIngredient({ingredient}) {
+export default function BurgerIngredient({ingredient, onSelectIngredient}) {
+
   const [count, setCount] = useState(0);
   
   const handleSelectIngredient = (ingredient) => {
     setCount(count + 1);
+    onSelectIngredient(ingredient)
   }
 
   return (

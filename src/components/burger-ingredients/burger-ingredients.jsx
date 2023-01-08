@@ -3,6 +3,7 @@ import PropTypes from 'prop-types';
 import burgerIngredientsStyles from './burger-ingredients.module.scss'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerChapter from './burger-chapter/burger-chapter'
+import IngredientDetails from '../ingredient-details/ingredient-details';
 
 const INGREDIENT_TYPES = {
   "bun": "Булки",
@@ -27,14 +28,23 @@ const ingredientPropTypes = PropTypes.shape({
 
 export default function BurgerIngredients({ingredients}) {  
   const [current, setCurrent] = React.useState('bun');
+  const [selectedIngredient, setSelectedIngredient] = React.useState(null);
+  const [visibleIngedientDetail, setVisibleIngedientDetail] = React.useState(false);
+
 
   // Сгруппируем массив ингредиентов по типу ингредиента
   const ingredientsGroup = ingredients.reduce((acc, item) => {
     acc[item.type] = acc[item.type] || [];
     acc[item.type].push(item);
     return acc;
-  }, {})
-  // console.log(ingredientsGroup);
+  }, {}); 
+
+  const handleSelectIngredient = selected => {
+    if (selected) {
+      setSelectedIngredient(selected);
+      setVisibleIngedientDetail(true)
+    }
+  }
   
   return (
     <section className={`${burgerIngredientsStyles.ingredients} mr-10`}>
@@ -52,10 +62,17 @@ export default function BurgerIngredients({ingredients}) {
       <div className={`${burgerIngredientsStyles.ingredientsWrapper} custom-scroll`}>
         {
           Object.keys(INGREDIENT_TYPES).map(type => (
-            <BurgerChapter chapter={ingredientsGroup[type]} title={INGREDIENT_TYPES[type]} key={type} />
+            <BurgerChapter chapter={ingredientsGroup[type]} title={INGREDIENT_TYPES[type]} key={type} onClick={handleSelectIngredient} />
           ))
         }
       </div>
+      {
+        visibleIngedientDetail && selectedIngredient && 
+        <IngredientDetails 
+          ingredientDetail={selectedIngredient}
+          onClose={() => setVisibleIngedientDetail(false)}
+        />
+      }
     </section>
   )
 }
