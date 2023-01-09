@@ -1,5 +1,7 @@
-import BurgerIngredient from '../burger-ingredient/burger-ingredient'
-import styles from './burger-chapter.module.scss'
+import BurgerIngredient from '../burger-ingredient/burger-ingredient';
+import styles from './burger-chapter.module.scss';
+import PropTypes from 'prop-types';
+import { ingredientPropTypes } from '../../../utils/prop-types';
 
 export default function BurgerChapter({chapter, title, onClick}) {
   return (
@@ -13,3 +15,9 @@ export default function BurgerChapter({chapter, title, onClick}) {
     </article>
   )
 }
+
+BurgerChapter.propTypes = {
+  chapter: PropTypes.arrayOf(ingredientPropTypes).isRequired,
+  title: PropTypes.string.isRequired,
+  onClick: PropTypes.func.isRequired,
+};

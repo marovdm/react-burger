@@ -1,9 +1,11 @@
 import { useEffect, useState } from 'react';
-import appStyles from './app.module.css';
+import styles from './app.module.css';
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
 
+
+// hardcoded данные для имитации выбранных ингредиентов
 const selectedIngredients = [
   {
     "_id":"60666c42cc7b410027a1a9b1",
@@ -75,7 +77,8 @@ const selectedIngredients = [
     "image_large":"https://code.s3.yandex.net/react/code/mineral_rings-large.png",
     "__v":0
   }
-]
+];
+const url = "/utils/data.json";
 
 function App() {
   const [state, setState] = useState({
@@ -88,7 +91,7 @@ function App() {
   useEffect(() => {
     const getBurgersData = async () => {
       setState({...state, isLoading: true});
-      await fetch("/utils/data.json")
+      await fetch(url)
         .then(res => res.json())
         .then(data => setState({ ...state, burgersData: data, isLoading: false }))
         .catch(err => setState({ ...state, hasError: true, isLoading: false }))
@@ -99,10 +102,10 @@ function App() {
   return (
     <div className="App">
       <AppHeader />
-      <main className={appStyles.container}>
+      <main className={styles.container}>
         <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
         {!state.isLoading && state.burgersData && 
-          <div className={appStyles.row}>
+          <div className={styles.row}>
             <BurgerIngredients ingredients={state.burgersData} />
             <BurgerConstructor selected={selectedIngredients} />
           </div>
