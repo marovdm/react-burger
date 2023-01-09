@@ -1,35 +1,27 @@
 import { useEffect, useState } from 'react';
 import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import burgerConstructorStyles from './burger-constructor.module.scss'
+import styles from './burger-constructor.module.scss'
 import ConstructorOrder from './constructor-order/constructor-order'
+import PropTypes from 'prop-types';
+import { ingredientPropTypes } from '../../utils/prop-types';
 
 export default function BurgerConstructor({selected}) {
   const [totalPrice, setTotalPrice] = useState(0);
-  const [selectedBun, setSelectedBun] = useState(null);
-  const [selectedIngredients, setSelectedIngredients] = useState([]);
 
   useEffect(() => {
+    // подсчет общей стоимости заказа
+    const calculateTotalPrice = () => {
+      return selected.reduce((acc, el) => acc + el.price, 0)
+    }
     setTotalPrice(calculateTotalPrice());
-    filteredIngredients();
-  }, [])
+  }, [selected]);
 
-
-  const filteredIngredients = () => {
-    let otherIngredients = [];
-    selected.forEach(ingredient => {
-      if (ingredient.type === 'bun') {
-        setSelectedBun(ingredient);
-      } else otherIngredients.push(ingredient);
-    });
-    setSelectedIngredients(otherIngredients);
-  }
-
-  const calculateTotalPrice = () => {
-    return selected.reduce((acc, el) => acc + el.price, 0)
-  }
+  // исключим из выбранных ингредиентов булки
+  const selectedBun = selected.find(ingredient => ingredient.type === "bun");
+  const selectedIngredients = selected.filter(ingredient => ingredient.type !== "bun")
 
   return (
-    <section className={burgerConstructorStyles.constructor}>
+    <section className={styles.constructor}>
       <div className="mb-10">
         {selectedBun && <ConstructorElement 
             type="top"
@@ -40,10 +32,10 @@ export default function BurgerConstructor({selected}) {
             extraClass="mb-4 ml-8"
           />
         }
-        <div className={`${burgerConstructorStyles.constructorWrapper} custom-scroll`}>
+        <div className={`${styles.constructorWrapper} custom-scroll`}>
           {selectedIngredients.map(ingredient =>
-            <article className={burgerConstructorStyles.elementWrapper} key={ingredient._id}>
-              <span className={burgerConstructorStyles.elementIcon}>
+            <article className={styles.elementWrapper} key={ingredient._id}>
+              <span className={styles.elementIcon}>
                 <DragIcon type="primary" />
               </span>
               <ConstructorElement
@@ -70,3 +62,7 @@ export default function BurgerConstructor({selected}) {
     </section>
   )
 }
+
+BurgerConstructor.propTypes = {
+  selected: PropTypes.arrayOf(ingredientPropTypes).isRequired
+};

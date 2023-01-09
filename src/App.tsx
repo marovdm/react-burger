@@ -93,7 +93,6 @@ function App() {
         .then(data => setState({ ...state, burgersData: data, isLoading: false }))
         .catch(err => setState({ ...state, hasError: true, isLoading: false }))
     }
-
     getBurgersData();
   }, []);  
 

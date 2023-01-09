@@ -1,14 +1,14 @@
-import linkStyles from './header-link.module.scss';
-import classNames from 'classnames'
-import cnBind from 'classnames/bind'
+import styles from './header-link.module.scss';
+import classNames from 'classnames';
+import cnBind from 'classnames/bind';
+import PropTypes from 'prop-types';
 
-const cx = cnBind.bind(linkStyles);
+const cx = cnBind.bind(styles);
 
-export default function HeaderLink({href, children, active=false, alignRight=false}) {
+export default function HeaderLink({href, children, active=false}) {
   const classes = classNames(
     'text text_type_main-default', 
-    cx('link', { 
-      'align-right': alignRight,
+    cx('link', {
       'text_color_inactive': !active
     })
   );
@@ -18,4 +18,10 @@ export default function HeaderLink({href, children, active=false, alignRight=fal
       {children}
     </a>
   )
+}
+
+HeaderLink.propTypes = {
+  href: PropTypes.string.isRequired,
+  children: PropTypes.node.isRequired,
+  active: PropTypes.bool
 }
