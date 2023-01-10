@@ -3,6 +3,7 @@ import styles from './app.module.css';
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
+import { getBurgersData } from './utils/burger-api';
 
 
 // hardcoded данные для имитации выбранных ингредиентов
@@ -78,7 +79,7 @@ const selectedIngredients = [
     "__v":0
   }
 ];
-const url = "/utils/data.json";
+
 
 function App() {
   const [state, setState] = useState({
@@ -89,14 +90,10 @@ function App() {
 
   // заготовка под запрос с бэка
   useEffect(() => {
-    const getBurgersData = async () => {
-      setState({...state, isLoading: true});
-      await fetch(url)
-        .then(res => res.json())
-        .then(data => setState({ ...state, burgersData: data, isLoading: false }))
-        .catch(err => setState({ ...state, hasError: true, isLoading: false }))
-    }
-    getBurgersData();
+    setState({...state, isLoading: true});   
+    getBurgersData()
+      .then(({data}) => setState({ ...state, burgersData: data, isLoading: false }))
+      .catch(err => setState({ ...state, hasError: true, isLoading: false }))
   }, []);  
 
   return (

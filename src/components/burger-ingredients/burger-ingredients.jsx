@@ -17,7 +17,6 @@ export default function BurgerIngredients({ingredients}) {
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
   const [visibleIngedientDetail, setVisibleIngedientDetail] = React.useState(false);
 
-
   // Сгруппируем массив ингредиентов по типу ингредиента
   const ingredientsGroup = ingredients.reduce((acc, item) => {
     acc[item.type] = acc[item.type] || [];
