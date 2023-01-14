@@ -1,0 +1,23 @@
+.constructor {
+    max-width: 600px;
+    flex-grow: 1;
+}
+
+.constructorWrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-height: 30vh;
+    overflow-y: scroll;
+}
+
+.elementWrapper {
+    position: relative;
+}
+
+.elementIcon {
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+}

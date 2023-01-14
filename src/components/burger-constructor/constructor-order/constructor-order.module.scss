@@ -1,0 +1,13 @@
+.order {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.order {
+    & > svg {
+        width: 33px;
+        height: 33px;
+        margin-right: 40px;
+    }
+}

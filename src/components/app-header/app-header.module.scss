@@ -1,0 +1,24 @@
+.header {
+    background: var(--background);
+}
+
+.container {
+    max-width: 1280px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+}
+
+.logo {
+    text-align: center;
+}
+
+.row {
+    display: flex;
+    align-items: center;
+}
+.rowend {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}

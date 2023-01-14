@@ -1,0 +1,13 @@
+.ingredients {
+    max-width: 600px;
+}
+
+.ingredientsWrapper {
+    max-height: calc(100vh - 288px);
+    overflow-y: scroll;
+    overflow-x: hidden;
+}
+
+.tabsHeader {
+    display: flex;
+}

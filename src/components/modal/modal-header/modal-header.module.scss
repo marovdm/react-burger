@@ -1,0 +1,29 @@
+.modalHeader {
+    display: flex;
+    padding: 0 40px;
+    position: relative;
+}
+
+.closeModal {
+    cursor: pointer;
+    position: absolute;
+    right: 30px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 18px;
+    height: 18px;
+    
+    &:before, &:after {
+        content: '';
+        position: absolute;
+        height: 24px;
+        width: 2px;
+        background-color: var(--text-primary-color);  
+      }
+      &:before {
+        transform: rotate(45deg);
+      }
+      &:after {
+        transform: rotate(-45deg);
+    }
+}
