@@ -1,68 +1,40 @@
-import { useEffect, useState } from 'react';
-import { ConstructorElement, DragIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import { useContext, useMemo } from 'react';
 import styles from './burger-constructor.module.scss'
 import ConstructorOrder from './constructor-order/constructor-order'
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { SelectedInredientsContext } from '../../services/burgerContext';
+import EmptyElement from './empty-element/empty-element';
+import { v4 as uuidv4 } from 'uuid';
+import SelectedElement from './selected-element/selected-element';
 
-export default function BurgerConstructor({selected}) {
-  const [totalPrice, setTotalPrice] = useState(0);
+export default function BurgerConstructor() {
+  const {selected} = useContext(SelectedInredientsContext);
 
-  useEffect(() => {
-    // подсчет общей стоимости заказа
-    const calculateTotalPrice = () => {
-      return selected.reduce((acc, el) => acc + el.price, 0)
-    }
-    setTotalPrice(calculateTotalPrice());
-  }, [selected]);
-
-  // исключим из выбранных ингредиентов булки
-  const selectedBun = selected.find(ingredient => ingredient.type === "bun");
-  const selectedIngredients = selected.filter(ingredient => ingredient.type !== "bun")
+  const selectedBun = useMemo(() => selected.find(ingredient => ingredient.type === 'bun'), [selected]);
+  const selectedOthers = useMemo(() => selected.filter(ingredient => ingredient.type !== 'bun'), [selected]);
 
   return (
     <section className={styles.constructor}>
       <div className="mb-10">
-        {selectedBun && <ConstructorElement 
-            type="top"
-            isLocked={selectedBun.type === "bun"}
-            text={selectedBun.name}
-            price={selectedBun.price}
-            thumbnail={selectedBun.image_mobile}
-            extraClass="mb-4 ml-8"
-          />
+        { 
+          selectedBun ? 
+            <SelectedElement ingredient={selectedBun} position="top" extraClass="mb-4 ml-8" />
+            : <EmptyElement type='top' text="Выберите булки" />
         }
         <div className={`${styles.constructorWrapper} custom-scroll`}>
-          {selectedIngredients.map(ingredient =>
-            <article className={styles.elementWrapper} key={ingredient._id}>
-              <span className={styles.elementIcon}>
-                <DragIcon type="primary" />
-              </span>
-              <ConstructorElement
-                isLocked={ingredient.type === "bun"}
-                text={ingredient.name}
-                price={ingredient.price}
-                thumbnail={ingredient.image_mobile}
-                extraClass="ml-8"
-              />
-            </article>
-          )}
+          {
+            (selectedOthers && selectedOthers.length) ? selectedOthers.map(ingredient =>
+              <SelectedElement ingredient={ingredient} extraClass="ml-8" key={uuidv4()}/>
+            ) 
+            : <EmptyElement text="Выберите ингредиенты"/>
+          }
         </div>      
-        {selectedBun && <ConstructorElement 
-            type="bottom"
-            isLocked={selectedBun.type === "bun"}
-            text={selectedBun.name}
-            price={selectedBun.price}
-            thumbnail={selectedBun.image_mobile}
-            extraClass="mt-4 ml-8"
-          />
+        { 
+          selectedBun ? 
+            <SelectedElement ingredient={selectedBun} position="bottom" extraClass="mt-4 ml-8" />
+            : <EmptyElement type='bottom' text="Выберите булки" />
         }
       </div>       
-      <ConstructorOrder total={totalPrice} />
+      <ConstructorOrder />
     </section>
   )
 }
-
-BurgerConstructor.propTypes = {
-  selected: PropTypes.arrayOf(ingredientPropTypes).isRequired
-};

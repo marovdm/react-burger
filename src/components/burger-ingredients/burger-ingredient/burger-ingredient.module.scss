@@ -2,8 +2,16 @@
     text-align: center;
     position: relative;
     cursor: pointer;
-}
 
-.ingredientImg {
-    max-width: 100%;
+    &_price {
+        display: flex;
+        align-items: center;
+        margin-top: 4px;
+        margin-bottom: 4px;
+        justify-content: center;
+    }
+
+    &_img {
+        max-width: 100%;
+    }
 }

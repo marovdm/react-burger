@@ -1,10 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react'
 import styles from './burger-ingredients.module.scss'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerChapter from './burger-chapter/burger-chapter'
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { BurgersDataContext } from '../../services/burgerContext';
 
 const INGREDIENT_TYPES = {
   "bun": "Булки",
@@ -12,10 +11,11 @@ const INGREDIENT_TYPES = {
   "main": "Начинки"
 };
 
-export default function BurgerIngredients({ingredients}) {  
+export default function BurgerIngredients() {  
   const [current, setCurrent] = React.useState('bun');
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
-  const [visibleIngedientDetail, setVisibleIngedientDetail] = React.useState(false);
+  const [openedIngedientDetail, setOpenedIngedientDetail] = React.useState(false);
+  const [ingredients] = useContext(BurgersDataContext);
 
   // Сгруппируем массив ингредиентов по типу ингредиента
   const ingredientsGroup = ingredients.reduce((acc, item) => {
@@ -27,7 +27,7 @@ export default function BurgerIngredients({ingredients}) {
   const handleSelectIngredient = selected => {
     if (selected) {
       setSelectedIngredient(selected);
-      setVisibleIngedientDetail(true)
+      setOpenedIngedientDetail(true)
     }
   }
   
@@ -52,16 +52,12 @@ export default function BurgerIngredients({ingredients}) {
         }
       </div>
       {
-        visibleIngedientDetail && selectedIngredient && 
+        openedIngedientDetail && selectedIngredient && 
         <IngredientDetails 
           ingredientDetail={selectedIngredient}
-          onClose={() => setVisibleIngedientDetail(false)}
+          onClose={() => setOpenedIngedientDetail(false)}
         />
       }
     </section>
   )
 }
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
-};
