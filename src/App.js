@@ -13,7 +13,7 @@ function App() {
     isLoading: true,
     hasError: false
   })
-  const [selectedInredients, setSelectedInredients] = useState([] as any);
+  const [selectedInredients, setSelectedInredients] = useState([]);
 
   useEffect(() => {
     getBurgersData()
@@ -25,13 +25,13 @@ function App() {
   }, []);
 
   // TODO: any - потому что TS постоянно ругается. После изучения  TS - исправить
-  const handleOnSelect = (element: any) => {
+  const handleOnSelect = (element) => {
     if (element?.type === 'bun') {
       //если выбрали булку - проверяем, есть ли уже в выбранных булка
-      const bunIndex = selectedInredients.findIndex((item: any) => item.type === 'bun')
+      const bunIndex = selectedInredients.findIndex((item) => item.type === 'bun')
       if (bunIndex !== -1) { 
         // Заменим на выбранную, т.к. булка может быть только одна
-        const updated = selectedInredients.map((ingredient: any, index: number) => {
+        const updated = selectedInredients.map((ingredient, index) => {
           if (ingredient.type === 'bun' && index === bunIndex) {
             return element;
           } else {
