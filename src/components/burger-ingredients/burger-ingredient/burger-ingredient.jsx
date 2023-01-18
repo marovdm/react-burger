@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredient.module.scss'
 import PropTypes from 'prop-types';
@@ -7,17 +7,24 @@ import { SelectedInredientsContext } from '../../../services/burgerContext';
 
 export default function BurgerIngredient({ingredient, onSelectIngredient}) {
   const [count, setCount] = useState(0);
-  const {handleOnSelect} = useContext(SelectedInredientsContext);
+  const {selected, lastAdded} = useContext(SelectedInredientsContext);
+
+  useEffect(() => {
+    // Оптимизация подсчета количества
+    // Считаем только для последнего выбранного ингредиента или же в случае выбора булки, чтобы сбросить счетчик у другой
+    if ((lastAdded?.type === 'bun' && ingredient.type === 'bun') || 
+        (lastAdded?._id === ingredient._id)) {
+        let countSelected = selected.filter(el => el._id === ingredient._id).length;
+        // если выбрана булка, то ее количество должно быть 2
+        if (ingredient.type === 'bun' && countSelected > 0) {
+          countSelected = 2;
+        }
+      setCount(countSelected)
+    }
+  }, [ingredient, lastAdded, selected]);
   
   const handleSelectIngredient = (ingredient) => {
-    // TODO: Разобраться с инкрементом счетчика
-    // по идее, он должен быть равен количеству элементов с данным id в store
-    // потому что иначе не получится удалять или сбрасывать, если это, например булка (при замене на другую)
-    // Пока не знаю как сделать, может быть на ревью подскажут:)
-    
-    // setCount(count + 1);
     onSelectIngredient(ingredient);
-    handleOnSelect(ingredient);
   }
 
   return (

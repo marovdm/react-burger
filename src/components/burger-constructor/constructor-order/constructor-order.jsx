@@ -5,7 +5,7 @@ import OrderDetails from '../../order-details/order-details'
 import { SelectedInredientsContext } from '../../../services/burgerContext';
 import { createOrder } from '../../../utils/burger-api';
 
-// начальное состояние useReudcer
+// начальное состояние useReducer
 const initialState = { total: 0 };
 // функция  useReudcer
 const reducer = (state, action) => {

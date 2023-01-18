@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import styles from './app.module.css';
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
@@ -7,48 +7,71 @@ import Preloader from './components/preloader/preloader';
 import { BurgersDataContext, SelectedInredientsContext } from './services/burgerContext';
 import { getBurgersData } from './utils/burger-api';
 
+// начальное состояние useReducer
+const initialState = {
+  burgersData: null,
+  isLoading: true,
+  hasError: false,
+  selectedInredients: [],
+  lastSelectedIngedient: null
+};
+
+// функция редюсер для управления стэйтом компонента
+const reducer = (state, action) => {
+  switch (action.type) {
+    case 'LOADING_SUCCESS':
+      return {
+        ...state, 
+        burgersData: action.payload, 
+        isLoading: false
+      }
+    case 'LOADING_ERROR':
+      return {
+        ...state, 
+        hasError: true, 
+        isLoading: false
+      }
+    case 'SET_SELECTED_INGREDIENTS': {
+      return {
+        ...state,
+        selectedInredients: action.payload,
+      }
+    }
+    case 'SET_LAST_ADDED': {
+      return {
+        ...state,
+        lastSelectedIngedient: action.payload,
+      }
+    }
+    default:
+      return state;
+  }
+}
+
 function App() {
-  const [state, setState] = useState({
-    burgersData: null,
-    isLoading: true,
-    hasError: false
-  })
-  const [selectedInredients, setSelectedInredients] = useState([]);
+  const [state, dispatch] = useReducer(reducer, initialState);
 
   useEffect(() => {
     getBurgersData()
-      .then(data => setState({ ...state, burgersData: data, isLoading: false }))
+      .then(data => {
+        dispatch({ type: 'LOADING_SUCCESS', payload: data });
+      })
       .catch(err => {
-        setState({ ...state, hasError: true, isLoading: false });
+        dispatch({ type: 'LOADING_ERROR'})
         alert("Во время загрузки произошла ошибка");
       })
   }, []);
 
-  // TODO: any - потому что TS постоянно ругается. После изучения  TS - исправить
-  const handleOnSelect = (element) => {
-    if (element?.type === 'bun') {
-      //если выбрали булку - проверяем, есть ли уже в выбранных булка
-      const bunIndex = selectedInredients.findIndex((item) => item.type === 'bun')
-      if (bunIndex !== -1) { 
-        // Заменим на выбранную, т.к. булка может быть только одна
-        const updated = selectedInredients.map((ingredient, index) => {
-          if (ingredient.type === 'bun' && index === bunIndex) {
-            return element;
-          } else {
-            return ingredient;
-          }
-        });
-        setSelectedInredients(updated);
-      } else {
-        setSelectedInredients([...selectedInredients, element]);
-      }
-    } else {
-      setSelectedInredients([...selectedInredients, element]);
-    }
+  // при выборе ингредиента в дочернем компоненте вызываем соответсвующий редюсер
+  const handleOnSelect = (ingredients, last) => {
+    dispatch({ type: 'SET_LAST_ADDED', payload: last });
+    dispatch({ type: 'SET_SELECTED_INGREDIENTS', payload: ingredients });    
   }
 
   const selectedState = {
-    selected: selectedInredients,
+    //Прокидываем стэйт и редюсер в дочерние компоненты
+    selected: state.selectedInredients,
+    lastAdded: state.lastSelectedIngedient,
     handleOnSelect: handleOnSelect
   }
 

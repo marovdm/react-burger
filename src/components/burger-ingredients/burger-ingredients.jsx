@@ -3,7 +3,7 @@ import styles from './burger-ingredients.module.scss'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerChapter from './burger-chapter/burger-chapter'
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { BurgersDataContext } from '../../services/burgerContext';
+import { BurgersDataContext, SelectedInredientsContext } from '../../services/burgerContext';
 
 const INGREDIENT_TYPES = {
   "bun": "Булки",
@@ -16,6 +16,7 @@ export default function BurgerIngredients() {
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
   const [openedIngedientDetail, setOpenedIngedientDetail] = React.useState(false);
   const [ingredients] = useContext(BurgersDataContext);
+  const {selected, handleOnSelect} = useContext(SelectedInredientsContext);
 
   // Сгруппируем массив ингредиентов по типу ингредиента
   const ingredientsGroup = ingredients.reduce((acc, item) => {
@@ -24,10 +25,30 @@ export default function BurgerIngredients() {
     return acc;
   }, {}); 
 
-  const handleSelectIngredient = selected => {
-    if (selected) {
-      setSelectedIngredient(selected);
-      setOpenedIngedientDetail(true)
+  const handleSelectIngredient = element => {
+    if (element) {
+      setSelectedIngredient(element);
+      setOpenedIngedientDetail(true);
+
+      if (element?.type === 'bun') {
+        //если выбрали булку - проверяем, есть ли уже в выбранных булка
+        const bunIndex = selected.findIndex((item) => item.type === 'bun')
+        if (bunIndex !== -1) { 
+          // Заменим на выбранную, т.к. булка может быть только одна
+          const updated = selected.map((ingredient, index) => {
+            if (ingredient.type === 'bun' && index === bunIndex) {
+              return element;
+            } else {
+              return ingredient;
+            }
+          });
+          handleOnSelect(updated, element);
+        } else {
+          handleOnSelect([...selected, element], element);
+        }
+      } else {
+        handleOnSelect([...selected, element], element);
+      }
     }
   }
 
