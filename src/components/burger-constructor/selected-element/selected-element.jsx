@@ -18,7 +18,7 @@ export default function SelectedElement({ingredient, position, extraClass}) {
           extraClass={extraClass}
         />
         :
-        <article className={styles.wrapper} key={ingredient._id}>
+        <li className={styles.wrapper} key={ingredient._id}>
           <span className={styles.icon}>
             <DragIcon type="primary" />
           </span>
@@ -29,7 +29,7 @@ export default function SelectedElement({ingredient, position, extraClass}) {
             thumbnail={ingredient.image_mobile}
             extraClass={extraClass}
           />
-        </article>
+        </li>
       }
     </>
   )

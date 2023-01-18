@@ -3,6 +3,7 @@ import styles from './app.module.css';
 import AppHeader from './components/app-header/app-header';
 import BurgerConstructor from './components/burger-constructor/burger-constructor';
 import BurgerIngredients from './components/burger-ingredients/burger-ingredients';
+import Preloader from './components/preloader/preloader';
 import { BurgersDataContext, SelectedInredientsContext } from './services/burgerContext';
 import { getBurgersData } from './utils/burger-api';
 
@@ -12,13 +13,15 @@ function App() {
     isLoading: true,
     hasError: false
   })
-  const [selectedInredients, setSelectedInredients] = useState([] as any)
+  const [selectedInredients, setSelectedInredients] = useState([] as any);
 
   useEffect(() => {
-    setState({...state, isLoading: true});   
     getBurgersData()
-      .then(({data}) => setState({ ...state, burgersData: data, isLoading: false }))
-      .catch(err => setState({ ...state, hasError: true, isLoading: false }))
+      .then(data => setState({ ...state, burgersData: data, isLoading: false }))
+      .catch(err => {
+        setState({ ...state, hasError: true, isLoading: false });
+        alert("Во время загрузки произошла ошибка");
+      })
   }, []);
 
   // TODO: any - потому что TS постоянно ругается. После изучения  TS - исправить
@@ -52,19 +55,24 @@ function App() {
   return (
     <div className="App">
       <AppHeader />
-      <main className={styles.container}>
-        <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
-        {!state.isLoading && state.burgersData && 
-          <div className={styles.row}>
-            <BurgersDataContext.Provider value={[state.burgersData]}>
-              <SelectedInredientsContext.Provider value={selectedState}>
-                <BurgerIngredients />
-                <BurgerConstructor />
-              </SelectedInredientsContext.Provider>
-            </BurgersDataContext.Provider>
-          </div>
-        }
-      </main>
+      {state.isLoading ? (
+        <Preloader />
+      ) : (
+          <main className={styles.container}>
+            <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
+            {state.burgersData && 
+              <div className={styles.row}>
+                <BurgersDataContext.Provider value={[state.burgersData]}>
+                  <SelectedInredientsContext.Provider value={selectedState}>
+                    <BurgerIngredients />
+                    <BurgerConstructor />
+                  </SelectedInredientsContext.Provider>
+                </BurgersDataContext.Provider>
+              </div>
+            }
+          </main>
+        )
+      }
     </div>
   );
 }

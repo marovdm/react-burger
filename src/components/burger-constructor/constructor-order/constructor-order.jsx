@@ -51,15 +51,15 @@ export default function ConstructorOrder() {
 
   return (
     <div className={styles.order}>
-        <span className='text text_type_digits-medium mr-2'>{totalState.total}</span>
-        <CurrencyIcon type="primary" />
-        <Button htmlType="button" type="primary" size="medium" disabled={!totalState.total} onClick={handleConfirmButton}>
-            Оформить заказ
-        </Button>
-        {
-          state.visibleOrderModal && 
-          <OrderDetails orderNumber={state.orderNumber} onClose={() => setState({...state, visibleOrderModal: false})} 
-        />}
+      <span className='text text_type_digits-medium mr-2'>{totalState.total}</span>
+      <CurrencyIcon type="primary" />
+      <Button htmlType="button" type="primary" size="medium" disabled={!totalState.total} onClick={handleConfirmButton}>
+          Оформить заказ
+      </Button>
+      {
+        state.visibleOrderModal && 
+        <OrderDetails orderNumber={state.orderNumber} onClose={() => setState({...state, visibleOrderModal: false})} 
+      />}
     </div>
   )
 }

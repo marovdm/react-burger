@@ -12,7 +12,7 @@ const INGREDIENT_TYPES = {
 };
 
 export default function BurgerIngredients() {  
-  const [current, setCurrent] = React.useState('bun');
+  const [currentTab, setCurrentTab] = React.useState('bun');
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
   const [openedIngedientDetail, setOpenedIngedientDetail] = React.useState(false);
   const [ingredients] = useContext(BurgersDataContext);
@@ -30,24 +30,36 @@ export default function BurgerIngredients() {
       setOpenedIngedientDetail(true)
     }
   }
+
+  const onTabClick = (tab) => {
+    setCurrentTab(tab);
+    const element = document.getElementById(tab);
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
+  }
   
   return (
     <section className={`${styles.ingredients} mr-10`}>
       <div className={`${styles.tabsHeader} mb-10`}>
-        <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+        <Tab value="bun" active={currentTab === 'bun'} onClick={onTabClick}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+        <Tab value="sauce" active={currentTab === 'sauce'} onClick={onTabClick}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+        <Tab value="main" active={currentTab === 'main'} onClick={onTabClick}>
           Начинки
         </Tab>
       </div>
       <div className={`${styles.ingredientsWrapper} custom-scroll`}>
         {
           Object.keys(INGREDIENT_TYPES).map(type => (
-            <BurgerChapter chapter={ingredientsGroup[type]} title={INGREDIENT_TYPES[type]} key={type} onClick={handleSelectIngredient} />
+            <BurgerChapter 
+              chapter={ingredientsGroup[type]} 
+              title={INGREDIENT_TYPES[type]} 
+              key={type} 
+              onClick={handleSelectIngredient} 
+              id={type}
+            />
           ))
         }
       </div>

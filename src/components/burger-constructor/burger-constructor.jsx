@@ -20,14 +20,14 @@ export default function BurgerConstructor() {
             <SelectedElement ingredient={selectedBun} position="top" extraClass="mb-4 ml-8" />
             : <EmptyElement type='top' text="Выберите булки" />
         }
-        <div className={`${styles.constructorWrapper} custom-scroll`}>
+        <ul className={`${styles.constructorWrapper} custom-scroll`}>
           {
             (selectedOthers && selectedOthers.length) ? selectedOthers.map(ingredient =>
               <SelectedElement ingredient={ingredient} extraClass="ml-8" key={uuidv4()}/>
             ) 
             : <EmptyElement text="Выберите ингредиенты"/>
           }
-        </div>      
+        </ul>      
         { 
           selectedBun ? 
             <SelectedElement ingredient={selectedBun} position="bottom" extraClass="mt-4 ml-8" />

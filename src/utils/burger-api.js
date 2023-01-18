@@ -4,6 +4,10 @@ import { NORMA_API } from "./consts"
 export const getBurgersData = async () => {
   return await fetch(`${NORMA_API}/ingredients`)
     .then(checkResponse)
+    .then(data => {
+      if (data.success) return data.data;
+      return Promise.reject(data)
+    })
 } 
 
 // fetch order
