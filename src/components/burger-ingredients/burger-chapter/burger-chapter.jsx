@@ -2,8 +2,9 @@ import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-chapter.module.scss';
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../../utils/prop-types';
+import React from 'react';
 
-export default function BurgerChapter({chapter, title, id, onClick}) {
+function BurgerChapter({chapter, title, id, onClick}) {
   return (
     <article className="pb-10" id={id}>
       <h3 className="text text_type_main-medium mb-6">{title}</h3>
@@ -22,3 +23,5 @@ BurgerChapter.propTypes = {
   onClick: PropTypes.func.isRequired,
   id: PropTypes.string.isRequired
 };
+
+export default React.memo(BurgerChapter);

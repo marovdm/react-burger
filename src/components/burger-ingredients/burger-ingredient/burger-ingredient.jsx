@@ -1,11 +1,11 @@
-import { useContext, useEffect, useMemo, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredient.module.scss'
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../../utils/prop-types';
 import { SelectedInredientsContext } from '../../../services/burgerContext';
 
-export default function BurgerIngredient({ingredient, onSelectIngredient}) {
+function BurgerIngredient({ingredient, onSelectIngredient}) {
   const [count, setCount] = useState(0);
   const {selected, lastAdded} = useContext(SelectedInredientsContext);
 
@@ -48,3 +48,5 @@ BurgerIngredient.propTypes = {
   ingredient: ingredientPropTypes.isRequired,
   onSelectIngredient: PropTypes.func.isRequired
 };
+
+export default React.memo(BurgerIngredient);
