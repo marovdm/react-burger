@@ -1,4 +1,4 @@
-import React, { useContext } from 'react'
+import React, { useContext, useMemo } from 'react'
 import styles from './burger-ingredients.module.scss'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerChapter from './burger-chapter/burger-chapter'
@@ -19,11 +19,11 @@ export default function BurgerIngredients() {
   const {selected, handleOnSelect} = useContext(SelectedInredientsContext);
 
   // Сгруппируем массив ингредиентов по типу ингредиента
-  const ingredientsGroup = ingredients.reduce((acc, item) => {
+  const ingredientsGroup = useMemo(() => ingredients.reduce((acc, item) => {
     acc[item.type] = acc[item.type] || [];
     acc[item.type].push(item);
     return acc;
-  }, {}); 
+  }, {}), [ingredients]);
 
   const handleSelectIngredient = element => {
     if (element) {
