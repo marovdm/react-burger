@@ -1,10 +1,9 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+import React, { useContext, useMemo } from 'react'
 import styles from './burger-ingredients.module.scss'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerChapter from './burger-chapter/burger-chapter'
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { ingredientPropTypes } from '../../utils/prop-types';
+import { BurgersDataContext, SelectedInredientsContext } from '../../services/burgerContext';
 
 const INGREDIENT_TYPES = {
   "bun": "Булки",
@@ -12,56 +11,86 @@ const INGREDIENT_TYPES = {
   "main": "Начинки"
 };
 
-export default function BurgerIngredients({ingredients}) {  
-  const [current, setCurrent] = React.useState('bun');
+export default function BurgerIngredients() {  
+  const [currentTab, setCurrentTab] = React.useState('bun');
   const [selectedIngredient, setSelectedIngredient] = React.useState(null);
-  const [visibleIngedientDetail, setVisibleIngedientDetail] = React.useState(false);
+  const [openedIngedientDetail, setOpenedIngedientDetail] = React.useState(false);
+  const [ingredients] = useContext(BurgersDataContext);
+  const {selected, handleOnSelect} = useContext(SelectedInredientsContext);
 
   // Сгруппируем массив ингредиентов по типу ингредиента
-  const ingredientsGroup = ingredients.reduce((acc, item) => {
+  const ingredientsGroup = useMemo(() => ingredients.reduce((acc, item) => {
     acc[item.type] = acc[item.type] || [];
     acc[item.type].push(item);
     return acc;
-  }, {}); 
+  }, {}), [ingredients]);
 
-  const handleSelectIngredient = selected => {
-    if (selected) {
-      setSelectedIngredient(selected);
-      setVisibleIngedientDetail(true)
+  const handleSelectIngredient = element => {
+    if (element) {
+      setSelectedIngredient(element);
+      setOpenedIngedientDetail(true);
+
+      if (element?.type === 'bun') {
+        //если выбрали булку - проверяем, есть ли уже в выбранных булка
+        const bunIndex = selected.findIndex((item) => item.type === 'bun')
+        if (bunIndex !== -1) { 
+          // Заменим на выбранную, т.к. булка может быть только одна
+          const updated = selected.map((ingredient, index) => {
+            if (ingredient.type === 'bun' && index === bunIndex) {
+              return element;
+            } else {
+              return ingredient;
+            }
+          });
+          handleOnSelect(updated, element);
+        } else {
+          handleOnSelect([...selected, element], element);
+        }
+      } else {
+        handleOnSelect([...selected, element], element);
+      }
     }
+  }
+
+  const onTabClick = (tab) => {
+    setCurrentTab(tab);
+    const element = document.getElementById(tab);
+    if (element) element.scrollIntoView({ behavior: 'smooth' });
   }
   
   return (
     <section className={`${styles.ingredients} mr-10`}>
       <div className={`${styles.tabsHeader} mb-10`}>
-        <Tab value="bun" active={current === 'bun'} onClick={setCurrent}>
+        <Tab value="bun" active={currentTab === 'bun'} onClick={onTabClick}>
           Булки
         </Tab>
-        <Tab value="sauce" active={current === 'sauce'} onClick={setCurrent}>
+        <Tab value="sauce" active={currentTab === 'sauce'} onClick={onTabClick}>
           Соусы
         </Tab>
-        <Tab value="main" active={current === 'main'} onClick={setCurrent}>
+        <Tab value="main" active={currentTab === 'main'} onClick={onTabClick}>
           Начинки
         </Tab>
       </div>
       <div className={`${styles.ingredientsWrapper} custom-scroll`}>
         {
           Object.keys(INGREDIENT_TYPES).map(type => (
-            <BurgerChapter chapter={ingredientsGroup[type]} title={INGREDIENT_TYPES[type]} key={type} onClick={handleSelectIngredient} />
+            <BurgerChapter 
+              chapter={ingredientsGroup[type]} 
+              title={INGREDIENT_TYPES[type]} 
+              key={type} 
+              onClick={handleSelectIngredient} 
+              id={type}
+            />
           ))
         }
       </div>
       {
-        visibleIngedientDetail && selectedIngredient && 
+        openedIngedientDetail && selectedIngredient && 
         <IngredientDetails 
           ingredientDetail={selectedIngredient}
-          onClose={() => setVisibleIngedientDetail(false)}
+          onClose={() => setOpenedIngedientDetail(false)}
         />
       }
     </section>
   )
 }
-
-BurgerIngredients.propTypes = {
-  ingredients: PropTypes.arrayOf(ingredientPropTypes).isRequired
-};

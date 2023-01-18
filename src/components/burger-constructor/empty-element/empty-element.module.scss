@@ -1,0 +1,24 @@
+.empty_element {
+  padding: 16px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--common-border-radius-s);
+  background: var(--background-element);
+  max-width: 536px;
+  width: 100%;
+  min-height: 80px;
+  font-size: 16px;
+  line-height: 24px;
+  color: var(--text-primary-color);
+  flex-grow: 1;
+  margin-left: 32px;
+  &__top {
+    border-radius: var(--top-constructor-item-border-radius);
+    margin-bottom: 16px;
+  }
+  &__bottom {
+    margin-top: 16px;
+    border-radius: var(--bottom-constructor-item-border-radius);
+  }
+}
