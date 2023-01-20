@@ -1,55 +1,24 @@
-import React, { useContext, useMemo } from 'react'
+import React, { useMemo } from 'react'
 import styles from './burger-ingredients.module.scss'
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components'
 import BurgerChapter from './burger-chapter/burger-chapter'
 import IngredientDetails from '../ingredient-details/ingredient-details';
-import { BurgersDataContext, SelectedInredientsContext } from '../../services/burgerContext';
 
-const INGREDIENT_TYPES = {
-  "bun": "Булки",
-  "sauce": "Соусы",
-  "main": "Начинки"
-};
+import { useDispatch, useSelector } from 'react-redux';
+import { toggleIngedientDetail } from '../../store/reducers/burger-data-slice';
+
 
 export default function BurgerIngredients() {  
   const [currentTab, setCurrentTab] = React.useState('bun');
-  const [selectedIngredient, setSelectedIngredient] = React.useState(null);
-  const [openedIngedientDetail, setOpenedIngedientDetail] = React.useState(false);
-  const [ingredients] = useContext(BurgersDataContext);
-  const {selected, handleOnSelect} = useContext(SelectedInredientsContext);
+  const {burgersData, isOpenedIngedientDetail, lastAddedIngredient} = useSelector(state => state.burgers);
+  const dispatch = useDispatch();
 
-  // Сгруппируем массив ингредиентов по типу ингредиента
-  const ingredientsGroup = useMemo(() => ingredients.reduce((acc, item) => {
-    acc[item.type] = acc[item.type] || [];
-    acc[item.type].push(item);
-    return acc;
-  }, {}), [ingredients]);
+  const buns = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'bun'), [burgersData]);
+  const mains = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'main'), [burgersData]);
+  const sauces = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'sauce'), [burgersData]);
 
-  const handleSelectIngredient = element => {
-    if (element) {
-      setSelectedIngredient(element);
-      setOpenedIngedientDetail(true);
-
-      if (element?.type === 'bun') {
-        //если выбрали булку - проверяем, есть ли уже в выбранных булка
-        const bunIndex = selected.findIndex((item) => item.type === 'bun')
-        if (bunIndex !== -1) { 
-          // Заменим на выбранную, т.к. булка может быть только одна
-          const updated = selected.map((ingredient, index) => {
-            if (ingredient.type === 'bun' && index === bunIndex) {
-              return element;
-            } else {
-              return ingredient;
-            }
-          });
-          handleOnSelect(updated, element);
-        } else {
-          handleOnSelect([...selected, element], element);
-        }
-      } else {
-        handleOnSelect([...selected, element], element);
-      }
-    }
+  const closeIngedientDetail = () => {
+    dispatch(toggleIngedientDetail(false));
   }
 
   const onTabClick = (tab) => {
@@ -72,23 +41,28 @@ export default function BurgerIngredients() {
         </Tab>
       </div>
       <div className={`${styles.ingredientsWrapper} custom-scroll`}>
-        {
-          Object.keys(INGREDIENT_TYPES).map(type => (
-            <BurgerChapter 
-              chapter={ingredientsGroup[type]} 
-              title={INGREDIENT_TYPES[type]} 
-              key={type} 
-              onClick={handleSelectIngredient} 
-              id={type}
-            />
-          ))
-        }
+        <BurgerChapter 
+          chapter={buns} 
+          title={"Булки"} 
+          id="bun"
+        />
+        <BurgerChapter 
+          chapter={sauces} 
+          title={"Соусы"} 
+
+          id="main"
+        />
+        <BurgerChapter 
+          chapter={mains} 
+          title={"Начинки"} 
+          id="sauce"
+        />
       </div>
       {
-        openedIngedientDetail && selectedIngredient && 
+        isOpenedIngedientDetail && 
         <IngredientDetails 
-          ingredientDetail={selectedIngredient}
-          onClose={() => setOpenedIngedientDetail(false)}
+          ingredientDetail={lastAddedIngredient}
+          onClose={() => closeIngedientDetail()}
         />
       }
     </section>
