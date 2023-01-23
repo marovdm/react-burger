@@ -10,10 +10,10 @@ import { toggleIngedientDetail, viewIngredient } from '../../store/reducers/burg
 
 export default function BurgerIngredients() {  
   const [currentTab, setCurrentTab] = React.useState('bun');
-  const {burgersData, isOpenedIngedientDetail, viewedIngredient, lastAddedIngredient} = useSelector(state => state.burgers);
+  const {burgersData, isOpenedIngedientDetail, viewedIngredient} = useSelector(state => state.burgers);
   const dispatch = useDispatch();
 
-  const buns = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'bun'), [burgersData]);
+  const buns = useMemo(() => {burgersData.filter(ingredient => ingredient.type === 'bun')}, [burgersData]);
   const mains = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'main'), [burgersData]);
   const sauces = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'sauce'), [burgersData]);
 
@@ -29,7 +29,7 @@ export default function BurgerIngredients() {
   }
   
   return (
-    <section className={`${styles.ingredients} mr-10`}>
+    <section className={`${styles.ingredients} mr-10`} >
       <div className={`${styles.tabsHeader} mb-10`}>
         <Tab value="bun" active={currentTab === 'bun'} onClick={onTabClick}>
           Булки
@@ -42,22 +42,22 @@ export default function BurgerIngredients() {
         </Tab>
       </div>
       <div className={`${styles.ingredientsWrapper} custom-scroll`}>
-        <BurgerChapter 
+        {buns && <BurgerChapter 
           chapter={buns} 
           title={"Булки"} 
           id="bun"
-        />
-        <BurgerChapter 
+        /> }
+        {sauces && <BurgerChapter 
           chapter={sauces} 
           title={"Соусы"} 
 
           id="main"
-        />
-        <BurgerChapter 
+        /> }
+        {mains && <BurgerChapter 
           chapter={mains} 
           title={"Начинки"} 
           id="sauce"
-        />
+        /> }
       </div>
       {
         isOpenedIngedientDetail && 

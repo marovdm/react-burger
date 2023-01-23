@@ -10,7 +10,7 @@ export const fetchBurgersData = createAsyncThunk('burgers/fetchData', (_, thunkA
 export const createOrderQuery = createAsyncThunk('order/createOrder', (ids, thunkAPI) => {
   return createOrder(ids)
     .then(data => {
-      if (data.success) return data.order.number;
+      if (data.success) return data.order;
     })
     .catch(e => thunkAPI.rejectWithValue("К сожалению, в процессе создания заказа произошла ошибка..."));
 })

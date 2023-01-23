@@ -7,6 +7,9 @@ import BurgerIngredients from './components/burger-ingredients/burger-ingredient
 import Preloader from './components/preloader/preloader';
 import { fetchBurgersData } from './store/reducers/action-creators';
 
+import { HTML5Backend } from 'react-dnd-html5-backend';
+import { DndProvider } from 'react-dnd';
+
 
 function App() {
   const {burgersData, isLoading, hasError, error} = useSelector(state => state.burgers)
@@ -22,6 +25,7 @@ function App() {
       { isLoading 
         ? <Preloader /> 
         : (
+          <DndProvider backend={HTML5Backend}>
             <main className={styles.container}>
               {
                 !hasError && error === '' ? (
@@ -39,6 +43,7 @@ function App() {
                 )
               }
             </main>
+          </DndProvider>
           )
       }
     </div>

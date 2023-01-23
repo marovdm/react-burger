@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit'
 import { createOrderQuery } from './action-creators';
 
 const initialState = {
-  orderNumber: null,
+  order: null,
   isOpenedOrderModal: false,
   isLoading: false,
   error: '',
@@ -23,7 +23,7 @@ export const OrderDataSlice = createSlice({
     })
     builder.addCase(createOrderQuery.fulfilled, (state, action) => {
       state.isLoading = false;
-      state.orderNumber = action.payload;
+      state.order = action.payload;
       state.error = '';
       state.isOpenedOrderModal = true;
     })
