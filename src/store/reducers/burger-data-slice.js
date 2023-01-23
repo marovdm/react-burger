@@ -7,6 +7,8 @@ const initialState = {
   hasError: false,
   error: '',
 
+  viewedIngredient: {},
+
   selectedIngredients: [],
   lastAddedIngredient: null,
   isOpenedIngedientDetail: false
@@ -18,6 +20,9 @@ export const burgersDataSlice = createSlice({
   name: 'burgersData',
   initialState,
   reducers: {
+    viewIngredient(state, action) {
+      state.viewedIngredient = action.payload;
+    },
     selectIngredient(state, action) {
       state.selectedIngredients = action.payload.selectedIngredients;
       state.lastAddedIngredient = action.payload.last;
@@ -44,5 +49,5 @@ export const burgersDataSlice = createSlice({
   }
 })
 
-export const { selectIngredient, toggleIngedientDetail } = burgersDataSlice.actions;
+export const { viewIngredient, selectIngredient, toggleIngedientDetail } = burgersDataSlice.actions;
 export default burgersDataSlice.reducer;

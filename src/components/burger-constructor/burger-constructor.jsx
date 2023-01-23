@@ -1,4 +1,4 @@
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import styles from './burger-constructor.module.scss'
 import ConstructorOrder from './constructor-order/constructor-order'
 import EmptyElement from './empty-element/empty-element';

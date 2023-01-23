@@ -4,12 +4,18 @@ import styles from './burger-ingredient.module.scss'
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../../utils/prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { selectIngredient, toggleIngedientDetail } from '../../../store/reducers/burger-data-slice';
+import { selectIngredient, toggleIngedientDetail, viewIngredient } from '../../../store/reducers/burger-data-slice';
 
 function BurgerIngredient({ingredient}) {
   const [count, setCount] = useState(0);
   const {selectedIngredients, lastAddedIngredient} = useSelector(state => state.burgers);
   const dispatch = useDispatch();
+  
+  // Текущий просматриваем ингредиент
+  const handleViewIngredientDetail = () => {
+    dispatch(viewIngredient(ingredient));
+    dispatch(toggleIngedientDetail(true));
+  }
 
   const handleSelectIngredient = lastAdded => {
     if (lastAdded?.type === 'bun') {
@@ -60,7 +66,7 @@ function BurgerIngredient({ingredient}) {
 
 
   return (
-    <div className={styles.ingredient} onClick={()=> handleSelectIngredient(ingredient)}>
+    <div className={styles.ingredient} onClick={()=> handleViewIngredientDetail(ingredient)}>
       {count > 0 ? <Counter count={count} size="default" extraClass="m-1" /> : null}
       <div className="pl-4 pr-4">
         <img src={ingredient.image_large} className={styles.ingredient_img} alt={ingredient.name} />

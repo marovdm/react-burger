@@ -5,12 +5,12 @@ import BurgerChapter from './burger-chapter/burger-chapter'
 import IngredientDetails from '../ingredient-details/ingredient-details';
 
 import { useDispatch, useSelector } from 'react-redux';
-import { toggleIngedientDetail } from '../../store/reducers/burger-data-slice';
+import { toggleIngedientDetail, viewIngredient } from '../../store/reducers/burger-data-slice';
 
 
 export default function BurgerIngredients() {  
   const [currentTab, setCurrentTab] = React.useState('bun');
-  const {burgersData, isOpenedIngedientDetail, lastAddedIngredient} = useSelector(state => state.burgers);
+  const {burgersData, isOpenedIngedientDetail, viewedIngredient, lastAddedIngredient} = useSelector(state => state.burgers);
   const dispatch = useDispatch();
 
   const buns = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'bun'), [burgersData]);
@@ -19,6 +19,7 @@ export default function BurgerIngredients() {
 
   const closeIngedientDetail = () => {
     dispatch(toggleIngedientDetail(false));
+    dispatch(viewIngredient({}))
   }
 
   const onTabClick = (tab) => {
@@ -61,7 +62,7 @@ export default function BurgerIngredients() {
       {
         isOpenedIngedientDetail && 
         <IngredientDetails 
-          ingredientDetail={lastAddedIngredient}
+          ingredientDetail={viewedIngredient}
           onClose={() => closeIngedientDetail()}
         />
       }
