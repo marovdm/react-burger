@@ -1,0 +1,81 @@
+import { createSlice } from '@reduxjs/toolkit'
+import { fetchBurgersData } from './action-creators';
+
+const initialState = {
+  burgersData: [],
+  isLoading: false,
+  hasError: false,
+  error: '',
+
+  viewedIngredient: {},
+
+  selectedIngredients: [],
+  selectedBun: null,
+
+  lastUsedIngredient: null,
+  
+  isOpenedIngedientDetail: false
+}
+
+
+export const burgersDataSlice = createSlice({
+  name: 'burgersData',
+  initialState,
+  reducers: {
+    // Выбранный ингредиент для просмотра
+    viewIngredient(state, action) {
+      state.viewedIngredient = action.payload;
+    },
+    // Добавление ингредиента
+    selectIngredient(state, action) {
+      const currentIngredient = action.payload;
+      // если не булка, просто добавляем
+      if (currentIngredient?.type !== 'bun') {
+        state.selectedIngredients.push(currentIngredient);
+        state.lastUsedIngredient = currentIngredient;
+      } else {
+        //если выбрали булку - добавляем новую/заменяем выбранную 
+        state.selectedBun = currentIngredient;
+      }
+    },
+    // Удаление ингредиента
+    deleteIngredient(state, action) {
+      state.lastUsedIngredient = state.selectedIngredients[action.payload];
+      state.selectedIngredients.splice(action.payload, 1);
+    },
+    // Отобржание попапа детального описания ингредиента
+    toggleIngedientDetail(state, action) {
+      state.isOpenedIngedientDetail = action.payload;
+    },
+    // Сортировка при перемещении ингредиентов
+    sortIngredients(state, action) {
+      const {toIndex, fromIndex} = action.payload;
+      state.selectedIngredients.splice(toIndex, 0, state.selectedIngredients.splice(fromIndex, 1)[0]);
+    }
+  },
+  extraReducers: (builder) => {
+    builder.addCase(fetchBurgersData.pending, (state) => {
+      state.isLoading = true
+    })
+    builder.addCase(fetchBurgersData.fulfilled, (state, action) => {
+      state.isLoading = false;
+      state.burgersData = action.payload;
+      state.hasError = false;
+      state.error = '';
+    })
+    builder.addCase(fetchBurgersData.rejected, (state, action) => {
+      state.isLoading = false;
+      state.hasError = true;
+      state.error = action.payload;
+    })
+  }
+});
+
+export const { 
+  viewIngredient, 
+  selectIngredient, 
+  deleteIngredient, 
+  sortIngredients, 
+  toggleIngedientDetail 
+} = burgersDataSlice.actions;
+export default burgersDataSlice.reducer;
