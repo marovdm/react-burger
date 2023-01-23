@@ -4,10 +4,10 @@ import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../../utils/prop-types';
 import React from 'react';
 
-function BurgerChapter({chapter, title, id }) {
+function BurgerChapter({chapter, title, id, refUse }) {
   return (
     <article className="pb-10" id={id}>
-      <h3 className="text text_type_main-medium mb-6">{title}</h3>
+      <h3 className="text text_type_main-medium mb-6" ref={refUse}>{title}</h3>
       <div className={`${styles.items} pl-4`}>
         {
           chapter.map(item => <BurgerIngredient ingredient={item} key={item._id} />)

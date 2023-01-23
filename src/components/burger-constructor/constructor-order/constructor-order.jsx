@@ -3,9 +3,9 @@ import styles from './constructor-order.module.scss';
 import OrderDetails from '../../order-details/order-details';
 import { useDispatch, useSelector } from 'react-redux';
 import Preloader from '../../preloader/preloader';
-import { createOrderQuery } from '../../../store/reducers/action-creators';
-import { toggleOpenedOrderModal } from '../../../store/reducers/order-slice';
-import { allAddedSelector, totalPriceSelector } from '../../../store/selectors/selectors';
+import { createOrderQuery } from '../../../services/reducers/action-creators';
+import { toggleOpenedOrderModal } from '../../../services/reducers/order-slice';
+import { allAddedSelector, totalPriceSelector } from '../../../services/selectors/selectors';
 
 export default function ConstructorOrder() {
   const dispatch = useDispatch();

@@ -8,8 +8,8 @@ import { v4 as uuidv4 } from 'uuid';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useDrop } from 'react-dnd';
-import { deleteIngredient, selectIngredient, sortIngredients } from '../../store/reducers/burger-data-slice';
-import { useCallback } from 'react';
+import { deleteIngredient, selectIngredient, sortIngredients } from '../../services/reducers/burger-data-slice';
+
 
 export default function BurgerConstructor() {
   const {selectedIngredients, selectedBun} = useSelector(state => state.burgers);
