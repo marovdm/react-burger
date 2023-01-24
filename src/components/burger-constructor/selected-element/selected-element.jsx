@@ -67,7 +67,7 @@ export default function SelectedElement({ingredient, position, index, extraClass
          <ConstructorElement 
           type={position}
           isLocked={true}
-          text={ingredient.name}
+          text={position === 'top' ? `${ingredient.name} (верх)` : `${ingredient.name} (низ)`}
           price={ingredient.price}
           thumbnail={ingredient.image_mobile}
           extraClass={extraClass}

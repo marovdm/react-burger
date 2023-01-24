@@ -1,4 +1,4 @@
-import React, { useMemo, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredient.module.scss'
 import { ingredientPropTypes } from '../../../utils/prop-types';
@@ -23,20 +23,25 @@ function BurgerIngredient({ingredient}) {
     dispatch(viewIngredient(ingredient));
     dispatch(toggleIngedientDetail(true));
   }
-
-  useMemo(() => {
-    // Оптимизация подсчета количества
-    // Если добавили булку, то сбросим счетчик другой, а добавленной присвоим 2
-    if (selectedBun?.type === 'bun' && ingredient.type === 'bun') {
+  // Подсчет кол-ва ингредиентов для булок
+  useEffect(() => {
+    if (ingredient.type !== 'bun') return;
+    if (selectedBun) {
       const countSelected = selectedBun._id === ingredient._id ? 2 : 0;
       setCount(countSelected);
-      // иначе установим счетчик для выбранного ингредиента
-    } else if (lastUsedIngredient?._id === ingredient._id) {
-      const countSelected = selectedIngredients.filter(el => el._id === ingredient._id).length;
-      setCount(countSelected);
-    }
-    
-  }, [selectedIngredients, selectedBun, lastUsedIngredient, ingredient]);
+    } else setCount(0);
+  }, [selectedBun, ingredient]);
+
+  // Подсчет кол-ва ингредиентов для остальных
+  useEffect(() => {
+    if (ingredient.type === 'bun') return;
+    if (selectedIngredients.length) {
+      if (lastUsedIngredient?._id === ingredient._id) {
+        const countSelected = selectedIngredients.filter(el => el._id === ingredient._id).length;
+        setCount(countSelected);
+      }
+    } else setCount(0);
+  }, [selectedIngredients, lastUsedIngredient, ingredient]);
 
   return (
     <div ref={ref} className={styles.ingredient} onClick={()=> handleViewIngredientDetail(ingredient)} >

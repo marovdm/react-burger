@@ -6,6 +6,7 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import BurgerChapter from './burger-chapter/burger-chapter'
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import Modal from '../modal/modal';
 
 import { toggleIngedientDetail, viewIngredient } from '../../services/reducers/burger-data-slice';
 
@@ -94,10 +95,13 @@ export default function BurgerIngredients() {
       </div>
       {
         isOpenedIngedientDetail && 
-        <IngredientDetails 
-          ingredientDetail={viewedIngredient}
+        <Modal 
+          header="Детали ингредиента" 
           onClose={() => closeIngedientDetail()}
-        />
+          className="pt-10 pb-15"
+        >
+          <IngredientDetails ingredientDetail={viewedIngredient} />
+        </Modal>
       }
     </section>
   )

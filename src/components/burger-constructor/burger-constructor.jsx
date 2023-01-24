@@ -3,8 +3,6 @@ import SelectedElement from './selected-element/selected-element';
 import ConstructorOrder from './constructor-order/constructor-order'
 import EmptyElement from './empty-element/empty-element';
 
-import { v4 as uuidv4 } from 'uuid';
-
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useDrop } from 'react-dnd';
@@ -52,7 +50,7 @@ export default function BurgerConstructor() {
               <SelectedElement 
                 ingredient={ingredient} 
                 index={idx}
-                key={uuidv4()}
+                key={ingredient.unique}
                 moveElement={handleMoveIngredients} 
                 onDelete={handleOnDelete} 
                 extraClass="ml-8" 

@@ -1,5 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { createOrder, getBurgersData } from "../../utils/burger-api";
+import { setDefaultValues } from "./burger-data-slice";
 
 export const fetchBurgersData = createAsyncThunk('burgers/fetchData', (_, thunkAPI) => {
   return getBurgersData()
@@ -8,9 +9,13 @@ export const fetchBurgersData = createAsyncThunk('burgers/fetchData', (_, thunkA
 })
 
 export const createOrderQuery = createAsyncThunk('order/createOrder', (ids, thunkAPI) => {
+  const {dispatch, rejectWithValue} = thunkAPI;
   return createOrder(ids)
     .then(data => {
-      if (data.success) return data.order;
+      if (data.success) {
+        dispatch(setDefaultValues());
+        return data.order;
+      }
     })
-    .catch(e => thunkAPI.rejectWithValue("К сожалению, в процессе создания заказа произошла ошибка..."));
+    .catch(e => rejectWithValue("К сожалению, в процессе создания заказа произошла ошибка..."));
 })

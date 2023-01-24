@@ -1,4 +1,6 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from '@reduxjs/toolkit';
+import { v4 as uuidv4 } from 'uuid';
+
 import { fetchBurgersData } from './action-creators';
 
 const initialState = {
@@ -31,7 +33,8 @@ export const burgersDataSlice = createSlice({
       const currentIngredient = action.payload;
       // если не булка, просто добавляем
       if (currentIngredient?.type !== 'bun') {
-        state.selectedIngredients.push(currentIngredient);
+        // добавляем уникальный ключ т.к. ингредиенты могут повторяться
+        state.selectedIngredients.push(Object.assign( {}, currentIngredient, {'unique': uuidv4()} ));
         state.lastUsedIngredient = currentIngredient;
       } else {
         //если выбрали булку - добавляем новую/заменяем выбранную 
@@ -51,6 +54,10 @@ export const burgersDataSlice = createSlice({
     sortIngredients(state, action) {
       const {toIndex, fromIndex} = action.payload;
       state.selectedIngredients.splice(toIndex, 0, state.selectedIngredients.splice(fromIndex, 1)[0]);
+    },
+    setDefaultValues(state, action) {
+      state.selectedIngredients = [];
+      state.selectedBun = null;
     }
   },
   extraReducers: (builder) => {
@@ -76,6 +83,7 @@ export const {
   selectIngredient, 
   deleteIngredient, 
   sortIngredients, 
-  toggleIngedientDetail 
+  toggleIngedientDetail ,
+  setDefaultValues,
 } = burgersDataSlice.actions;
 export default burgersDataSlice.reducer;
