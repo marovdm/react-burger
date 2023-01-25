@@ -1,34 +1,50 @@
-import React, { useContext, useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredient.module.scss'
-import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../../utils/prop-types';
-import { SelectedInredientsContext } from '../../../services/burgerContext';
+import { useDispatch, useSelector } from 'react-redux';
+import { useDrag } from 'react-dnd';
+import { toggleIngedientDetail, viewIngredient } from '../../../services/reducers/burger-data-slice';
 
-function BurgerIngredient({ingredient, onSelectIngredient}) {
+function BurgerIngredient({ingredient}) {
   const [count, setCount] = useState(0);
-  const {selected, lastAdded} = useContext(SelectedInredientsContext);
-
-  useEffect(() => {
-    // Оптимизация подсчета количества
-    // Считаем только для последнего выбранного ингредиента или же в случае выбора булки, чтобы сбросить счетчик у другой
-    if ((lastAdded?.type === 'bun' && ingredient.type === 'bun') || 
-        (lastAdded?._id === ingredient._id)) {
-        let countSelected = selected.filter(el => el._id === ingredient._id).length;
-        // если выбрана булка, то ее количество должно быть 2
-        if (ingredient.type === 'bun' && countSelected > 0) {
-          countSelected = 2;
-        }
-      setCount(countSelected)
-    }
-  }, [ingredient, lastAdded, selected]);
+  const {selectedIngredients, lastUsedIngredient, selectedBun} = useSelector(state => state.burgers);
+  const dispatch = useDispatch();
+  const [{ opacity }, ref] = useDrag({
+    type: 'ingredient',
+    item: { ingredient },
+    collect: monitor => ({
+      opacity: monitor.isDragging() ? 0.5 : 1
+    })
+  });
   
-  const handleSelectIngredient = (ingredient) => {
-    onSelectIngredient(ingredient);
+  // Текущий просматриваемый ингредиент
+  const handleViewIngredientDetail = () => {
+    dispatch(viewIngredient(ingredient));
+    dispatch(toggleIngedientDetail(true));
   }
+  // Подсчет кол-ва ингредиентов для булок
+  useEffect(() => {
+    if (ingredient.type !== 'bun') return;
+    if (selectedBun) {
+      const countSelected = selectedBun._id === ingredient._id ? 2 : 0;
+      setCount(countSelected);
+    } else setCount(0);
+  }, [selectedBun, ingredient]);
+
+  // Подсчет кол-ва ингредиентов для остальных
+  useEffect(() => {
+    if (ingredient.type === 'bun') return;
+    if (selectedIngredients.length) {
+      if (lastUsedIngredient?._id === ingredient._id) {
+        const countSelected = selectedIngredients.filter(el => el._id === ingredient._id).length;
+        setCount(countSelected);
+      }
+    } else setCount(0);
+  }, [selectedIngredients, lastUsedIngredient, ingredient]);
 
   return (
-    <div className={styles.ingredient} onClick={()=> handleSelectIngredient(ingredient)}>
+    <div ref={ref} className={styles.ingredient} onClick={()=> handleViewIngredientDetail(ingredient)} >
       {count > 0 ? <Counter count={count} size="default" extraClass="m-1" /> : null}
       <div className="pl-4 pr-4">
         <img src={ingredient.image_large} className={styles.ingredient_img} alt={ingredient.name} />
@@ -45,8 +61,7 @@ function BurgerIngredient({ingredient, onSelectIngredient}) {
 }
 
 BurgerIngredient.propTypes = {
-  ingredient: ingredientPropTypes.isRequired,
-  onSelectIngredient: PropTypes.func.isRequired
+  ingredient: ingredientPropTypes.isRequired
 };
 
 export default React.memo(BurgerIngredient);

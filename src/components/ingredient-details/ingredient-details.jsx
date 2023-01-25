@@ -1,11 +1,10 @@
-import Modal from '../modal/modal';
 import styles from './ingredient-details.module.scss';
 import PropTypes from 'prop-types';
 import { ingredientPropTypes } from '../../utils/prop-types';
 
-export default function IngredientDetails({ingredientDetail, onClose}) {
+export default function IngredientDetails({ingredientDetail}) {
   return (
-    <Modal header="Детали ингредиента" onClose={onClose} className="pt-10 pb-15">
+    <>
       <img src={ingredientDetail.image_large} alt={ingredientDetail.name} />
       <p className="text text_type_main-medium mb-8">
         {ingredientDetail.name}
@@ -28,11 +27,10 @@ export default function IngredientDetails({ingredientDetail, onClose}) {
           <p>{ingredientDetail.carbohydrates}</p>
         </div>
       </div>
-    </Modal>
+    </>
   )
 }
 
 IngredientDetails.propTypes = {
-  ingredientDetail: ingredientPropTypes.isRequired,
-  onClose: PropTypes.func.isRequired
+  ingredientDetail: ingredientPropTypes.isRequired
 };
