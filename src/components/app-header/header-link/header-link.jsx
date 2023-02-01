@@ -1,7 +1,11 @@
-import styles from './header-link.module.scss';
+import { Link } from "react-router-dom";
+
 import classNames from 'classnames';
 import cnBind from 'classnames/bind';
 import PropTypes from 'prop-types';
+
+import styles from './header-link.module.scss';
+
 
 const cx = cnBind.bind(styles);
 
@@ -14,9 +18,9 @@ export default function HeaderLink({href, children, active=false}) {
   );
 
   return (
-    <a href={href} className={classes}>
+    <Link to={href} className={classes}>
       {children}
-    </a>
+    </Link>
   )
 }
 
