@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
+import { registerUser } from '../../utils/api/user-api';
 
 const footerLinks = [
   {
@@ -25,6 +26,10 @@ export default function Register() {
       [name]: value,
     });
   };
+
+  const handleRegister = () => {
+    registerUser({...state});
+  }
 
   return (
     <FormConstructor header={"Регистрация"} footerLinks={footerLinks}>
@@ -51,8 +56,8 @@ export default function Register() {
             name={'password'}
             extraClass="mb-6"
           />
-          <Button htmlType="button" type="primary" size="medium">
-            Войти
+          <Button htmlType="button" type="primary" size="medium" onClick={handleRegister}>
+            Зарегистрироваться
           </Button>
         </div>
       </form>

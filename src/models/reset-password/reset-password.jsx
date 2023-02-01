@@ -46,7 +46,7 @@ export default function ResetPasssword() {
             extraClass="mb-6"
           />
           <Button htmlType="button" type="primary" size="medium">
-            Войти
+            Сохранить
           </Button>
         </div>
       </form>

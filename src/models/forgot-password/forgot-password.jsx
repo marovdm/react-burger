@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
+import { resetPassword } from '../../utils/api/user-api';
 
 const footerLinks = [
   {
@@ -24,6 +25,17 @@ export default function ForgotPasssword() {
     });
   };
 
+  const handleForgot = () => {
+    resetPassword(state.email)
+      .then(res => {
+        if (res.success) {
+          console.log('SUCCESS');
+          // TODO Rewrite with ROUTER methods
+          window.location.pathname = '/reset-password';
+        }
+      })
+  };
+
   return (
     <FormConstructor header={"Восстановление пароля"} footerLinks={footerLinks}>
       <form>
@@ -36,8 +48,8 @@ export default function ForgotPasssword() {
             isIcon={false}
             extraClass="mb-6"
           />
-          <Button htmlType="button" type="primary" size="medium">
-            Войти
+          <Button htmlType="button" type="primary" size="medium" onClick={handleForgot}>
+            Восстановить
           </Button>
         </div>
       </form>
