@@ -1,0 +1,15 @@
+.profile {
+  display: flex;
+  gap: 60px;
+  margin-top: 8vh;
+
+  &_link {
+    padding: 17px 0;
+    display: block;
+  }
+
+  &_menu {
+    max-width: 320px;
+  }
+}
+

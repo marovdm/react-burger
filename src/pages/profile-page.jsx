@@ -1,10 +1,10 @@
-import AppHeader from "../components/app-header/app-header";
+import Profile from "../models/profile/profile";
+import PageConstructor from "./page-constructor";
 
 export default function ProfilePage() {
   return (
-    <div className="App">
-      <AppHeader />
-      Profile
-    </div>
+    <PageConstructor>
+      <Profile/>
+    </PageConstructor>
   )
 }
