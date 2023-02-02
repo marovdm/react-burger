@@ -5,12 +5,16 @@
     transition: var(--common-transition);
     & > svg {
         transition: var(--common-transition);
-    }
-    &.align-right {
-        justify-content: flex-end;
+        fill: var(--text-inactive-color);
     }
     &:hover {
         color: var(--text-primary-color);  
+        svg {
+            fill: var(--text-primary-color);
+        }
+    }
+
+    &_active {
         svg {
             fill: var(--text-primary-color);
         }

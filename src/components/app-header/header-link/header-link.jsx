@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import classNames from 'classnames';
 import cnBind from 'classnames/bind';
@@ -9,23 +9,18 @@ import styles from './header-link.module.scss';
 
 const cx = cnBind.bind(styles);
 
-export default function HeaderLink({href, children, active=false}) {
-  const classes = classNames(
-    'text text_type_main-default', 
-    cx('link', {
-      'text_color_inactive': !active
-    })
-  );
+export default function HeaderLink({href, children}) {
+  const link = classNames('text text_type_main-default text_color_inactive', cx('link'));
+  const activeLink = classNames('text text_type_main-default', cx('link'), cx('link_active'));
 
   return (
-    <Link to={href} className={classes}>
+    <NavLink to={href} className={({isActive}) => isActive ? activeLink : link}>
       {children}
-    </Link>
+    </NavLink>
   )
 }
 
 HeaderLink.propTypes = {
   href: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
-  active: PropTypes.bool
+  children: PropTypes.node.isRequired
 }

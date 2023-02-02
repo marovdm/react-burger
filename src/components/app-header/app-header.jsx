@@ -9,7 +9,7 @@ export default function AppHeader() {
         <header className={`${styles.header} pb-4 pt-4`}>
             <div className={styles.container}>
                 <div className={styles.row}>
-                    <HeaderLink href="/" active={true}>
+                    <HeaderLink href="/">
                         <BurgerIcon type="primary" />
                         <span className='ml-2'>Конструктор</span>
                     </HeaderLink>
