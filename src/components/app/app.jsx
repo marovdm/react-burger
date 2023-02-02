@@ -17,6 +17,8 @@ function App() {
         <Route path="/forgot-password" element={<ForgotPassswordPage />}/>
         <Route path="/reset-password" element={<ResetPassswordPage />}/>
         <Route path="/profile" element={<ProfilePage />}/>
+        <Route path="/profile/orders" element={<ProfilePage />}/>
+        <Route path="/profile/orders/:id" element={<ProfilePage />}/>
       </Routes>
     </Router>
   );
