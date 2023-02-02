@@ -4,10 +4,9 @@ import { HTML5Backend } from 'react-dnd-html5-backend';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchBurgersData } from '../../services/reducers/action-creators';
 
-
-import BurgerConstructor from '../burger-constructor/burger-constructor';
-import BurgerIngredients from '../burger-ingredients/burger-ingredients';
-import Preloader from '../preloader/preloader';
+import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
+import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
+import Preloader from '../../components/preloader/preloader';
 
 
 export default function Main() {
@@ -24,7 +23,7 @@ export default function Main() {
         ? <Preloader /> 
         : (
           <DndProvider backend={HTML5Backend}>
-            <main className='container'>
+            <>
               {
                 !hasError && error === '' ? (
                   <>
@@ -40,7 +39,7 @@ export default function Main() {
                   <h3 className='text text_type_main-medium'>{error}</h3>
                 )
               }
-            </main>
+            </>
           </DndProvider>
           )
       }

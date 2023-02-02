@@ -1,11 +1,10 @@
-import AppHeader from "../components/app-header/app-header";
 import ResetPasssword from "../models/reset-password/reset-password";
+import PageConstructor from "./page-constructor";
 
-export default function ResetPassswordPage() {
+export default function RegisterPage() {
   return (
-    <div className="App">
-      <AppHeader />
-      <ResetPasssword />
-    </div>
+    <PageConstructor>
+      <ResetPasssword/>
+    </PageConstructor>
   )
 }

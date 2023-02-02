@@ -1,11 +1,11 @@
-import AppHeader from "../components/app-header/app-header" 
-import Main from "../components/main/main"
+import Main from "../models/main/main"
+import PageConstructor from "./page-constructor";
 
 export default function MainPage() {
   return (
-    <div className="App">
-      <AppHeader />
-      <Main />
-    </div>
+    <PageConstructor>
+      <Main/>
+    </PageConstructor>
   )
 }
+

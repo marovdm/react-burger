@@ -1,11 +1,10 @@
-import AppHeader from "../components/app-header/app-header" 
 import Register from "../models/register/register"
+import PageConstructor from "./page-constructor";
 
 export default function RegisterPage() {
   return (
-    <div className="App">
-      <AppHeader />
-      <Register />
-    </div>
+    <PageConstructor>
+      <Register/>
+    </PageConstructor>
   )
 }
