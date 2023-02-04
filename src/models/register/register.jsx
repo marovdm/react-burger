@@ -2,7 +2,9 @@ import { useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
-import { registerUser } from '../../utils/api/user-api';
+
+import { userRegister } from '../../services/user/reducers/action-creators';
+import { useDispatch } from 'react-redux';
 
 const footerLinks = [
   {
@@ -17,7 +19,9 @@ export default function Register() {
     name: '',
     email: '',
     password: ''
-  })
+  });
+
+  const dispatch = useDispatch();
 
   const handleChangeInput = (event) => {
     const {value, name} = event.target;
@@ -28,7 +32,7 @@ export default function Register() {
   };
 
   const handleRegister = () => {
-    registerUser({...state});
+    dispatch(userRegister({...state}));
   }
 
   return (

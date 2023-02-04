@@ -1,13 +1,18 @@
 import { makeRequest } from "./helpers-api";
 
-export const registerUser= async (payload) => {
-  const userData = { ...payload };
-  return await makeRequest('auth/register', {
-    method: 'POST', 
+const config = {
+  method: 'POST', 
     credentials: 'same-origin',
     headers: {
       'Content-Type': 'application/json'
     },
+}
+
+export const registerUser= async (payload) => {
+  const userData = { ...payload };
+  console.log(userData);
+  return await makeRequest('auth/register', {
+    ...config,
     body: JSON.stringify(userData)
   })
 }
@@ -18,11 +23,7 @@ export const resetPassword = async (payload) => {
     'email': payload
   };
   return await makeRequest('password-reset', {
-    method: 'POST', 
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    ...config,
     body: JSON.stringify(resetData)
   })
 }
@@ -34,11 +35,7 @@ export const setPasswordAfterReset = async (payload) => {
     'token': payload.token
   };
   return await makeRequest('reset', {
-    method: 'POST', 
-    credentials: 'same-origin',
-    headers: {
-      'Content-Type': 'application/json'
-    },
+    ...config,
     body: JSON.stringify(newPassword)
   })
 } 
