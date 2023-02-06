@@ -36,7 +36,7 @@ export default function ConstructorOrder() {
       }
       {
         isOpenedOrderModal &&
-          <OrderDetails orderNumber={order.number} error={error} hasError={hasError} onClose={() => closeOrderModal()} />
+          <OrderDetails orderNumber={order?.number} error={error} hasError={hasError} onClose={() => closeOrderModal()} />
       }
     </div>
   )

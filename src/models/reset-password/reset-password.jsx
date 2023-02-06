@@ -2,6 +2,10 @@ import { useState } from 'react';
 import { Button, Input, PasswordInput,  } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
+import { setError, setLoading } from '../../services/user/reducers/user-slice';
+import Auth from '../../utils/api/auth';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
 
 const footerLinks = [
   {
@@ -15,8 +19,11 @@ const footerLinks = [
 export default function ResetPasssword() {
   const [state, setState] = useState({
     password: '',
-    code: ''
-  })
+    token: ''
+  });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const handleChangeInput = (event) => {
     const {value, name} = event.target;
@@ -26,9 +33,32 @@ export default function ResetPasssword() {
     });
   };
 
+  const handleResetPassword = async(e) => {
+    e.preventDefault();
+
+    try {
+      dispatch(setLoading(true));
+      const response = await Auth.resetPassword({...state});
+      console.log(response);
+      if (response.data.success && response.data.message === 'Password successfully reset') {
+        dispatch(setError(''));
+        navigate('/profile');
+      }
+    } catch (err) {
+      const {response} = err;
+      console.log(response);
+      if (response.status === 404 && response.data.message === "Incorrect reset token") {
+        dispatch(setError('Неверный код из письма'))
+      }
+    }
+    finally {
+      dispatch(setLoading(false));
+    }
+  };
+
   return (
     <FormConstructor header={"Восстановление пароля"} footerLinks={footerLinks}>
-      <form>
+      <form onSubmit={handleResetPassword}>
         <div className="mb-20">
           <PasswordInput
             onChange={handleChangeInput}
@@ -41,11 +71,11 @@ export default function ResetPasssword() {
             type={'text'}
             placeholder={'Введите код из письма'}
             onChange={handleChangeInput}
-            value={state.code}
-            name={'name'}
+            value={state.token}
+            name={'token'}
             extraClass="mb-6"
           />
-          <Button htmlType="button" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium">
             Сохранить
           </Button>
         </div>

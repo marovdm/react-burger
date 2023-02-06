@@ -10,3 +10,10 @@
   margin-left: 8px;
   color: var(--colors-interface-accent);
 }
+
+.error {
+  color: var(--colors-interface-error);
+  max-width: 400px;
+  text-align: center;
+  margin-bottom: 20px;
+}

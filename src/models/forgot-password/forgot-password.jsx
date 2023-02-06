@@ -2,7 +2,10 @@ import { useState } from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
-import { resetPassword } from '../../utils/api/user-api';
+import { setLoading } from '../../services/user/reducers/user-slice';
+import { useDispatch } from 'react-redux';
+import Auth from '../../utils/api/auth';
+import { useNavigate } from 'react-router-dom';
 
 const footerLinks = [
   {
@@ -15,40 +18,53 @@ const footerLinks = [
 export default function ForgotPasssword() {
   const [state, setState] = useState({
     email: ''
-  })
+  });
 
-  const handleChangeInput = (event) => {
-    const {value, name} = event.target;
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const handleChangeEmail = (event) => {
+    const {value} = event.target;
     setState({
-      ...state,
-      [name]: value,
+      email: value,
     });
   };
 
-  const handleForgot = () => {
-    resetPassword(state.email)
-      .then(res => {
-        if (res.success) {
-          console.log('SUCCESS');
-          // TODO Rewrite with ROUTER methods
-          window.location.pathname = '/reset-password';
-        }
-      })
+  const handleForgot = async(e) => {
+    e.preventDefault();
+
+    try {
+      dispatch(setLoading(true));
+      const response = await Auth.forgotPassword({...state});
+      console.log(response);
+      if (response.data.success && response.data.message === 'Reset email sent') {
+        navigate('/reset-password');
+      }
+    } catch (err) {
+      const {response} = err;
+      console.log(response);
+      // if (response.status === 403 && response.data.message === "User already exists") {
+      //   dispatch(setError('Пользователь с такими данными уже существует'))
+      // }
+    }
+    finally {
+      dispatch(setLoading(false));
+    }
   };
 
   return (
     <FormConstructor header={"Восстановление пароля"} footerLinks={footerLinks}>
-      <form>
+      <form onSubmit={handleForgot}>
         <div className="mb-20">
           <EmailInput
-            onChange={handleChangeInput}
+            onChange={handleChangeEmail}
             value={state.email}
             placeholder={'Укажите e-mail'}
             name={'email'}
             isIcon={false}
             extraClass="mb-6"
           />
-          <Button htmlType="button" type="primary" size="medium" onClick={handleForgot}>
+          <Button htmlType="submit" type="primary" size="medium">
             Восстановить
           </Button>
         </div>
