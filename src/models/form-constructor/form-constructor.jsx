@@ -1,21 +1,29 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 import Preloader from '../../components/preloader/preloader';
 import { resetError } from '../../services/user/reducers/user-slice';
 import styles from './form-constructor.module.scss';
 
 export default function FormConstructor({header, footerLinks, children}) {
-  const {isLoading, hasError, error} = useSelector(state => state.user);
+  const {isAuth, isLoading, hasError, error} = useSelector(state => state.user);
   const dispatch = useDispatch();
+  const {state} = useLocation();
+  const navigate = useNavigate();
 
   useEffect(() => {
-    return(() => {
-      if (hasError && error) {
+    if (isAuth && !hasError) {
+      navigate(state?.from.pathname || '/profile');
+    }    
+  }, [isAuth, error, hasError, navigate, dispatch, state]);
+
+  useEffect(() => {
+    return () => {
+      if (hasError && error !== '') {
         dispatch(resetError());
       }
-    })
-  }, [error, hasError, dispatch])
+    }
+  }, [dispatch, error, hasError])
 
   const links = useMemo(() => {
     return (

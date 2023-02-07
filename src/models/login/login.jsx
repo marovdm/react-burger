@@ -1,10 +1,9 @@
-import { useState,useEffect } from 'react';
+import { useState } from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
 
-import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import { userLogin } from '../../services/user/reducers/action-creators';
 
 const footerLinks = [
@@ -26,18 +25,6 @@ export default function Login() {
     password: ''
   });
   const dispatch = useDispatch();
-  const navigate = useNavigate();
-  const {state} = useLocation();
-
-  const { isAuth, hasError,  } = useSelector(state => state.user);
-
-  useEffect(() => {
-    if (isAuth && !hasError) {
-      console.log(state)
-      navigate(state?.from.pathname || '/profile');
-    }
-
-  }, [isAuth, hasError, navigate, state])
 
   const handleChangeInput = (event) => {
     const {value, name} = event.target;
