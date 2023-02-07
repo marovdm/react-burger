@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchUserProfile, } from './action-creators';
+import { fetchUserProfile, userLogin, userRegister, } from './action-creators';
 
 const initialState = {
   user: {
@@ -7,6 +7,7 @@ const initialState = {
     password: '',
     name: '',
   },
+  isAuth: false,
   isLoading: false,
   hasError: false,
   error: '',
@@ -33,6 +34,44 @@ export const userSlice = createSlice({
     }
   },
   extraReducers: (builder) => {
+    // LOGIN USER
+    builder.addCase(userLogin.pending, (state) => {
+      state.isLoading = true;
+    })
+    builder.addCase(userLogin.fulfilled, (state, action) => {
+      console.log(action);
+      state.user = action.payload.user;
+      state.isAuth = true;
+      state.isLoading = false;
+      state.hasError = false;
+      state.error = '';
+    })
+    builder.addCase(userLogin.rejected, (state, action) => {
+      console.log('rejected',action);
+      state.isLoading = false;
+      state.hasError = true;
+      state.error = action.payload;
+    })
+    
+    // REGISTER USER
+    builder.addCase(userRegister.pending, (state) => {
+      state.isLoading = true;
+    })
+    builder.addCase(userRegister.fulfilled, (state, action) => {
+      console.log(action);
+      state.user = action.payload.user;
+      state.isAuth = true;
+      state.isLoading = false;
+      state.hasError = false;
+      state.error = '';
+    })
+    builder.addCase(userRegister.rejected, (state, action) => {
+      console.log('rejected',action);
+      state.isLoading = false;
+      state.hasError = true;
+      state.error = action.payload;
+    })
+
     // GET PROFILE DATA
     builder.addCase(fetchUserProfile.pending, (state) => {
       state.isLoading = true;

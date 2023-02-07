@@ -1,13 +1,11 @@
-import { useState } from 'react';
+import { useState,useEffect } from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
 
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import Auth from '../../utils/api/auth';
-import { setAuth, setCredentials, setError, setLoading } from '../../services/user/reducers/user-slice';
-import { USER } from '../../utils/consts';
+import { useDispatch, useSelector } from 'react-redux';
+import { userLogin } from '../../services/user/reducers/action-creators';
 
 const footerLinks = [
   {
@@ -25,18 +23,25 @@ const footerLinks = [
 export default function Login() {
   const [loginForm, setLoginForm] = useState({
     email: '',
-    password: '',
-    hasError: false
+    password: ''
   });
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const {state} = useLocation();
 
+  const { isAuth, hasError,  } = useSelector(state => state.user);
+
+  useEffect(() => {
+    if (isAuth && !hasError) {
+      navigate(state?.path || '/profile');
+    }
+
+  }, [isAuth, hasError, navigate, state])
+
   const handleChangeInput = (event) => {
     const {value, name} = event.target;
     setLoginForm({
       ...loginForm,
-      hasError: false,
       [name]: value,
     });
   };
@@ -44,31 +49,7 @@ export default function Login() {
   const handleLogin = async (e) => {
     e.preventDefault();
 
-    try {
-      dispatch(setLoading(true));
-      const response = await Auth.login({...loginForm});
-      if (response.data.success) {
-        const { user, accessToken, refreshToken } = response.data;
-        const authToken = accessToken.split('Bearer ')[1];
-  
-        localStorage.setItem('accessToken', authToken);
-        localStorage.setItem('refreshToken', refreshToken);
-          
-        dispatch(setError(''));
-        dispatch(setCredentials(user));
-        dispatch(setAuth(true));
-        navigate(state?.path || '/profile');
-      }
-    } catch (err) {
-      const {response} = err;
-      if (response.status === 401 && response.data.message === "email or password are incorrect") {
-
-        dispatch(setError('Неправильный логин или пароль'))
-      }
-    }
-    finally {
-      dispatch(setLoading(false));
-    }
+    dispatch(userLogin({...loginForm}));
   }
 
   return (
