@@ -6,7 +6,7 @@ import styles from './profile.module.scss';
 import ProfileOrders from './profile-orders';
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserProfile } from '../../services/user/reducers/action-creators';
+import { fetchUserProfile, userLogout } from '../../services/user/reducers/action-creators';
 import Preloader from '../../components/preloader/preloader';
 import ProfileForm from './profile-form';
 const cx = cnBind.bind(styles);
@@ -35,6 +35,10 @@ export default function ProfileConstructor() {
 
   }, [matchProfile, matchProfileOrders, matchOrder]);
 
+  const handleLogout = async () => {
+    dispatch(userLogout());
+  }
+
   return (
     <>
       {
@@ -44,7 +48,7 @@ export default function ProfileConstructor() {
             <aside className={styles.profile_menu}>
               <NavLink className={({isActive}) => isActive ? activeLink : link} to="/profile" end>Профиль</NavLink>
               <NavLink className={({isActive}) => isActive ? activeLink : link} to="/profile/orders" end>История заказов</NavLink>
-              <NavLink className={({isActive}) => isActive ? activeLink : link} to="/logout">Выход</NavLink>
+              <p className={link} onClick={handleLogout}>Выход</p>
               <p className="text text_type_main-default text_color_inactive mt-20">
                 В этом разделе вы можете
                 изменить свои персональные данные

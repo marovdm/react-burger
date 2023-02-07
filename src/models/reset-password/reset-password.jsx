@@ -1,11 +1,11 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button, Input, PasswordInput,  } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
 import { setError, setLoading } from '../../services/user/reducers/user-slice';
 import Auth from '../../utils/api/auth';
 import { useDispatch } from 'react-redux';
-import { useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 const footerLinks = [
   {
@@ -21,9 +21,17 @@ export default function ResetPasssword() {
     password: '',
     token: ''
   });
-
-  const dispatch = useDispatch();
+  const location = useLocation();
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    // Если пользователь сразу переходит на /reset-password, миную предыдущий шаг - вернем его
+    if (location.state !== 'reset') {
+      navigate('/forgot-password');
+    }
+  }, [location, navigate]);
+ 
 
   const handleChangeInput = (event) => {
     const {value, name} = event.target;
@@ -75,7 +83,7 @@ export default function ResetPasssword() {
             name={'token'}
             extraClass="mb-6"
           />
-          <Button htmlType="submit" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium" disabled={!state.password || !state.token}>
             Сохранить
           </Button>
         </div>

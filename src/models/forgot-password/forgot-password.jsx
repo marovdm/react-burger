@@ -38,14 +38,11 @@ export default function ForgotPasssword() {
       const response = await Auth.forgotPassword({...state});
       console.log(response);
       if (response.data.success && response.data.message === 'Reset email sent') {
-        navigate('/reset-password');
+        navigate('/reset-password', {state: 'reset'});
       }
     } catch (err) {
       const {response} = err;
       console.log(response);
-      // if (response.status === 403 && response.data.message === "User already exists") {
-      //   dispatch(setError('Пользователь с такими данными уже существует'))
-      // }
     }
     finally {
       dispatch(setLoading(false));
@@ -64,7 +61,7 @@ export default function ForgotPasssword() {
             isIcon={false}
             extraClass="mb-6"
           />
-          <Button htmlType="submit" type="primary" size="medium">
+          <Button htmlType="submit" type="primary" size="medium" disabled={!state.email}>
             Восстановить
           </Button>
         </div>

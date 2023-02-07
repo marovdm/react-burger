@@ -33,7 +33,8 @@ export default function Login() {
 
   useEffect(() => {
     if (isAuth && !hasError) {
-      navigate(state?.path || '/profile');
+      console.log(state)
+      navigate(state?.from.pathname || '/profile');
     }
 
   }, [isAuth, hasError, navigate, state])

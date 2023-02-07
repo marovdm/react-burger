@@ -39,3 +39,14 @@ export const userRegister = createAsyncThunk('user/register', async (payload, th
       }
     }
 });
+
+export const userLogout = createAsyncThunk('user/logout', async () => {
+  try {
+    const token = localStorage.getItem('refreshToken');
+
+    return await Auth.logout(token);
+  } catch(err) {
+    console.log(err);
+    return err;
+  }
+});

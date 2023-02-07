@@ -1,11 +1,21 @@
-import { useMemo } from 'react';
-import { useSelector } from 'react-redux';
+import { useEffect, useMemo } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { Link } from 'react-router-dom';
 import Preloader from '../../components/preloader/preloader';
+import { resetError } from '../../services/user/reducers/user-slice';
 import styles from './form-constructor.module.scss';
 
 export default function FormConstructor({header, footerLinks, children}) {
-  const {isLoading, error} = useSelector(state => state.user);
+  const {isLoading, hasError, error} = useSelector(state => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    return(() => {
+      if (hasError && error) {
+        dispatch(resetError());
+      }
+    })
+  }, [error, hasError, dispatch])
 
   const links = useMemo(() => {
     return (

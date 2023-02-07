@@ -3,6 +3,7 @@ export const NORMA_API = "https://norma.nomoreparties.space/api";
 export const AUTH = {
   LOGIN: '/auth/login',
   REGISTER: '/auth/register',
+  LOGOUT: '/auth/logout',
   REFRESH: '/auth/token',
   FORGOT_PASSWORD: '/password-reset',
   RESET_PASSWORD: '/password-reset/reset'
