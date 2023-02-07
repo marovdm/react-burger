@@ -3,14 +3,13 @@ import Auth from '../api/auth';
 
 import { AUTH, BURGER, NORMA_API } from '../consts';
 
-// URL NOT REQUIRED TOKEN IN HEADERS 
+// Эндпоинты, не требующие токена в хедере
 const skipAuth = [
   AUTH.REGISTER, 
   AUTH.FORGOT_PASSWORD,
   AUTH.RESET_PASSWORD,
   AUTH.REFRESH,
-  BURGER.FETCH_DATA, 
-  BURGER.CREATE_ORDER
+  BURGER.FETCH_DATA
 ];
 
 const $api = axios.create({ 

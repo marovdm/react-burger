@@ -6,10 +6,14 @@ import Preloader from '../../preloader/preloader';
 import { createOrderQuery } from '../../../services/reducers/action-creators';
 import { toggleOpenedOrderModal } from '../../../services/reducers/order-slice';
 import { allAddedSelector, totalPriceSelector } from '../../../services/selectors/selectors';
+import { useNavigate } from 'react-router-dom';
 
 export default function ConstructorOrder() {
   const dispatch = useDispatch();
   const {order, isOpenedOrderModal, isLoading, error, hasError} = useSelector(state => state.order);
+  const { isAuth } = useSelector(state => state.user);
+  const navigate = useNavigate();
+
   const totalPriceOrder = useSelector(totalPriceSelector);
   const allAddedIngredients = useSelector(allAddedSelector);
 
@@ -19,7 +23,11 @@ export default function ConstructorOrder() {
   
   const handleConfirmButton = () => {
     // по нажатию на кнопку оформить заказ
-    // собираем данные для отправки в api
+    // проверяем авторизован ли пользователь
+    if (!isAuth) {
+      navigate('/login', { state: { from: { pathname: '/' }} });
+      return;
+    }
     const ids = allAddedIngredients.map(element => element?._id);
     dispatch(createOrderQuery(ids));
   }
