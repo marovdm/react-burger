@@ -5,7 +5,7 @@ export const AUTH = {
   REGISTER: '/auth/register',
   LOGOUT: '/auth/logout',
   REFRESH: '/auth/token',
-  FORGOT_PASSWORD: '/password-reset',
+  FORGOT_PASSWORD: '/password-reset2',
   RESET_PASSWORD: '/password-reset/reset'
 }
 

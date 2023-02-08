@@ -4,7 +4,7 @@ import styles from './burger-ingredient.module.scss'
 import { ingredientPropTypes } from '../../../utils/prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { toggleIngedientDetail, viewIngredient } from '../../../services/reducers/burger-data-slice';
+import { toggleIngedientDetail, viewIngredient } from '../../../services/burger/reducers/burger-data-slice';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 function BurgerIngredient({ingredient}) {

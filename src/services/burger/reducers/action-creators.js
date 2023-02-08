@@ -1,5 +1,5 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import Burger from "../../utils/api/burger";
+import Burger from "../../../utils/api/burger";
 import { setDefaultValues } from "./burger-data-slice";
 
 export const fetchBurgersData = createAsyncThunk('burgers/fetchData', async (_, thunkAPI) => {

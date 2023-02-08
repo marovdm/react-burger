@@ -4,8 +4,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { useLocation, useParams } from 'react-router-dom';
 import IngredientDetails from "../../components/ingredient-details/ingredient-details";
 import Preloader from '../../components/preloader/preloader';
-import { fetchBurgersData } from '../../services/reducers/action-creators';
-import { viewIngredient } from '../../services/reducers/burger-data-slice';
+import { fetchBurgersData } from '../../services/burger/reducers/action-creators';
+import { viewIngredient } from '../../services/burger/reducers/burger-data-slice';
 
 import styles from "./ingredient.module.scss";
 

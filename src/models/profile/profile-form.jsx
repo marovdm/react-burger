@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -9,10 +9,18 @@ import { setCredentials, setLoading } from '../../services/user/reducers/user-sl
 export default function ProfileForm() {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.user);
+  const [disabledName, setDisabledName] = useState(true);
   const [state, setState] = useState({
     ...user,
     password: ''
   });
+
+  const inputRef = useRef(null);
+
+  const onIconClick = () => {
+    setDisabledName(false)
+    setTimeout(() => inputRef.current.focus(), 0);
+  }
 
   const handleChangeInput = (e) => {
     const {value, name} = e.target;
@@ -53,7 +61,11 @@ export default function ProfileForm() {
         placeholder={'Имя'}
         icon={'EditIcon'}
         name={'name'}
-        extraClass="mb-6"
+        required
+        ref={inputRef}
+        disabled={disabledName}
+        onIconClick={onIconClick}
+        extraClass='mb-6 profile_input'
         onChange={handleChangeInput}
         value={state.name}
       />
@@ -61,17 +73,26 @@ export default function ProfileForm() {
         onChange={handleChangeInput}
         value={state.email}
         name={'email'}
+        required
         isIcon={true}
         extraClass="mb-6"
+        errorText="Введите корректный e-mail"
       />
       <PasswordInput
         onChange={handleChangeInput}
         value={state.password}
         name={'password'}
         extraClass="mb-6"
+        required
       />
 
-      <Button htmlType="submit" type="primary" size="medium" extraClass='mr-8'>
+      <Button 
+        htmlType="submit" 
+        type="primary" 
+        size="medium" 
+        extraClass='mr-8' 
+        disabled={!state.name || !state.email || !state.password}
+      >
         Сохранить
       </Button>
 

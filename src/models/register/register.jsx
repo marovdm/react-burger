@@ -66,6 +66,7 @@ export default function Register() {
             name={'email'}
             isIcon={false}
             extraClass="mb-6"
+            errorText="Введите корректный e-mail"
           />
           <PasswordInput
             onChange={handleChangeInput}

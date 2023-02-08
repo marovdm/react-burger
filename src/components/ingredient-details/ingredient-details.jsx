@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
-import { viewIngredient } from '../../services/reducers/burger-data-slice';
+import { viewIngredient } from '../../services/burger/reducers/burger-data-slice';
 
 import styles from './ingredient-details.module.scss';
 

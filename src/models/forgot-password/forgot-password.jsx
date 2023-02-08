@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
-import { setLoading } from '../../services/user/reducers/user-slice';
+import { setError, setLoading } from '../../services/user/reducers/user-slice';
 import { useDispatch } from 'react-redux';
 import Auth from '../../utils/api/auth';
 import { useNavigate } from 'react-router-dom';
@@ -41,6 +41,9 @@ export default function ForgotPasssword() {
       }
     } catch (err) {
       const {response} = err;
+      if (response.status === 404) {
+        dispatch(setError('Произошла ошибка, попробуйте позже'));
+      }
     }
     finally {
       dispatch(setLoading(false));
