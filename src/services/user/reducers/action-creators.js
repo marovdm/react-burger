@@ -16,10 +16,8 @@ export const fetchUserProfile = createAsyncThunk('user/profile', async (payload,
 export const userLogin = createAsyncThunk('user/login', async (payload, thunkAPI) => {
   try {
     const res = await Auth.login(payload);   
-    console.log('res', res);  
     return res;
   } catch(err) {
-    console.log(err);
     const {response} = err;
 
     if (response.status === 401 && response.data.message === "email or password are incorrect") {

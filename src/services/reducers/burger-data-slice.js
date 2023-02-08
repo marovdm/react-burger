@@ -9,7 +9,7 @@ const initialState = {
   hasError: false,
   error: '',
 
-  viewedIngredient: {},
+  viewedIngredient: null,
 
   selectedIngredients: [],
   selectedBun: null,

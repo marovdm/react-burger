@@ -5,7 +5,6 @@ import { setDefaultValues } from "./burger-data-slice";
 export const fetchBurgersData = createAsyncThunk('burgers/fetchData', async (_, thunkAPI) => {
   try {
     const response = await Burger.fetchIngredients();
-    console.log(response);
     if (response.data.success) {
       return response.data.data;
     }
@@ -18,7 +17,6 @@ export const createOrderQuery = createAsyncThunk('order/createOrder', async(ids,
   const {dispatch, rejectWithValue} = thunkAPI;
   try {
     const response = await Burger.createOrder(ids);
-    console.log(response);
     if (response.data.success) {
       dispatch(setDefaultValues());
       return response.data.order;

@@ -32,7 +32,7 @@ export default function ProfileForm() {
         dispatch(setCredentials(response.data.user))
       }
     } catch (err) {
-      console.log(err);
+      console.warn(err);
     }
     finally {
       dispatch(setLoading(false));

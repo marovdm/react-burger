@@ -33,7 +33,6 @@ $api.interceptors.response.use(
   (response) => response,
   async (error) => {
   const originRequest = error.config;
-  console.log('error', error);
   // Обновление токена если пришел ответ с сервера что он истек
   if (error.response.status === 403 && 
     error.response.data.message === 'jwt expired' && 
@@ -50,7 +49,7 @@ $api.interceptors.response.use(
       
       return $api.request(originRequest);
     } catch (e) {
-      console.log(e)
+      console.warn(e)
     }
   } 
   throw error;

@@ -36,13 +36,11 @@ export default function ForgotPasssword() {
     try {
       dispatch(setLoading(true));
       const response = await Auth.forgotPassword({...state});
-      console.log(response);
       if (response.data.success && response.data.message === 'Reset email sent') {
         navigate('/reset-password', {state: 'reset'});
       }
     } catch (err) {
       const {response} = err;
-      console.log(response);
     }
     finally {
       dispatch(setLoading(false));

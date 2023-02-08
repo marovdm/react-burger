@@ -47,14 +47,12 @@ export default function ResetPasssword() {
     try {
       dispatch(setLoading(true));
       const response = await Auth.resetPassword({...state});
-      console.log(response);
       if (response.data.success && response.data.message === 'Password successfully reset') {
         dispatch(setError(''));
         navigate('/profile');
       }
     } catch (err) {
       const {response} = err;
-      console.log(response);
       if (response.status === 404 && response.data.message === "Incorrect reset token") {
         dispatch(setError('Неверный код из письма'))
       }

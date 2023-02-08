@@ -17,32 +17,25 @@ export default function Main() {
     dispatch(fetchBurgersData())
   }, [dispatch]);
 
+  if (isLoading) {
+    return <Preloader />
+  }
+
+  if (hasError && error) {
+    <h3 className="text text_type_main-large">{error}</h3>
+  }
+
   return (
     <>
-      { isLoading 
-        ? <Preloader /> 
-        : (
-          <DndProvider backend={HTML5Backend}>
-            <>
-              {
-                !hasError && error === '' ? (
-                  <>
-                    <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
-                    { burgersData && 
-                      <div className='row'>
-                        <BurgerIngredients />
-                        <BurgerConstructor />
-                      </div>
-                    }
-                  </>
-                ) : ( 
-                  <h3 className='text text_type_main-medium'>{error}</h3>
-                )
-              }
-            </>
-          </DndProvider>
-          )
-      }
+      <DndProvider backend={HTML5Backend}>
+        <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
+        { burgersData && 
+          <div className='row'>
+            <BurgerIngredients />
+            <BurgerConstructor />
+          </div>
+        }
+      </DndProvider>
     </>
   )
 }
