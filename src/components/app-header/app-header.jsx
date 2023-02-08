@@ -25,7 +25,7 @@ export default function AppHeader() {
                 </Link>
 
                 <div className={styles.rowend}>
-                    <HeaderLink href="/login">
+                    <HeaderLink href="/profile">
                         <ProfileIcon type="secondary" />
                         <span className='ml-2'>Личный кабинет</span>
                     </HeaderLink>

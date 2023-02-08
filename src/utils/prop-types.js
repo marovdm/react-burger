@@ -13,3 +13,9 @@ export const ingredientPropTypes = PropTypes.shape({
   image_mobile: PropTypes.string.isRequired,
   image_large: PropTypes.string.isRequired
 });
+
+export const footerLinksPropTypes = PropTypes.shape({
+  'text': PropTypes.string.isRequired,
+  'linkText': PropTypes.string.isRequired,
+  'href': PropTypes.string.isRequired,
+})

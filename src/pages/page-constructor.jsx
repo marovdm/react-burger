@@ -1,3 +1,4 @@
+import PropTypes from 'prop-types';
 import AppHeader from "../components/app-header/app-header";
 
 export default function PageConstructor({children}) {
@@ -10,3 +11,9 @@ export default function PageConstructor({children}) {
     </div>
   )
 }
+
+PageConstructor.propTypes = {
+  children: PropTypes.node.isRequired
+}
+
+

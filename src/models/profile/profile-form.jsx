@@ -10,6 +10,7 @@ export default function ProfileForm() {
   const dispatch = useDispatch();
   const {user} = useSelector(state => state.user);
   const [disabledName, setDisabledName] = useState(true);
+  const [showControls, setShowControls] = useState(false);
   const [state, setState] = useState({
     ...user,
     password: ''
@@ -28,6 +29,7 @@ export default function ProfileForm() {
       ...state,
       [name]: value,
     });
+    if (!showControls) setShowControls(true);
   };
 
   const handleUpdateProfile = async (e) => {
@@ -52,6 +54,8 @@ export default function ProfileForm() {
       ...user,
       password: ''
     });
+
+    setShowControls(false);
   }
 
   return (
@@ -85,20 +89,26 @@ export default function ProfileForm() {
         extraClass="mb-6"
         required
       />
+      {
+        showControls && (
+          <>
+             <Button 
+              htmlType="submit" 
+              type="primary" 
+              size="medium" 
+              extraClass='mr-8' 
+              disabled={!state.name || !state.email || !state.password}
+            >
+              Сохранить
+            </Button>
 
-      <Button 
-        htmlType="submit" 
-        type="primary" 
-        size="medium" 
-        extraClass='mr-8' 
-        disabled={!state.name || !state.email || !state.password}
-      >
-        Сохранить
-      </Button>
-
-      <Button htmlType="button" type="primary" size="medium" onClick={handleCancelUpdate}>
-        Отмена
-      </Button>
+            <Button htmlType="button" type="primary" size="medium" onClick={handleCancelUpdate}>
+              Отмена
+            </Button>
+          </>
+        )
+      }
+     
     </form>
   )
 }

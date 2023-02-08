@@ -1,9 +1,12 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import PropTypes from 'prop-types';
+
 import Preloader from '../../components/preloader/preloader';
 import { resetError } from '../../services/user/reducers/user-slice';
 import styles from './form-constructor.module.scss';
+import { footerLinksPropTypes } from '../../utils/prop-types';
 
 export default function FormConstructor({header, footerLinks, children}) {
   const {isAuth, isLoading, hasError, error} = useSelector(state => state.user);
@@ -13,7 +16,7 @@ export default function FormConstructor({header, footerLinks, children}) {
 
   useEffect(() => {
     if (isAuth && !hasError) {
-      navigate(state?.from.pathname || '/profile');
+      navigate(state?.from.pathname || '/');
     }    
   }, [isAuth, error, hasError, navigate, dispatch, state]);
 
@@ -54,3 +57,9 @@ export default function FormConstructor({header, footerLinks, children}) {
     </>
   )
 }
+
+FormConstructor.propTypes = {
+  header: PropTypes.string.isRequired,
+  footerLinks: PropTypes.arrayOf(footerLinksPropTypes.isRequired).isRequired,
+  children: PropTypes.node.isRequired
+};
