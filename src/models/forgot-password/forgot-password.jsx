@@ -6,6 +6,7 @@ import { setError, setLoading } from '../../services/user/reducers/user-slice';
 import { useDispatch } from 'react-redux';
 import Auth from '../../utils/api/auth';
 import { useNavigate } from 'react-router-dom';
+import { URLS } from '../../utils/consts';
 
 const footerLinks = [
   {
@@ -37,7 +38,7 @@ export default function ForgotPasssword() {
       dispatch(setLoading(true));
       const response = await Auth.forgotPassword({...state});
       if (response.data.success && response.data.message === 'Reset email sent') {
-        navigate('/reset-password', {state: 'reset'});
+        navigate(URLS.RESET_PASSWORD, {state: 'reset'});
       }
     } catch (err) {
       const {response} = err;

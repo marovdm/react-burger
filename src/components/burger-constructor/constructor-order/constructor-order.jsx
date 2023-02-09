@@ -7,6 +7,7 @@ import { createOrderQuery } from '../../../services/burger/reducers/action-creat
 import { toggleOpenedOrderModal } from '../../../services/burger/reducers/order-slice';
 import { allAddedSelector, totalPriceSelector } from '../../../services/burger/selectors/selectors';
 import { useNavigate } from 'react-router-dom';
+import { URLS } from '../../../utils/consts';
 
 export default function ConstructorOrder() {
   const dispatch = useDispatch();
@@ -25,7 +26,7 @@ export default function ConstructorOrder() {
     // по нажатию на кнопку оформить заказ
     // проверяем авторизован ли пользователь
     if (!isAuth) {
-      navigate('/login', { state: { from: { pathname: '/' }} });
+      navigate(URLS.MAIN, { state: { from: { pathname: '/' }} });
       return;
     }
     const ids = allAddedIngredients.map(element => element?._id);

@@ -9,6 +9,7 @@ import ProtectedRouteElement  from '../../hocs/protected-route-element';
 import IngredientPage from '../../pages/ingredient-page';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
+import { URLS } from '../../utils/consts';
 
 function App() {
   const location = useLocation();
@@ -18,15 +19,15 @@ function App() {
   return (
     <>
       <Routes location={background || location}>
-        <Route path="/" element={ <MainPage />}/>
-        <Route path="/ingredients/:id" element={ <IngredientPage />} />
-        <Route path="/login" element={<LoginPage />}/>
-        <Route path="/register" element={<RegisterPage />}/>
-        <Route path="/forgot-password" element={<ForgotPassswordPage />}/>
-        <Route path="/reset-password" element={<ResetPassswordPage />}/>
-        <Route path="/profile" element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
-        <Route path="/profile/orders" element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
-        <Route path="/profile/orders/:id" element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
+        <Route path={URLS.MAIN} element={ <MainPage />}/>
+        <Route path={URLS.INGREDIENTS_ID} element={ <IngredientPage />} />
+        <Route path={URLS.LOGIN} element={<LoginPage />}/>
+        <Route path={URLS.REGISTER} element={<RegisterPage />}/>
+        <Route path={URLS.FORGOT_PASSWORD} element={<ForgotPassswordPage />}/>
+        <Route path={URLS.RESET_PASSWORD} element={<ResetPassswordPage />}/>
+        <Route path={URLS.PROFILE} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
+        <Route path={URLS.PROFILE_ORDERS} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
+        <Route path={URLS.PROFILE_ORDERS_ID} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
       </Routes>
       { background && (
         <Routes>
@@ -36,7 +37,7 @@ function App() {
               <Modal 
                 header="Детали ингредиента"
                 className="pt-10 pb-15"
-                onClose={() => navigate('/')}
+                onClose={() => navigate(URLS.MAIN)}
               >
                 <IngredientDetails />
               </Modal>

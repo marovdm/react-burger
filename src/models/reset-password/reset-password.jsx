@@ -6,6 +6,7 @@ import { setError, setLoading } from '../../services/user/reducers/user-slice';
 import Auth from '../../utils/api/auth';
 import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { URLS } from '../../utils/consts';
 
 const footerLinks = [
   {
@@ -28,7 +29,7 @@ export default function ResetPasssword() {
   useEffect(() => {
     // Если пользователь сразу переходит на /reset-password, миную предыдущий шаг - вернем его
     if (location.state !== 'reset') {
-      navigate('/forgot-password');
+      navigate(URLS.FORGOT_PASSWORD);
     }
   }, [location, navigate]);
  
@@ -49,7 +50,7 @@ export default function ResetPasssword() {
       const response = await Auth.resetPassword({...state});
       if (response.data.success && response.data.message === 'Password successfully reset') {
         dispatch(setError(''));
-        navigate('/profile');
+        navigate(URLS.PROFILE);
       }
     } catch (err) {
       const {response} = err;

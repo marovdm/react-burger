@@ -6,6 +6,7 @@ import FormConstructor from '../form-constructor/form-constructor';
 import { userRegister } from '../../services/user/reducers/action-creators';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
+import { URLS } from '../../utils/consts';
 
 const footerLinks = [
   {
@@ -29,7 +30,7 @@ export default function Register() {
 
   useEffect(() => {
     if (isAuth && !hasError) {
-      navigate('/profile');
+      navigate(URLS.PROFILE);
     }
 
   }, [isAuth, hasError, navigate])
