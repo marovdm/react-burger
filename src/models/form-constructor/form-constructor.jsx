@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 
 import Preloader from '../../components/preloader/preloader';
@@ -9,16 +9,8 @@ import styles from './form-constructor.module.scss';
 import { footerLinksPropTypes } from '../../utils/prop-types';
 
 export default function FormConstructor({header, footerLinks, children}) {
-  const {isAuth, isLoading, hasError, error} = useSelector(state => state.user);
+  const {isLoading, hasError, error} = useSelector(state => state.user);
   const dispatch = useDispatch();
-  const {state} = useLocation();
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    if (isAuth && !hasError) {
-      navigate(state?.from.pathname || '/');
-    }    
-  }, [isAuth, error, hasError, navigate, dispatch, state]);
 
   useEffect(() => {
     return () => {

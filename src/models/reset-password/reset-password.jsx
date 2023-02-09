@@ -27,7 +27,7 @@ export default function ResetPasssword() {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    // Если пользователь сразу переходит на /reset-password, миную предыдущий шаг - вернем его
+    // Если пользователь сразу переходит на /reset-password, минуя предыдущий шаг - вернем его
     if (location.state !== 'reset') {
       navigate(URLS.FORGOT_PASSWORD);
     }
