@@ -6,7 +6,7 @@ import EmptyElement from './empty-element/empty-element';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { useDrop } from 'react-dnd';
-import { deleteIngredient, selectIngredient, sortIngredients } from '../../services/reducers/burger-data-slice';
+import { deleteIngredient, selectIngredient, sortIngredients } from '../../services/burger/reducers/burger-data-slice';
 
 
 export default function BurgerConstructor() {

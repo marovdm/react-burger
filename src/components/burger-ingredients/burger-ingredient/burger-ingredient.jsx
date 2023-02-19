@@ -1,15 +1,16 @@
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './burger-ingredient.module.scss'
 import { ingredientPropTypes } from '../../../utils/prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { useDrag } from 'react-dnd';
-import { toggleIngedientDetail, viewIngredient } from '../../../services/reducers/burger-data-slice';
+import { toggleIngedientDetail, viewIngredient } from '../../../services/burger/reducers/burger-data-slice';
+import { useLocation, useNavigate } from 'react-router-dom';
 
 function BurgerIngredient({ingredient}) {
   const [count, setCount] = useState(0);
   const {selectedIngredients, lastUsedIngredient, selectedBun} = useSelector(state => state.burgers);
-  const dispatch = useDispatch();
+  
   const [{ opacity }, ref] = useDrag({
     type: 'ingredient',
     item: { ingredient },
@@ -17,11 +18,16 @@ function BurgerIngredient({ingredient}) {
       opacity: monitor.isDragging() ? 0.5 : 1
     })
   });
+
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
+  const location = useLocation();
   
   // Текущий просматриваемый ингредиент
   const handleViewIngredientDetail = () => {
     dispatch(viewIngredient(ingredient));
-    dispatch(toggleIngedientDetail(true));
+    // dispatch(toggleIngedientDetail(true));
+    navigate(`/ingredients/${ingredient._id}`, {state: { background: location}})
   }
   // Подсчет кол-ва ингредиентов для булок
   useEffect(() => {
