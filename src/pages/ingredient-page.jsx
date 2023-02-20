@@ -1,4 +1,4 @@
-import Ingredient from "../models/ingredient/ingredient";
+import Ingredient from "../modules/ingredient/ingredient";
 import PageConstructor from "./page-constructor";
 
 export default function IngredientPage() {

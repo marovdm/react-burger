@@ -1,4 +1,4 @@
-import ForgotPasssword from "../models/forgot-password/forgot-password"
+import ForgotPasssword from "../modules/forgot-password/forgot-password"
 import PageConstructor from "./page-constructor";
 
 export default function ForgotPassswordPage() {

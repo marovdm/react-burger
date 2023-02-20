@@ -1,4 +1,4 @@
-import Login from "../models/login/login"
+import Login from "../modules/login/login"
 import PageConstructor from "./page-constructor";
 
 export default function LoginPage() {

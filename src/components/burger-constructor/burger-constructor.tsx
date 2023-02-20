@@ -3,17 +3,18 @@ import SelectedElement from './selected-element/selected-element';
 import ConstructorOrder from './constructor-order/constructor-order'
 import EmptyElement from './empty-element/empty-element';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 
 import { useDrop } from 'react-dnd';
 import { deleteIngredient, selectIngredient, sortIngredients } from '../../services/burger/reducers/burger-data-slice';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 
 export default function BurgerConstructor() {
-  const {selectedIngredients, selectedBun} = useSelector(state => state.burgers);
+  const {selectedIngredients, selectedBun} = useAppSelector(state => state.burgers);
   const dispatch = useDispatch();
 
-  const onDropIngredient = ({ingredient}) => {
+  const onDropIngredient = ({ingredient}):void => {
     dispatch(selectIngredient(ingredient))
   }; 
 
@@ -25,11 +26,11 @@ export default function BurgerConstructor() {
     })
   });
 
-  const handleOnDelete = (idx) => {
+  const handleOnDelete = (idx: number) => {
     dispatch(deleteIngredient(idx));
   }
 
-  const handleMoveIngredients = (dragIndex, hoverIndex) => {
+  const handleMoveIngredients = (dragIndex: number, hoverIndex: number):void => {
     dispatch(sortIngredients({
       toIndex: hoverIndex,
       fromIndex: dragIndex
