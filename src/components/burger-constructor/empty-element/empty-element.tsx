@@ -1,11 +1,15 @@
 import styles from './empty-element.module.scss';
-import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import cnBind from 'classnames/bind';
 
 const cx = cnBind.bind(styles);
 
-export default function EmptyElement({type, text}) {
+type EmptyElementProps = {
+  type?: 'top' | 'bottom',
+  text: string
+}
+
+export default function EmptyElement({type, text}: EmptyElementProps) {
   const classes = classNames(
     'text text_type_main-default', 
     cx('empty_element',{
@@ -19,9 +23,4 @@ export default function EmptyElement({type, text}) {
       {text}
     </div>
   )
-}
-
-EmptyElement.propTypes = {
-  type: PropTypes.string,
-  text: PropTypes.string.isRequired,
 }

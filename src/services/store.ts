@@ -1,6 +1,6 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import burgersDataReducer from './burger/reducers/burger-data-slice';
-import OrderDataReducer from "./burger/reducers/order-slice";
+import OrderDataReducer from "./orders/order-slice";
 import userReducer from "./user/reducers/user-slice";
 
 

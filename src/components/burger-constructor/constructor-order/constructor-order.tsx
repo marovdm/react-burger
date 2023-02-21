@@ -1,22 +1,24 @@
 import { Button, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
 import styles from './constructor-order.module.scss';
 import OrderDetails from '../../order-details/order-details';
-import { useDispatch, useSelector } from 'react-redux';
 import Preloader from '../../preloader/preloader';
-import { createOrderQuery } from '../../../services/burger/reducers/action-creators';
-import { toggleOpenedOrderModal } from '../../../services/burger/reducers/order-slice';
-import { allAddedSelector, totalPriceSelector } from '../../../services/burger/selectors/selectors';
+import { createOrderQuery } from '../../../services/orders/action-creators';
+import { toggleOpenedOrderModal } from '../../../services/orders/order-slice';
+import { allAddedSelector, totalPriceSelector, orderSelector } from '../../../services/burger/selectors/selectors';
 import { useNavigate } from 'react-router-dom';
 import { URLS } from '../../../utils/consts';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+import { IIngredient } from '../../../models/IIngredient';
 
 export default function ConstructorOrder() {
-  const dispatch = useDispatch();
-  const {order, isOpenedOrderModal, isLoading, error, hasError} = useSelector(state => state.order);
-  const { isAuth } = useSelector(state => state.user);
+  const dispatch = useAppDispatch();
+  const { isOpenedOrderModal, isLoading, error, hasError} = useAppSelector(state => state.order);
+  const { isAuth } = useAppSelector(state => state.user);
   const navigate = useNavigate();
 
-  const totalPriceOrder = useSelector(totalPriceSelector);
-  const allAddedIngredients = useSelector(allAddedSelector);
+  const order = useAppSelector(orderSelector);
+  const totalPriceOrder = useAppSelector(totalPriceSelector);
+  const allAddedIngredients = useAppSelector(allAddedSelector);
 
   const closeOrderModal = () => {
     dispatch(toggleOpenedOrderModal(false))
@@ -29,7 +31,7 @@ export default function ConstructorOrder() {
       navigate(URLS.MAIN, { state: { from: { pathname: '/' }} });
       return;
     }
-    const ids = allAddedIngredients.map(element => element?._id);
+    const ids = allAddedIngredients.map((element: IIngredient) => element?._id);
     dispatch(createOrderQuery(ids));
   }
 

@@ -55,7 +55,7 @@ export const burgersDataSlice = createSlice({
       const {toIndex, fromIndex} = action.payload;
       state.selectedIngredients.splice(toIndex, 0, state.selectedIngredients.splice(fromIndex, 1)[0]);
     },
-    setDefaultValues(state, action) {
+    setDefaultValues(state) {
       state.selectedIngredients = [];
       state.selectedBun = null;
     }
