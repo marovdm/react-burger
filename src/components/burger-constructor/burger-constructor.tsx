@@ -3,51 +3,57 @@ import SelectedElement from './selected-element/selected-element';
 import ConstructorOrder from './constructor-order/constructor-order'
 import EmptyElement from './empty-element/empty-element';
 
-import { useDispatch } from 'react-redux';
-
 import { useDrop } from 'react-dnd';
 import { deleteIngredient, selectIngredient, sortIngredients } from '../../services/burger/reducers/burger-data-slice';
-import { useAppSelector } from '../../hooks/redux-hooks';
+import { useAppSelector, useAppDispatch } from '../../hooks/redux-hooks';
+import  { IIngredient } from '../../models/IIngredient';
+import { useCallback } from 'react';
 
+type dropItem = {
+  'ingredient': IIngredient
+}
 
 export default function BurgerConstructor() {
   const {selectedIngredients, selectedBun} = useAppSelector(state => state.burgers);
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const onDropIngredient = ({ingredient}):void => {
-    dispatch(selectIngredient(ingredient))
+  const onDropIngredient = (item: dropItem) => {
+    const {ingredient} = item;
+    dispatch(selectIngredient(ingredient));
   }; 
 
   const [{ isHover }, dropTarget] = useDrop({
     accept: 'ingredient',
-    drop(item) { onDropIngredient(item) },
+    drop(item: dropItem) { 
+      onDropIngredient(item) 
+    },
     collect: monitor => ({
       isHover: monitor.isOver()
     })
   });
 
-  const handleOnDelete = (idx: number) => {
+  const handleOnDelete = useCallback((idx: number) => {
     dispatch(deleteIngredient(idx));
-  }
+  }, [dispatch]);
 
-  const handleMoveIngredients = (dragIndex: number, hoverIndex: number):void => {
+  const handleMoveIngredients = useCallback((dragIndex: number, hoverIndex: number) => {
     dispatch(sortIngredients({
       toIndex: hoverIndex,
       fromIndex: dragIndex
     }))
-  }
+  }, [dispatch]);
 
   return (
-    <section className={styles.constructor}>
+    <section className={styles.wrapper}>
       <div ref={dropTarget} className='mb-10'>
         { 
           selectedBun ? 
-            <SelectedElement ingredient={selectedBun} position="top" extraClass="mb-4 ml-8" />
+            <SelectedElement index={-Infinity} ingredient={selectedBun} position="top" extraClass="mb-4 ml-8" />
             : <EmptyElement type='top' text="Выберите булки" />
         }
-        <ul className={`${styles.constructorWrapper} custom-scroll`}>
+        <ul className={`${styles.content} custom-scroll`}>
           {
-            selectedIngredients.length ? selectedIngredients.map((ingredient, idx) =>
+            selectedIngredients.length ? selectedIngredients.map((ingredient: IIngredient, idx) =>
               <SelectedElement 
                 ingredient={ingredient} 
                 index={idx}
@@ -62,7 +68,7 @@ export default function BurgerConstructor() {
         </ul>      
         { 
           selectedBun ? 
-            <SelectedElement ingredient={selectedBun} position="bottom" extraClass="mt-4 ml-8" />
+            <SelectedElement index={Infinity} ingredient={selectedBun} position="bottom" extraClass="mt-4 ml-8" />
             : <EmptyElement type='bottom' text="Выберите булки" />
         }
       </div>
