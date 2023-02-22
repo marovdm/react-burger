@@ -1,5 +1,4 @@
-import { useState, useMemo } from 'react'
-import { useSelector } from 'react-redux';
+import { useState, useMemo } from 'react';
 import { useInView } from "react-intersection-observer";
 
 import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -7,6 +6,8 @@ import { Tab } from '@ya.praktikum/react-developer-burger-ui-components';
 import BurgerChapter from './burger-chapter/burger-chapter';
 
 import styles from './burger-ingredients.module.scss'
+import { useAppSelector } from '../../hooks/redux-hooks';
+import { IIngredient } from '../../models/IIngredient';
 
 
 export default function BurgerIngredients() {
@@ -23,14 +24,14 @@ export default function BurgerIngredients() {
   });
 
   const [currentTab, setCurrentTab] = useState('bun');
-  const {burgersData} = useSelector(state => state.burgers);
+  const {burgersData} = useAppSelector(state => state.burgers);
 
 
-  const buns = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'bun'), [burgersData]);
-  const mains = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'main'), [burgersData]);
-  const sauces = useMemo(() => burgersData.filter(ingredient => ingredient.type === 'sauce'), [burgersData]);
+  const buns = useMemo(() => burgersData.filter((ingredient: IIngredient) => ingredient.type === 'bun'), [burgersData]);
+  const mains = useMemo(() => burgersData.filter((ingredient: IIngredient)  => ingredient.type === 'main'), [burgersData]);
+  const sauces = useMemo(() => burgersData.filter((ingredient: IIngredient)  => ingredient.type === 'sauce'), [burgersData]);
 
-  const onTabClick = (tab) => {
+  const onTabClick = (tab: string) => {
     setCurrentTab(tab);
     const element = document.getElementById(tab);
     if (element) element.scrollIntoView({ behavior: 'smooth' });

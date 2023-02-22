@@ -1,10 +1,16 @@
+import React, {FC, LegacyRef} from 'react';
 import BurgerIngredient from '../burger-ingredient/burger-ingredient';
 import styles from './burger-chapter.module.scss';
-import PropTypes from 'prop-types';
-import { ingredientPropTypes } from '../../../utils/prop-types';
-import React from 'react';
+import { IIngredient } from '../../../models/IIngredient';
 
-function BurgerChapter({chapter, title, id, refUse }) {
+type BurgerChapterProps = {
+  chapter: IIngredient[];
+  title: string;
+  id: 'bun' | 'main' | 'sauce';
+  refUse: LegacyRef<HTMLHeadingElement>
+}
+
+const BurgerChapter:FC <BurgerChapterProps>  = ({chapter, title, id, refUse }) => {
   return (
     <article className="pb-10" id={id}>
       <h3 className="text text_type_main-medium mb-6" ref={refUse}>{title}</h3>
@@ -16,11 +22,5 @@ function BurgerChapter({chapter, title, id, refUse }) {
     </article>
   )
 }
-
-BurgerChapter.propTypes = {
-  chapter: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-  title: PropTypes.string.isRequired,
-  id: PropTypes.string.isRequired
-};
 
 export default React.memo(BurgerChapter);

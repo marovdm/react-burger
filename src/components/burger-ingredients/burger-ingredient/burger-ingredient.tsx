@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from 'react';
-import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
-import styles from './burger-ingredient.module.scss'
-import { ingredientPropTypes } from '../../../utils/prop-types';
-import { useDispatch, useSelector } from 'react-redux';
-import { useDrag } from 'react-dnd';
-import { toggleIngedientDetail, viewIngredient } from '../../../services/burger/reducers/burger-data-slice';
+import React, { FC, useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
+import { useDrag } from 'react-dnd';
 
-function BurgerIngredient({ingredient}) {
+import { Counter, CurrencyIcon } from '@ya.praktikum/react-developer-burger-ui-components'
+import styles from './burger-ingredient.module.scss';
+import { viewIngredient } from '../../../services/burger/reducers/burger-data-slice';
+
+import { IIngredient } from '../../../models/IIngredient';
+import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
+
+type BurgerIngredientProps = {
+  ingredient: IIngredient
+}
+
+const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
   const [count, setCount] = useState(0);
-  const {selectedIngredients, lastUsedIngredient, selectedBun} = useSelector(state => state.burgers);
+  const {selectedIngredients, lastUsedIngredient, selectedBun} = useAppSelector(state => state.burgers);
   
   const [{ opacity }, ref] = useDrag({
     type: 'ingredient',
@@ -19,14 +25,13 @@ function BurgerIngredient({ingredient}) {
     })
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const location = useLocation();
   
   // Текущий просматриваемый ингредиент
   const handleViewIngredientDetail = () => {
     dispatch(viewIngredient(ingredient));
-    // dispatch(toggleIngedientDetail(true));
     navigate(`/ingredients/${ingredient._id}`, {state: { background: location}})
   }
   // Подсчет кол-ва ингредиентов для булок
@@ -50,7 +55,7 @@ function BurgerIngredient({ingredient}) {
   }, [selectedIngredients, lastUsedIngredient, ingredient]);
 
   return (
-    <div ref={ref} className={styles.ingredient} onClick={()=> handleViewIngredientDetail(ingredient)} >
+    <div ref={ref} className={styles.ingredient} onClick={()=> handleViewIngredientDetail()} >
       {count > 0 ? <Counter count={count} size="default" extraClass="m-1" /> : null}
       <div className="pl-4 pr-4">
         <img src={ingredient.image_large} className={styles.ingredient_img} alt={ingredient.name} />
@@ -65,9 +70,5 @@ function BurgerIngredient({ingredient}) {
     </div>
   )
 }
-
-BurgerIngredient.propTypes = {
-  ingredient: ingredientPropTypes.isRequired
-};
 
 export default React.memo(BurgerIngredient);
