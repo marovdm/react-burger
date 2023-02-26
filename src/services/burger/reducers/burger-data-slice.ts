@@ -1,9 +1,26 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
+import { IIngredient } from '../../../models/IIngredient';
 
 import { fetchBurgersData } from './action-creators';
 
-const initialState = {
+export type BurgersDataState = {
+  burgersData: IIngredient [],
+  isLoading: boolean,
+  hasError: boolean,
+  error: string,
+
+  viewedIngredient: IIngredient | null,
+
+  selectedIngredients: IIngredient [],
+  selectedBun: IIngredient | null,
+
+  lastUsedIngredient: IIngredient | null,
+  
+  isOpenedIngedientDetail: boolean
+}
+
+const initialState: BurgersDataState = {
   burgersData: [],
   isLoading: false,
   hasError: false,
@@ -73,7 +90,9 @@ export const burgersDataSlice = createSlice({
     builder.addCase(fetchBurgersData.rejected, (state, action) => {
       state.isLoading = false;
       state.hasError = true;
-      state.error = action.payload;
+      if (action.payload) {
+        state.error = action.payload
+      }
     })
   }
 });

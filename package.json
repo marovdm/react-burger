@@ -52,6 +52,7 @@
     ]
   },
   "devDependencies": {
+    "@types/uuid": "^9.0.1",
     "node-sass": "^8.0.0",
     "typescript-plugin-css-modules": "^4.2.2"
   }

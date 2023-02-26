@@ -1,14 +1,15 @@
 import { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { viewIngredient } from '../../services/burger/reducers/burger-data-slice';
 
 import styles from './ingredient-details.module.scss';
 
 export default function IngredientDetails() {
-  const {burgersData, viewedIngredient} = useSelector(state => state.burgers);
+  const {burgersData, viewedIngredient} = useAppSelector(state => state.burgers);
   const { id } = useParams();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if(viewedIngredient) return;

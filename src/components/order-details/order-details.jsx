@@ -18,7 +18,8 @@ export default function OrderDetails({hasError, error, orderNumber, onClose}) {
         <p className="text text_type_main-medium">{error}</p>
       )
     )
-  }, [error, hasError, orderNumber])
+  }, [error, hasError, orderNumber]);
+  
   return (
     <Modal onClose={onClose} className="pt-10 pb-30">
       {content}

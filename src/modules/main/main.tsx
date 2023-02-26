@@ -1,17 +1,20 @@
-import { useEffect } from 'react'
+import { ReactNode, useEffect } from 'react'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { useDispatch, useSelector } from 'react-redux';
 import { fetchBurgersData } from '../../services/burger/reducers/action-creators';
 
-import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
-import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
+// import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
+// import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import Preloader from '../../components/preloader/preloader';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 
+type MainComponentProp = {
+  children: ReactNode
+}
 
-export default function Main() {
-  const {burgersData, isLoading, hasError, error} = useSelector(state => state.burgers)
-  const dispatch = useDispatch();
+export default function Main({children}: MainComponentProp) {
+  const {burgersData, isLoading, hasError, error} = useAppSelector(state => state.burgers)
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(fetchBurgersData())
@@ -29,10 +32,9 @@ export default function Main() {
     <>
       <DndProvider backend={HTML5Backend}>
         <h1 className='text text_type_main-large mt-10 mb-5'>Соберите бургер</h1>
-        { burgersData && 
+        { burgersData.length && 
           <div className='row'>
-            <BurgerIngredients />
-            <BurgerConstructor />
+            {children}
           </div>
         }
       </DndProvider>

@@ -1,7 +1,11 @@
-import PropTypes from 'prop-types';
+import React, { ReactNode } from 'react';
 import AppHeader from "../components/app-header/app-header";
 
-export default function PageConstructor({children}) {
+type PageConstructorProps = {
+  children: ReactNode
+}
+
+export default function PageConstructor({children}: PageConstructorProps) {
   return (
     <div className="App">
       <AppHeader />
@@ -10,10 +14,6 @@ export default function PageConstructor({children}) {
       </main>
     </div>
   )
-}
-
-PageConstructor.propTypes = {
-  children: PropTypes.node.isRequired
 }
 
 

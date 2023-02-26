@@ -4,7 +4,7 @@ import { createOrderQuery } from './action-creators';
 import { IOrder } from "../../models/IOrder";
 
 type OrderState = {
-  orderData: IOrder | {};
+  orderData: IOrder | null
   isOpenedOrderModal: boolean;
   isLoading: boolean,
   error: string;
@@ -12,7 +12,7 @@ type OrderState = {
 }
 
 const initialState: OrderState = {
-  orderData: {},
+  orderData: null,
   isOpenedOrderModal: false,
   isLoading: false,
   error: '',
