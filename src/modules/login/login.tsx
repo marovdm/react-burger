@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
 
-import { useDispatch } from 'react-redux';
 import { userLogin } from '../../services/user/reducers/action-creators';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 const footerLinks = [
   {
@@ -24,17 +24,17 @@ export default function Login() {
     email: '',
     password: ''
   });
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
-  const handleChangeInput = (event) => {
-    const {value, name} = event.target;
+  const handleChangeInput = (e: FormEvent<HTMLInputElement>) => {
+    const {value, name} = e.currentTarget;
     setLoginForm({
       ...loginForm,
       [name]: value,
     });
   };
 
-  const handleLogin = async (e) => {
+  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(userLogin({...loginForm}));
@@ -50,8 +50,8 @@ export default function Login() {
             name={'email'}
             isIcon={false}
             extraClass="mb-6"
-            errorText="Введите корректный e-mail"
           />
+          {/* errorText="Введите корректный e-mail" */}
           <PasswordInput
             onChange={handleChangeInput}
             value={loginForm.password}

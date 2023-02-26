@@ -1,7 +1,16 @@
 import { createSlice } from '@reduxjs/toolkit';
+import { IUser } from '../../../models/IUser';
 import { fetchUserProfile, userLogin, userLogout, userRegister, } from './action-creators';
 
-const initialState = {
+type UserState = {
+  user: IUser;
+  isAuth: boolean;
+  isLoading: boolean;
+  hasError: boolean;
+  error: string;
+}
+
+const initialState: UserState = {
   user: {
     email: '',
     name: '',
@@ -46,7 +55,9 @@ export const userSlice = createSlice({
     builder.addCase(userLogin.rejected, (state, action) => {
       state.isLoading = false;
       state.hasError = true;
-      state.error = action.payload;
+      if (action.payload) {
+        state.error = action.payload
+      }
     })
     
     // REGISTER USER
@@ -63,7 +74,9 @@ export const userSlice = createSlice({
     builder.addCase(userRegister.rejected, (state, action) => {
       state.isLoading = false;
       state.hasError = true;
-      state.error = action.payload;
+      if (action.payload) {
+        state.error = action.payload
+      }
     })
 
     // GET PROFILE DATA
@@ -71,7 +84,7 @@ export const userSlice = createSlice({
       state.isLoading = true;
     })
     builder.addCase(fetchUserProfile.fulfilled, (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.isLoading = false;
       state.hasError = false;
       state.error = '';
@@ -79,7 +92,9 @@ export const userSlice = createSlice({
     builder.addCase(fetchUserProfile.rejected, (state, action) => {
       state.isLoading = false;
       state.hasError = true;
-      state.error = action.payload;
+      if (action.payload) {
+        state.error = action.payload
+      }
     })
 
     // LOGOUT
@@ -99,7 +114,9 @@ export const userSlice = createSlice({
     builder.addCase(userLogout.rejected, (state, action) => {
       state.isLoading = false;
       state.hasError = true;
-      state.error = action.payload;
+      if (action.payload) {
+        state.error = action.payload
+      }
     })
   }
 })
@@ -110,4 +127,5 @@ export const {
   setError,
   resetError
 } = userSlice.actions;
+
 export default userSlice.reducer;
