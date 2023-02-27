@@ -1,12 +1,12 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import burgersDataReducer from './burger/reducers/burger-data-slice';
-import OrderDataReducer from "./orders/order-slice";
+import burgersReducer from './burger/reducers/burger-data-slice';
+import orderReducer from "./orders/order-slice";
 import userReducer from "./user/reducers/user-slice";
 
 
 const rootReducer = combineReducers({
-  burgers: burgersDataReducer,
-  order: OrderDataReducer,
+  burgers: burgersReducer,
+  order: orderReducer,
   user: userReducer
 })
 

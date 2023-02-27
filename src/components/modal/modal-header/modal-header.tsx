@@ -1,8 +1,13 @@
 
+import { FC } from 'react';
 import styles from './modal-header.module.scss';
-import PropTypes from 'prop-types';
 
-export default function ModalHeader({text, onClose}) {
+type ModalHeaderProps = {
+  text?: string;
+  onClose: () => void;
+};
+
+const ModalHeader: FC<ModalHeaderProps> = ({text, onClose}) => {
   return (
     <div className={styles.modalHeader}>
       {text && <p className="text text_type_main-large">{text}</p>}
@@ -12,7 +17,4 @@ export default function ModalHeader({text, onClose}) {
   )
 }
 
-ModalHeader.propTypes = {
-  text: PropTypes.node,
-  onClose: PropTypes.func.isRequired,
-}
+export default ModalHeader;

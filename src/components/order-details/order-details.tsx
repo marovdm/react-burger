@@ -1,9 +1,15 @@
-import Modal from '../modal/modal'
-import PropTypes from 'prop-types';
+import Modal from '../modal/modal';
 import doneImg from '../../images/icons/done.png';
-import { useMemo } from 'react';
+import { FC, useMemo } from 'react';
 
-export default function OrderDetails({hasError, error, orderNumber, onClose}) {
+type OrderDetailsProps = {
+  hasError: boolean;
+  error: string;
+  orderNumber: string;
+  onClose: () => void;
+}
+
+const OrderDetails:FC<OrderDetailsProps> = ({hasError, error, orderNumber, onClose}) => {
   const content = useMemo(() => {
     return (
       !hasError && error === '' ? (
@@ -27,9 +33,4 @@ export default function OrderDetails({hasError, error, orderNumber, onClose}) {
   )
 }
 
-OrderDetails.propTypes = {
-  orderNumber: PropTypes.number,
-  hasError: PropTypes.bool,
-  error: PropTypes.string,
-  onClose: PropTypes.func.isRequired,
-}
+export default OrderDetails;

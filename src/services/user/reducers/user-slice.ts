@@ -115,7 +115,7 @@ export const userSlice = createSlice({
       state.isLoading = false;
       state.hasError = true;
       if (action.payload) {
-        state.error = action.payload
+        state.error = action.payload;
       }
     })
   }

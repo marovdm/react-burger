@@ -14,8 +14,8 @@ export interface IOrder {
       status: string,
       name: string,
       createdAt: string,
-      updatedAt: "string",
-      number: number,
+      updatedAt: string,
+      number: string,
       price: number
   }
 }

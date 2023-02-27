@@ -1,15 +1,21 @@
-import { useEffect } from 'react'
+import { FC, ReactNode, useEffect } from 'react'
 import { createPortal } from 'react-dom';
 import ModalHeader from './modal-header/modal-header';
 import ModalOverlay from './modal-overlay/modal-overlay';
 import styles from './modal.module.scss';
-import PropTypes from 'prop-types';
 
-const modalRoot = document.getElementById("modals");
+const modalRoot = document.getElementById("modals") as HTMLElement;
 
-export default function Modal({header, className, children, onClose}) {
+type ModalHeaderProps = {
+  header?: string;
+  className?: string;
+  children: ReactNode;
+  onClose: () => void;
+};
+
+const Modal: FC<ModalHeaderProps> = ({header, className, children, onClose}) => {
   useEffect(() => {
-    const handleCloseModalEsc = (e) => e.key === 'Escape' && onClose();
+    const handleCloseModalEsc = (e: KeyboardEvent) => e.key === 'Escape' && onClose();
     document.addEventListener('keydown', handleCloseModalEsc);
 
     return(() => {
@@ -31,9 +37,4 @@ export default function Modal({header, className, children, onClose}) {
   );
 }
 
-Modal.propTypes = {
-  header: PropTypes.string,
-  className: PropTypes.string,
-  children: PropTypes.node.isRequired,
-  onClose: PropTypes.func.isRequired
-};
+export default Modal;
