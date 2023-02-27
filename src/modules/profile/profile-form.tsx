@@ -1,14 +1,14 @@
-import { useRef, useState } from 'react';
+import { Ref, FormEvent, useRef, useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
-import { useDispatch, useSelector } from 'react-redux';
 
 import styles from './profile.module.scss';
 import Profile from '../../utils/api/profile';
 import { setCredentials, setLoading } from '../../services/user/reducers/user-slice';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 
 export default function ProfileForm() {
-  const dispatch = useDispatch();
-  const {user} = useSelector(state => state.user);
+  const dispatch = useAppDispatch();
+  const {user} = useAppSelector(state => state.user);
   const [disabledName, setDisabledName] = useState(true);
   const [showControls, setShowControls] = useState(false);
   const [state, setState] = useState({
@@ -16,15 +16,17 @@ export default function ProfileForm() {
     password: ''
   });
 
-  const inputRef = useRef(null);
+  const inputRef: Ref<HTMLInputElement> = useRef(null);
 
   const onIconClick = () => {
-    setDisabledName(false)
-    setTimeout(() => inputRef.current.focus(), 0);
+    setDisabledName(false);
+    console.log(inputRef);
+    
+    setTimeout(() => inputRef.current?.focus(), 0);
   }
 
-  const handleChangeInput = (e) => {
-    const {value, name} = e.target;
+  const handleChangeInput = (e: FormEvent<HTMLInputElement>) => {
+    const {value, name} = e.currentTarget;
     setState({
       ...state,
       [name]: value,
@@ -32,7 +34,7 @@ export default function ProfileForm() {
     if (!showControls) setShowControls(true);
   };
 
-  const handleUpdateProfile = async (e) => {
+  const handleUpdateProfile = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -80,7 +82,6 @@ export default function ProfileForm() {
         required
         isIcon={true}
         extraClass="mb-6"
-        errorText="Введите корректный e-mail"
       />
       <PasswordInput
         onChange={handleChangeInput}

@@ -27,10 +27,6 @@ type ProfileResponse = {
   success: boolean;
 }
 
-type logoutRequest = {
-  token: string;
-}
-
 type logoutResponse = {
   success: boolean;
   message: string;
@@ -78,7 +74,7 @@ export const userRegister = createAsyncThunk<responseType, registerRequest, {rej
   }
 );
 
-export const userLogout = createAsyncThunk<logoutResponse, logoutRequest, {rejectValue: string}>
+export const userLogout = createAsyncThunk<logoutResponse, undefined, {rejectValue: string}>
   ('user/logout', async () => {
     try {
       const token = localStorage.getItem('refreshToken');

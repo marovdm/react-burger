@@ -1,19 +1,21 @@
+import { useEffect, useMemo } from 'react';
 import { NavLink, useMatch } from 'react-router-dom';
 import classNames from 'classnames';
 import cnBind from 'classnames/bind';
 
-import styles from './profile.module.scss';
 import ProfileOrders from './profile-orders';
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-import { fetchUserProfile, userLogout } from '../../services/user/reducers/action-creators';
 import Preloader from '../../components/preloader/preloader';
 import ProfileForm from './profile-form';
+
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { fetchUserProfile, userLogout } from '../../services/user/reducers/action-creators';
+
+import styles from './profile.module.scss';
 const cx = cnBind.bind(styles);
 
 export default function ProfileConstructor() {
-  const {isLoading} = useSelector(state => state.user);
-  const dispatch = useDispatch();
+  const {isLoading} = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
 
   const matchProfile = useMatch('profile');
   const matchProfileOrders= useMatch('profile/orders/');
@@ -54,7 +56,7 @@ export default function ProfileConstructor() {
                 изменить свои персональные данные
               </p>
             </aside>
-            <section className={styles.profile_content}>
+            <section>
               {content}
             </section>
           </main>
