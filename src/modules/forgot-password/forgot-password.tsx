@@ -1,12 +1,12 @@
-import { useState } from 'react';
+import { useState, FormEvent } from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
 import { setError, setLoading } from '../../services/user/reducers/user-slice';
-import { useDispatch } from 'react-redux';
 import Auth from '../../utils/api/auth';
 import { useNavigate } from 'react-router-dom';
 import { URLS } from '../../utils/consts';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 const footerLinks = [
   {
@@ -21,17 +21,17 @@ export default function ForgotPasssword() {
     email: ''
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleChangeEmail = (event) => {
-    const {value} = event.target;
+  const handleChangeEmail = (e: FormEvent<HTMLInputElement>) => {
+    const {value} = e.currentTarget;
     setState({
       email: value,
     });
   };
 
-  const handleForgot = async(e) => {
+  const handleForgot = async(e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -40,7 +40,7 @@ export default function ForgotPasssword() {
       if (response.data.success && response.data.message === 'Reset email sent') {
         navigate(URLS.RESET_PASSWORD, {state: 'reset'});
       }
-    } catch (err) {
+    } catch (err: any) {
       const {response} = err;
       if (response.status === 404) {
         dispatch(setError('Произошла ошибка, попробуйте позже'));

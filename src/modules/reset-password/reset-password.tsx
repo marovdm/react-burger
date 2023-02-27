@@ -1,12 +1,12 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, FormEvent } from 'react';
 import { Button, Input, PasswordInput,  } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
 import { setError, setLoading } from '../../services/user/reducers/user-slice';
 import Auth from '../../utils/api/auth';
-import { useDispatch } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { URLS } from '../../utils/consts';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 const footerLinks = [
   {
@@ -24,7 +24,7 @@ export default function ResetPasssword() {
   });
   const location = useLocation();
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     // Если пользователь сразу переходит на /reset-password, минуя предыдущий шаг - вернем его
@@ -34,15 +34,15 @@ export default function ResetPasssword() {
   }, [location, navigate]);
  
 
-  const handleChangeInput = (event) => {
-    const {value, name} = event.target;
+  const handleChangeInput = (e: FormEvent<HTMLInputElement>) => {
+    const {value, name} = e.currentTarget;
     setState({
       ...state,
       [name]: value,
     });
   };
 
-  const handleResetPassword = async(e) => {
+  const handleResetPassword = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     try {
@@ -52,7 +52,7 @@ export default function ResetPasssword() {
         dispatch(setError(''));
         navigate(URLS.PROFILE);
       }
-    } catch (err) {
+    } catch (err: any) {
       const {response} = err;
       if (response.status === 404 && response.data.message === "Incorrect reset token") {
         dispatch(setError('Неверный код из письма'))

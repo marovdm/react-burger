@@ -1,16 +1,27 @@
-import { useEffect, useMemo } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import { FC, ReactNode, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import PropTypes from 'prop-types';
 
 import Preloader from '../../components/preloader/preloader';
 import { resetError } from '../../services/user/reducers/user-slice';
-import styles from './form-constructor.module.scss';
-import { footerLinksPropTypes } from '../../utils/prop-types';
 
-export default function FormConstructor({header, footerLinks, children}) {
-  const {isLoading, hasError, error} = useSelector(state => state.user);
-  const dispatch = useDispatch();
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import styles from './form-constructor.module.scss';
+
+type FooterLinksTypes = {
+  'text': string;
+  'linkText': string;
+  'href': string;
+}
+
+type FormConstructorProps = {
+  header: string;
+  footerLinks: FooterLinksTypes[];
+  children: ReactNode;
+}
+
+const FormConstructor:FC<FormConstructorProps> = ({header, footerLinks, children}) => {
+  const {isLoading, hasError, error} = useAppSelector(state => state.user);
+  const dispatch = useAppDispatch();
 
   useEffect(() => {
     return () => {
@@ -50,8 +61,4 @@ export default function FormConstructor({header, footerLinks, children}) {
   )
 }
 
-FormConstructor.propTypes = {
-  header: PropTypes.string.isRequired,
-  footerLinks: PropTypes.arrayOf(footerLinksPropTypes.isRequired).isRequired,
-  children: PropTypes.node.isRequired
-};
+export default FormConstructor;

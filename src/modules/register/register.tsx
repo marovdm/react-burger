@@ -1,10 +1,10 @@
-import { useState } from 'react';
+import { useState,FormEvent } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
 
 import { userRegister } from '../../services/user/reducers/action-creators';
-import { useDispatch } from 'react-redux';
+import { useAppDispatch } from '../../hooks/redux-hooks';
 
 const footerLinks = [
   {
@@ -21,18 +21,18 @@ export default function Register() {
     password: ''
   });
 
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
 
 
-  const handleChangeInput = (event) => {
-    const {value, name} = event.target;
+  const handleChangeInput = (e: FormEvent<HTMLInputElement>) => {
+    const {value, name} = e.currentTarget;
     setState({
       ...state,
       [name]: value,
     });
   };
 
-  const handleRegister = async (e) => {
+  const handleRegister = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     dispatch(userRegister({...state}));
@@ -56,7 +56,6 @@ export default function Register() {
             name={'email'}
             isIcon={false}
             extraClass="mb-6"
-            errorText="Введите корректный e-mail"
           />
           <PasswordInput
             onChange={handleChangeInput}
@@ -64,7 +63,7 @@ export default function Register() {
             name={'password'}
             extraClass="mb-6"
           />
-        <Button htmlType="submit" type="primary" size="medium" disabled={!state.email || !state.name || !state.password}>
+          <Button htmlType="submit" type="primary" size="medium" disabled={!state.email || !state.name || !state.password}>
             Зарегистрироваться
           </Button>
         </div>
