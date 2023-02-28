@@ -1,41 +1,14 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import Profile from "../../../utils/api/profile";
 import Auth from "../../../utils/api/auth";
-import { IUser } from "../../../models/IUser";
+import { IUserResponse, IProfileResponse, ILogoutResponse } from "../../../models/response/auth-response";
+import { ILoginRequest, IRegisterRequest } from "../../../models/request/auth-request";
 
-type loginRequest = {
-  email: string,
-  password: string
-};
 
-type responseType = {
-  success: boolean;
-  accessToken: string;
-  refreshToken: string;
-  user: {
-    email: string,
-    name: string
-  }
-};
-
-type registerRequest = {
-  name: string;
-} & loginRequest;
-
-type ProfileResponse = {
-  user: IUser;
-  success: boolean;
-}
-
-type logoutResponse = {
-  success: boolean;
-  message: string;
-}
-
-export const fetchUserProfile = createAsyncThunk<ProfileResponse, undefined, {rejectValue: string}>
-  ('user/profile', async (payload, thunkAPI) => {
+export const fetchUserProfile = createAsyncThunk<IProfileResponse, undefined, {rejectValue: string}>
+  ('user/profile', async (_, thunkAPI) => {
     try {
-      const response = await Profile.fetchProfile(payload);
+      const response = await Profile.fetchProfile();
       if (response.data.success) {
         return response.data;
       }
@@ -45,7 +18,7 @@ export const fetchUserProfile = createAsyncThunk<ProfileResponse, undefined, {re
   }
 );
 
-export const userLogin = createAsyncThunk<responseType, loginRequest, {rejectValue: string}>
+export const userLogin = createAsyncThunk<IUserResponse, ILoginRequest, {rejectValue: string}>
   ('user/login', async (payload, thunkAPI) => {
     try {
       const res = await Auth.login(payload);   
@@ -60,7 +33,7 @@ export const userLogin = createAsyncThunk<responseType, loginRequest, {rejectVal
   }
 );
 
-export const userRegister = createAsyncThunk<responseType, registerRequest, {rejectValue: string}>
+export const userRegister = createAsyncThunk<IUserResponse, IRegisterRequest, {rejectValue: string}>
   ('user/register', async (payload, thunkAPI) => {
       try {
         return await Auth.register(payload);     
@@ -74,12 +47,13 @@ export const userRegister = createAsyncThunk<responseType, registerRequest, {rej
   }
 );
 
-export const userLogout = createAsyncThunk<logoutResponse, undefined, {rejectValue: string}>
+export const userLogout = createAsyncThunk<ILogoutResponse, undefined, {rejectValue: string}>
   ('user/logout', async () => {
     try {
       const token = localStorage.getItem('refreshToken');
-
-      return await Auth.logout(token);
+      if (token) {
+        return await Auth.logout(token);
+      };
     } catch(err) {
       return err;
     }

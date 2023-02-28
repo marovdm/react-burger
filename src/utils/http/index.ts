@@ -16,15 +16,15 @@ const $api = axios.create({
   baseURL: NORMA_API
 });
 
-$api.interceptors.request.use(config => {
+$api.interceptors.request.use((config) => {
   if (config.url && skipAuth.includes(config.url)) return config;
 
-  const accessToken = `Bearer ${localStorage.getItem('accessToken')}`;
+  const accessToken = localStorage.getItem('accessToken');
 
-  config.headers = { 
-    withCredentials: true,
-    Authorization: accessToken
-  };
+  if (accessToken) {
+    const authHeader = `Bearer ${accessToken}`;
+    if (config.headers) config.headers['authorization'] = authHeader;
+  }
   
   return config;
 });

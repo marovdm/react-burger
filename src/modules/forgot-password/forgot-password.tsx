@@ -1,4 +1,4 @@
-import { useState, FormEvent } from 'react';
+import { useState, FormEventHandler, ChangeEventHandler } from 'react';
 import { Button, EmailInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
@@ -24,14 +24,14 @@ export default function ForgotPasssword() {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
 
-  const handleChangeEmail = (e: FormEvent<HTMLInputElement>) => {
-    const {value} = e.currentTarget;
+  const handleChangeEmail:ChangeEventHandler<HTMLInputElement> = (e) => {
+    const {value} = e.target;
     setState({
       email: value,
     });
   };
 
-  const handleForgot = async(e: FormEvent<HTMLFormElement>) => {
+  const handleForgot: FormEventHandler = async (e) => {
     e.preventDefault();
 
     try {

@@ -1,8 +1,10 @@
+import { IForgotPasswordRequest, ILoginRequest, IRegisterRequest, IResetPasswordRequest } from "../../models/request/auth-request"
+import { IBaseResponse } from "../../models/response/auth-response";
 import { AUTH } from "../consts";
 import $api from "../http";
 
 export default class Auth {
-  static async login(payload) {
+  static async login(payload: ILoginRequest) {
     const response = await $api.post(AUTH.LOGIN, { ...payload });
     if (response.data.success) {
       this.setTokensCredentials(response.data);
@@ -10,7 +12,7 @@ export default class Auth {
     return response.data;
   };
 
-  static async register(payload) {
+  static async register(payload: IRegisterRequest) {
     const response = await $api.post(AUTH.REGISTER, { ...payload });
     if (response.data.success) {
       this.setTokensCredentials(response.data);
@@ -18,7 +20,7 @@ export default class Auth {
     return response.data;
   }
 
-  static async logout(token) {
+  static async logout(token: string) {
     const response = await $api.post(AUTH.LOGOUT, { token })
     if (response.data.success) {
       this.clearCredentials();
@@ -26,15 +28,17 @@ export default class Auth {
     return response.data;
   }
 
-  static async forgotPassword(payload) {
+  static async forgotPassword(payload: IForgotPasswordRequest) {
     return $api.post(AUTH.FORGOT_PASSWORD, { ...payload });
   }
 
-  static async resetPassword(payload) {
+  static async resetPassword(payload: IResetPasswordRequest) {
     return $api.post(AUTH.RESET_PASSWORD, { ...payload });
   }
 
-  static setTokensCredentials(data) {
+  static setTokensCredentials(data: IBaseResponse) {
+    console.log('data', data);
+    
     const { accessToken, refreshToken } = data;
     const authToken = accessToken.split('Bearer ')[1];
 
@@ -42,7 +46,7 @@ export default class Auth {
     localStorage.setItem('refreshToken', refreshToken);
   }
 
-  static clearCredentials(data) {
+  static clearCredentials() {
     localStorage.removeItem('accessToken');
     localStorage.removeItem('refreshToken');
   }
