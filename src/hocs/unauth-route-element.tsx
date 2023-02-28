@@ -1,17 +1,18 @@
+import { ReactNode } from 'react';
 import { Navigate, useLocation } from 'react-router-dom';
-import { useSelector } from 'react-redux';
-import PropTypes from 'prop-types';
+import { useAppSelector } from '../hooks/redux-hooks';
+
+
+type UnAuthRouteProps = {
+  element: ReactNode
+}
 
 // HOC роутов для неавторизованных пользователей
-export default function UnAuthRouteElement ({ element }) {
-  const { isAuth } = useSelector(state => state.user);
+export default function UnAuthRouteElement ({ element }: UnAuthRouteProps) {
+  const { isAuth } = useAppSelector(state => state.user);
   const location = useLocation();
 
   return (
     !isAuth ? element : <Navigate to={location.state?.from.pathname || '/profile'} replace/>
   )
-}
-
-UnAuthRouteElement.propTypes = {
-  element: PropTypes.node.isRequired
 }
