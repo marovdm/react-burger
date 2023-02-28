@@ -1,12 +1,12 @@
-import { ReactNode } from 'react';
+import { FC } from 'react';
 import { useLocation, Navigate } from 'react-router-dom';
 import { useAppSelector } from '../hooks/redux-hooks';
 
 type ProtectedRouteProps = {
-  element: ReactNode
+  element: JSX.Element
 }
 
-export default function ProtectedRouteElement ({ element }: ProtectedRouteProps) {
+const ProtectedRouteElement: FC<ProtectedRouteProps> = ({ element }) => {
   const { isAuth } = useAppSelector(state => state.user);
   const location = useLocation();
 
@@ -14,3 +14,5 @@ export default function ProtectedRouteElement ({ element }: ProtectedRouteProps)
     isAuth ? element : <Navigate to="/login" state={{ from: location }} replace/>
   )
 }
+
+export default ProtectedRouteElement;
