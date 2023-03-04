@@ -1,4 +1,4 @@
-import { useState, FormEvent, ChangeEventHandler } from 'react';
+import { useState, FormEvent, ChangeEvent } from 'react';
 import { Button, EmailInput, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
@@ -26,7 +26,7 @@ export default function Login() {
   });
   const dispatch = useAppDispatch();
 
-  const handleChangeInput:ChangeEventHandler<HTMLInputElement> = (e) => {
+  const handleChangeInput = (e:ChangeEvent<HTMLInputElement>) => {
     const {value, name} = e.target;
     setLoginForm({
       ...loginForm,

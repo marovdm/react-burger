@@ -12,8 +12,8 @@ type SelectedElementProps = {
   position?: 'bottom' | 'top',
   extraClass?: string,
   index: number,
-  moveElement?: (dragIndex: number, hoverIndex: number) => void,
-  onDelete?: (idx: number) => void 
+  moveElement: (dragIndex: number, hoverIndex: number) => void,
+  onDelete: (idx: number) => void 
 }
 
 interface IDragItem {

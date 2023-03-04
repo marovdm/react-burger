@@ -10,7 +10,7 @@ import  { IIngredient } from '../../models/IIngredient';
 import { useCallback } from 'react';
 
 type dropItem = {
-  'ingredient': IIngredient
+  ingredient: IIngredient
 }
 
 export default function BurgerConstructor() {
@@ -48,14 +48,21 @@ export default function BurgerConstructor() {
       <div ref={dropTarget} className='mb-10'>
         { 
           selectedBun ? 
-            <SelectedElement index={-Infinity} ingredient={selectedBun} position="top" extraClass="mb-4 ml-8" />
+            <SelectedElement 
+              index={-Infinity} 
+              ingredient={selectedBun} 
+              position="top" 
+              extraClass="mb-4 ml-8"
+              onDelete={ () => {} }
+              moveElement={ () => {} }
+            />
             : <EmptyElement type='top' text="Выберите булки" />
         }
         <ul className={`${styles.content} custom-scroll`}>
           {
             selectedIngredients.length ? selectedIngredients.map((ingredient: IIngredient, idx) =>
               <SelectedElement 
-                ingredient={ingredient} 
+                ingredient={ingredient}
                 index={idx}
                 key={ingredient.unique}
                 moveElement={handleMoveIngredients} 
@@ -68,7 +75,14 @@ export default function BurgerConstructor() {
         </ul>      
         { 
           selectedBun ? 
-            <SelectedElement index={Infinity} ingredient={selectedBun} position="bottom" extraClass="mt-4 ml-8" />
+            <SelectedElement 
+              index={Infinity} 
+              ingredient={selectedBun} 
+              position="bottom" 
+              extraClass="mt-4 ml-8" 
+              onDelete={ () => {} }
+              moveElement={ () => {} }
+            />
             : <EmptyElement type='bottom' text="Выберите булки" />
         }
       </div>

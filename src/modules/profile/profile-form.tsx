@@ -1,4 +1,4 @@
-import { Ref, FormEvent, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import styles from './profile.module.scss';
@@ -16,7 +16,7 @@ export default function ProfileForm() {
     password: ''
   });
 
-  const inputRef: Ref<HTMLInputElement> = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const onIconClick = () => {
     setDisabledName(false);
