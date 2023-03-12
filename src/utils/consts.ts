@@ -28,5 +28,6 @@ export const URLS = {
   PROFILE_ORDERS_ID: '/profile/orders/:id',
   FORGOT_PASSWORD: '/forgot-password',
   INGREDIENTS_ID: '/ingredients/:id',
-  FEED: '/feed'
+  FEED: '/feed',
+  FEED_DETAIL: '/feed/:id',
 }
