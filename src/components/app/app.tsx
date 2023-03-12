@@ -11,6 +11,7 @@ import IngredientPage from '../../pages/ingredient-page';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
 import { URLS } from '../../utils/consts';
+import FeedPage from '../../pages/feed-page';
 
 function App() {
   const location = useLocation();
@@ -22,6 +23,7 @@ function App() {
       <Routes location={background || location}>
         <Route path={URLS.MAIN} element={ <MainPage />}/>
         <Route path={URLS.INGREDIENTS_ID} element={ <IngredientPage />} />
+        <Route path={URLS.FEED} element={<FeedPage />} />
         <Route path={URLS.LOGIN} element={<UnAuthRouteElement element={<LoginPage />}/> } />
         <Route path={URLS.REGISTER} element={<UnAuthRouteElement element={<RegisterPage />}/> } />
         <Route path={URLS.FORGOT_PASSWORD} element={<UnAuthRouteElement element={<ForgotPassswordPage />}/> } />
