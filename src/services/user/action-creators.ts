@@ -1,8 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import Profile from "../../../utils/api/profile";
-import Auth from "../../../utils/api/auth";
-import { IUserResponse, IProfileResponse, ILogoutResponse } from "../../../models/response/auth-response";
-import { ILoginRequest, IRegisterRequest } from "../../../models/request/auth-request";
+import Profile from "../../utils/api/profile";
+import Auth from "../../utils/api/auth";
+import { IUserResponse, IProfileResponse, ILogoutResponse } from "../../models/response/auth-response";
+import { ILoginRequest, IRegisterRequest } from "../../models/request/auth-request";
 
 
 export const fetchUserProfile = createAsyncThunk<IProfileResponse, undefined, {rejectValue: string}>

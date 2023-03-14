@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { IUser } from '../../../models/IUser';
+import { IUser } from '../../models/IUser';
 import { fetchUserProfile, userLogin, userLogout, userRegister, } from './action-creators';
 
 type UserState = {

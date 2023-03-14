@@ -1,19 +1,36 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import burgersReducer from './burger/reducers/burger-data-slice';
 import orderReducer from "./orders/order-slice";
-import userReducer from "./user/reducers/user-slice";
-
+import userReducer from "./user/user-slice";
+import { feedReducer } from "./feed/feed-reducer";
+import { socketMiddleware } from './middleware/socket-middleware';
+import { connect, disconnect, wsClose, wsError, wsMessage, wsOpen } from "./feed/actions";
 
 const rootReducer = combineReducers({
   burgers: burgersReducer,
   order: orderReducer,
-  user: userReducer
-})
+  user: userReducer,
+  feed: feedReducer
+});
+
+const wsFeedActions = {
+  wsConnect: connect,
+  wsDisconnect: disconnect,
+  onOpen: wsOpen,
+  onClose: wsClose,
+  onError: wsError,
+  onMessage: wsMessage
+};
+
+const wsFeedMiddleware = socketMiddleware(
+  wsFeedActions
+);
 
 export const setupStore = () => {
   return configureStore({
     reducer: rootReducer,
-    devTools: true
+    devTools: true,
+    middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(wsFeedMiddleware)
   })
 }
 

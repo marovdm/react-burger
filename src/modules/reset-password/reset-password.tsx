@@ -2,7 +2,7 @@ import { useState, useEffect, FormEvent } from 'react';
 import { Button, Input, PasswordInput,  } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import FormConstructor from '../form-constructor/form-constructor';
-import { setError, setLoading } from '../../services/user/reducers/user-slice';
+import { setError, setLoading } from '../../services/user/user-slice';
 import Auth from '../../utils/api/auth';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { URLS } from '../../utils/consts';

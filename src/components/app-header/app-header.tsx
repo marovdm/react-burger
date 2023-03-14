@@ -14,7 +14,7 @@ export default function AppHeader() {
                         <span className='ml-2'>Конструктор</span>
                     </HeaderLink>
 
-                    <HeaderLink href="/list-order" disabled>
+                    <HeaderLink href="/feed">
                         <ListIcon type="secondary" />
                         <span className='ml-2'>Лента заказов</span>
                     </HeaderLink>

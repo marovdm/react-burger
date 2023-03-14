@@ -8,7 +8,7 @@ import Preloader from '../../components/preloader/preloader';
 import ProfileForm from './profile-form';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { fetchUserProfile, userLogout } from '../../services/user/reducers/action-creators';
+import { fetchUserProfile, userLogout } from '../../services/user/action-creators';
 
 import styles from './profile.module.scss';
 const cx = cnBind.bind(styles);

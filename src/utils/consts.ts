@@ -31,3 +31,8 @@ export const URLS = {
   FEED: '/feed',
   FEED_DETAIL: '/feed/:id',
 }
+
+export const WS = {
+  WS_USER_ORDERS: 'wss://norma.nomoreparties.space/orders',
+  WS_ALL_ORDERS: 'wss://norma.nomoreparties.space/orders/all',
+}
