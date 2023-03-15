@@ -11,6 +11,7 @@ type FeedState = {
   viewedOrder: IFeedDetail | null,
   total: number;
   totalToday: number;
+  isLoading: boolean
 }
 
 const initialState: FeedState = {
@@ -19,13 +20,15 @@ const initialState: FeedState = {
   orders: [],
   total: 0,
   totalToday: 0,
-  viewedOrder: null
+  viewedOrder: null,
+  isLoading: false
 }
 
 export const feedReducer = createReducer(initialState, builder => {
   builder
     .addCase(wsConnecting, (state) => {
-      state.status = WebSocketStatus.CONNECTING
+      state.status = WebSocketStatus.CONNECTING;
+      state.isLoading = true;
     })
     .addCase(wsOpen, (state) => {
       state.status = WebSocketStatus.ONLINE;
@@ -33,15 +36,18 @@ export const feedReducer = createReducer(initialState, builder => {
     })
     .addCase(wsClose, (state) => {
       state.status = WebSocketStatus.OFFLINE;
-      state.connectionError = ''
+      state.connectionError = '';
+      state.isLoading = false;
     })
     .addCase(wsError, (state, action) => {
-      state.connectionError = action.payload
+      state.connectionError = action.payload;
+      state.isLoading = false;
     })
     .addCase(wsMessage, (state, action) => {
       state.orders = action.payload.orders;
       state.total = action.payload.total;
       state.totalToday = action.payload.totalToday;
+      state.isLoading = false;
     })
     .addCase(viewDetailOrder, (state, action) => {
       state.viewedOrder = action.payload;

@@ -17,7 +17,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
   const [count, setCount] = useState(0);
   const {selectedIngredients, lastUsedIngredient, selectedBun} = useAppSelector(state => state.burgers);
   
-  const [{ opacity }, ref] = useDrag({
+  const [,ref] = useDrag({
     type: 'ingredient',
     item: { ingredient },
     collect: monitor => ({

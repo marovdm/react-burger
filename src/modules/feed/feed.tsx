@@ -1,23 +1,32 @@
 import React, { useEffect } from 'react'
 import FeedBoard from '../../components/feed/feed-board/feed-board';
 import FeedList from '../../components/feed/feed-list/feed-list';
-import { useAppDispatch } from '../../hooks/redux-hooks';
+import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import { connect, disconnect } from '../../services/feed/actions';
 import { WS } from '../../utils/consts';
 
 import styles from '../../components/feed/feed.module.scss';
+import Preloader from '../../components/preloader/preloader';
 
 const Feed = () => {
+  const { isLoading, connectionError } = useAppSelector(state => state.feed);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
     dispatch(connect(WS.WS_ALL_ORDERS))
 
-    return () => {
-      console.log('destroy');      
+    return () => {    
       dispatch(disconnect())
     }
-  }, [dispatch])
+  }, [dispatch]);
+
+  if (isLoading) {
+    return <Preloader />
+  }
+
+  if (connectionError) {
+    <h3 className="text text_type_main-large">{connectionError}</h3>
+  }
 
   return (
     <>

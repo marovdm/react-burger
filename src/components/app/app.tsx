@@ -33,7 +33,7 @@ function App() {
         <Route path={URLS.RESET_PASSWORD} element={<UnAuthRouteElement element={<ResetPassswordPage />}/> } />
         <Route path={URLS.PROFILE} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
         <Route path={URLS.PROFILE_ORDERS} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
-        <Route path={URLS.PROFILE_ORDERS_ID} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
+        <Route path={URLS.PROFILE_ORDERS_ID} element={ <ProtectedRouteElement element={ <FeedDetailPage /> } /> } />
       </Routes>
       { background && background.type === 'ingredient' && (
         <Routes>

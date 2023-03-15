@@ -1,5 +1,5 @@
 
-import { useEffect, useState } from 'react'
+import { useCallback, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom';
 
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
@@ -43,6 +43,11 @@ const FeedDetail = () => {
     }
   }, [burgersData, dispatch, id, viewedOrder]);
 
+    // Вычисление стоимости заказа
+    const calculatePrice = useCallback(() => {
+      return ingredientsInOrder.reduce((acc, el) => acc + (el.type==='bun' ? el.price * 2 : el.price), 0)
+    }, [ingredientsInOrder]);
+
   return (
     <>
     {
@@ -80,7 +85,7 @@ const FeedDetail = () => {
           <div className={styles.feed_row}>
             <FormattedDate className='text text_type_main-default text_color_inactive' date={new Date(viewedOrder.createdAt)} />
             <span className={`${styles.feed_detail__price} text text_type_digits-default`}>
-              <span>510</span>
+              <span>{calculatePrice()}</span>
               <CurrencyIcon type="primary" />
             </span>
           </div>
