@@ -1,7 +1,7 @@
 import { ReactNode, useEffect } from 'react'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { fetchBurgersData } from '../../services/burger/reducers/action-creators';
+import { fetchBurgersData } from '../../services/burger/actions/action-creators';
 
 // import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
 // import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';

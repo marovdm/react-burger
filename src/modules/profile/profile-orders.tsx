@@ -2,7 +2,7 @@
 import { useEffect } from "react";
 import FeedList from "../../components/feed/feed-list/feed-list";
 import { useAppDispatch } from "../../hooks/redux-hooks";
-import { connect, disconnect } from "../../services/feed/actions";
+import { connect, disconnect } from "../../services/feed/actions/actions";
 import { WS } from "../../utils/consts";
 
 import styles from './profile.module.scss';

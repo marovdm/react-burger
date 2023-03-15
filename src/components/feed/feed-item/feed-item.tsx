@@ -9,7 +9,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import classNames from 'classnames';
 import cnBind from 'classnames/bind';
 import { useAppDispatch } from '../../../hooks/redux-hooks';
-import { viewDetailOrder } from '../../../services/feed/actions';
+import { viewDetailOrder } from '../../../services/feed/actions/actions';
 
 type TFeedItem = {
   item: IFeedDetail,

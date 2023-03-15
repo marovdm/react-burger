@@ -6,7 +6,7 @@ import IngredientDetails from "../../components/ingredient-details/ingredient-de
 import Preloader from '../../components/preloader/preloader';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { fetchBurgersData } from '../../services/burger/reducers/action-creators';
+import { fetchBurgersData } from '../../services/burger/actions/action-creators';
 import { viewIngredient } from '../../services/burger/reducers/burger-data-slice';
 
 import styles from "./ingredient.module.scss";

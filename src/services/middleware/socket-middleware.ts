@@ -1,6 +1,6 @@
 import { ActionCreatorWithoutPayload, ActionCreatorWithPayload, Middleware, MiddlewareAPI } from "@reduxjs/toolkit";
 import { IFetchFeedResponse } from "../../models/response/feed-response";
-import { wsConnecting } from "../feed/actions";
+import { wsConnecting } from "../feed/actions/actions";
 import { AppDispatch, RootState } from "../store";
 
 type TwsActions = {
@@ -18,8 +18,9 @@ export const socketMiddleware = (wsActions: TwsActions): Middleware<{}, RootStat
     let socket: WebSocket | null = null;
     return next => action => {
       
-      const { dispatch, getState } = store;
-      const { type, payload } = action;
+      const { dispatch } = store;
+      
+      const { payload } = action;
       
       const { wsConnect, wsDisconnect, wsSendMessage, 
         onOpen, onClose, onError, onMessage } = wsActions;

@@ -1,7 +1,7 @@
 import { createReducer } from "@reduxjs/toolkit";
-import { IFeedDetail } from "../../models/IFeed";
-import { WebSocketStatus } from "../types/ws-types";
-import { viewDetailOrder, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "./actions";
+import { IFeedDetail } from "../../../models/IFeed";
+import { WebSocketStatus } from "../../types/ws-types";
+import { viewDetailOrder, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "../actions/actions";
 
 
 type FeedState = {

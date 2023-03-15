@@ -1,6 +1,6 @@
 import { createAction } from "@reduxjs/toolkit";
-import { IFeedDetail } from "../../models/IFeed";
-import { IFetchFeedResponse } from "../../models/response/feed-response";
+import { IFeedDetail } from "../../../models/IFeed";
+import { IFetchFeedResponse } from "../../../models/response/feed-response";
 
 export const connect = createAction<string, 'CONNECT'>('CONNECT');
 export const disconnect = createAction('DISCONNECT');

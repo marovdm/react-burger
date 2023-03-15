@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import FeedBoard from '../../components/feed/feed-board/feed-board';
 import FeedList from '../../components/feed/feed-list/feed-list';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { connect, disconnect } from '../../services/feed/actions';
+import { connect, disconnect } from '../../services/feed/actions/actions';
 import { WS } from '../../utils/consts';
 
 import styles from '../../components/feed/feed.module.scss';

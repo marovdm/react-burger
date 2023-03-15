@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import FeedDetail from '../../components/feed/feed-detail/feed-detail';
 import Preloader from '../../components/preloader/preloader';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { fetchBurgersData } from '../../services/burger/reducers/action-creators';
+import { fetchBurgersData } from '../../services/burger/actions/action-creators';
 import styles from './feed-detail-container.module.scss'
 
 const FeedDetailContainer = () => {

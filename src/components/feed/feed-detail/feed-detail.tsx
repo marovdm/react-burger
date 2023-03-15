@@ -5,7 +5,7 @@ import { useParams } from 'react-router-dom';
 import { CurrencyIcon, FormattedDate } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
-import { getOrderInfo } from '../../../services/orders/action-creators';
+import { getOrderInfo } from '../../../services/orders/actions/action-creators';
 import { IIngredient } from '../../../models/IIngredient';
 
 import classNames from 'classnames';

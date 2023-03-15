@@ -2,7 +2,7 @@ import { FormEvent, useRef, useState } from 'react';
 import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-developer-burger-ui-components';
 
 import Profile from '../../utils/api/profile';
-import { setCredentials, setLoading } from '../../services/user/user-slice';
+import { setCredentials, setLoading } from '../../services/user/reducers/user-slice';
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 
 export default function ProfileForm() {

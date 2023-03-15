@@ -2,7 +2,7 @@ import { FC, ReactNode, useEffect, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 import Preloader from '../../components/preloader/preloader';
-import { resetError } from '../../services/user/user-slice';
+import { resetError } from '../../services/user/reducers/user-slice';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
 import styles from './form-constructor.module.scss';

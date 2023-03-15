@@ -1,6 +1,6 @@
 import React from 'react'
 import { useAppSelector } from '../../../hooks/redux-hooks';
-import { doneOrdersSelector, inWorksOrdersSelector } from '../../../services/feed/selectors';
+import { doneOrdersSelector, inWorksOrdersSelector } from '../../../services/feed/selectors/selectors';
 import styles from '../feed.module.scss';
 
 const FeedBoard = () => {

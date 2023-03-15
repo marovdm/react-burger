@@ -3,7 +3,7 @@ import { Button, EmailInput, Input, PasswordInput } from '@ya.praktikum/react-de
 
 import FormConstructor from '../form-constructor/form-constructor';
 
-import { userRegister } from '../../services/user/action-creators';
+import { userRegister } from '../../services/user/actions/action-creators';
 import { useAppDispatch } from '../../hooks/redux-hooks';
 
 const footerLinks = [

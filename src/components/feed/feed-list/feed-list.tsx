@@ -1,7 +1,7 @@
 import { useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { IFeedDetail } from '../../../models/IFeed';
-import { fetchBurgersData } from '../../../services/burger/reducers/action-creators';
+import { fetchBurgersData } from '../../../services/burger/actions/action-creators';
 import FeedItem from '../feed-item/feed-item';
 
 type TFeedListPros = {

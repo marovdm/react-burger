@@ -1,9 +1,9 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
-import { IOrder } from "../../models/IOrder";
-import { IGetOrderInfoResponse } from "../../models/response/order-response";
-import Order from "../../utils/api/order";
-import { setDefaultValues } from "../burger/reducers/burger-data-slice";
-import { viewDetailOrder } from "../feed/actions";
+import { IOrder } from "../../../models/IOrder";
+import { IGetOrderInfoResponse } from "../../../models/response/order-response";
+import Order from "../../../utils/api/order";
+import { setDefaultValues } from "../../burger/reducers/burger-data-slice";
+import { viewDetailOrder } from "../../feed/actions/actions";
 
  
 export const createOrderQuery = createAsyncThunk<IOrder, string[], {rejectValue: string}>

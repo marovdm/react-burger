@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { createOrderQuery, getOrderInfo } from './action-creators';
+import { createOrderQuery, getOrderInfo } from '../actions/action-creators';
 
-import { IOrder } from "../../models/IOrder";
+import { IOrder } from "../../../models/IOrder";
 
 type OrderState = {
   orderData: IOrder | null

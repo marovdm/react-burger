@@ -1,10 +1,10 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import burgersReducer from './burger/reducers/burger-data-slice';
-import orderReducer from "./orders/order-slice";
-import userReducer from "./user/user-slice";
-import { feedReducer } from "./feed/feed-reducer";
+import orderReducer from "./orders/reducers/order-slice";
+import userReducer from "./user/reducers/user-slice";
+import { feedReducer } from "./feed/reducers/feed-reducer";
 import { socketMiddleware } from './middleware/socket-middleware';
-import { connect, disconnect, wsClose, wsError, wsMessage, wsOpen } from "./feed/actions";
+import { connect, disconnect, wsClose, wsError, wsMessage, wsOpen } from "./feed/actions/actions";
 
 const rootReducer = combineReducers({
   burgers: burgersReducer,
