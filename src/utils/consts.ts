@@ -15,7 +15,10 @@ export const USER = {
 
 export const BURGER = {
   FETCH_DATA: '/ingredients/',
-  CREATE_ORDER: '/orders'
+}
+
+export const ORDER = {
+  BASE_URL_ORDER: '/orders',
 }
 
 export const URLS = {

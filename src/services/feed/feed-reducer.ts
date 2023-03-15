@@ -1,13 +1,14 @@
 import { createReducer } from "@reduxjs/toolkit";
 import { IFeedDetail } from "../../models/IFeed";
 import { WebSocketStatus } from "../types/ws-types";
-import { wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "./actions";
+import { viewDetailOrder, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "./actions";
 
 
 type FeedState = {
   status: WebSocketStatus;
   connectionError: string,
   orders: IFeedDetail[];
+  viewedOrder: IFeedDetail | null,
   total: number;
   totalToday: number;
 }
@@ -18,6 +19,7 @@ const initialState: FeedState = {
   orders: [],
   total: 0,
   totalToday: 0,
+  viewedOrder: null
 }
 
 export const feedReducer = createReducer(initialState, builder => {
@@ -41,4 +43,8 @@ export const feedReducer = createReducer(initialState, builder => {
       state.total = action.payload.total;
       state.totalToday = action.payload.totalToday;
     })
+    .addCase(viewDetailOrder, (state, action) => {
+      state.viewedOrder = action.payload;
+    })
 })
+

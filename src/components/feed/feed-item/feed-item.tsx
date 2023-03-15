@@ -5,16 +5,37 @@ import { IIngredient } from '../../../models/IIngredient';
 
 import styles from '../feed.module.scss';
 import FeedIngredient from './feed-ingredient';
-import { Link } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
+import classNames from 'classnames';
+import cnBind from 'classnames/bind';
+import { useAppDispatch } from '../../../hooks/redux-hooks';
+import { viewDetailOrder } from '../../../services/feed/actions';
 
 type TFeedItem = {
   item: IFeedDetail,
-  burgersData: IIngredient[]
+  burgersData: IIngredient[],
+  withStatus?: boolean
+};
+
+const statusTranslate = {
+  done: 'Выполнен',
+  created: 'Создан',
+  pending: 'Готовится'
 }
 
-const FeedItem: FC<TFeedItem> = ({item, burgersData}) => {
-  const maxIngredientsViewed = 6;
+const cx = cnBind.bind(styles);
 
+const FeedItem: FC<TFeedItem> = ({item, burgersData, withStatus}) => {
+  const dispatch = useAppDispatch();
+  const location = useLocation();
+  const navigate = useNavigate();
+  
+  const maxIngredientsViewed = 6;
+  const classes = classNames(
+    cx('text_type_main-default mt-2',{
+      'text_color_success': item.status === 'done',
+    })
+  );
   const usedIngredients = useMemo(() => {
     // ингредиенты в заказе
     const ingredientsInOrder = item.ingredients;
@@ -27,19 +48,34 @@ const FeedItem: FC<TFeedItem> = ({item, burgersData}) => {
     return usedIngredients.reduce((acc, el) => acc + (el.type==='bun' ? el.price * 2 : el.price), 0)
   }, [usedIngredients]);
 
+  // видимые ингредиенты в заказе
   const previewIngredients = useMemo(() => {
     return usedIngredients.slice(0, maxIngredientsViewed)
-  }, [])
+  }, [usedIngredients]);
+
+  // для открытия модалки
+  const handleViewDetailOrder = () => {
+    dispatch(viewDetailOrder(item));
+    console.log('location', location)
+    navigate(`${location.pathname}/${item.number}`, {state: { background: {...location, type: 'feed'}} })
+  }
 
   return (
-    <Link to={`/feed/${item.number}`} className={`${styles.feed_item} p-6`}>
+    <div className={`${styles.feed_item} p-6`} onClick={()=> handleViewDetailOrder()}>
       <div className={`${styles.feed_row} text_type_main-default mb-6`}>
         <span>#{item.number}</span>
         <FormattedDate className='text_color_inactive' date={new Date(item.createdAt)} />
       </div>
-      <h5 className='text text_type_main-medium mb-6'>
-        {item.name}
-      </h5>
+      <div className='mb-6'>
+        <h5 className='text text_type_main-medium'>
+          {item.name}
+        </h5>
+        {
+          !!withStatus && <p className={classes}>
+            {statusTranslate[item.status]}
+          </p>
+        }
+      </div>
       <div className={styles.feed_row}>
         <ul className={styles.feed_item__ingredients}>
           {
@@ -67,7 +103,7 @@ const FeedItem: FC<TFeedItem> = ({item, burgersData}) => {
           <CurrencyIcon type="primary" />
         </div>
       </div>
-    </Link>
+    </div>
   )
 }
 

@@ -9,7 +9,7 @@ const FeedBoard = () => {
   const inWorksOrders = useAppSelector(inWorksOrdersSelector);
 
   return (
-    <section className={styles.feed_section}>
+    <>
       <div className='row mb-15'>
         <div className={styles.feed_status}>
           <h5 className={`${styles.feed_status__title} text text_type_main-medium mb-6`}>
@@ -52,7 +52,7 @@ const FeedBoard = () => {
         </h5>
         <p className={`${styles.feed_count} text text_type_digits-large`}>{totalToday}</p>
       </>
-    </section>
+    </>
   )
 }
 

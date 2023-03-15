@@ -32,7 +32,7 @@ const BurgerIngredient: FC<BurgerIngredientProps> = ({ingredient}) => {
   // Текущий просматриваемый ингредиент
   const handleViewIngredientDetail = () => {
     dispatch(viewIngredient(ingredient));
-    navigate(`/ingredients/${ingredient._id}`, {state: { background: location}})
+    navigate(`/ingredients/${ingredient._id}`, {state: {background: {...location, type: 'ingredient'}} })
   }
   // Подсчет кол-ва ингредиентов для булок
   useEffect(() => {

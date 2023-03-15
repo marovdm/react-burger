@@ -1,11 +1,10 @@
-import React from 'react';
-import FeedDetail from '../components/feed/feed-detail/feed-detail';
+import FeedDetailContainer from '../modules/feed-detail/feed-detail-container';
 import PageConstructor from './page-constructor';
 
 const FeedDetailPage = () => {
   return (
     <PageConstructor>
-      <FeedDetail />
+      <FeedDetailContainer />
     </PageConstructor>
   )
 }

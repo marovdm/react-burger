@@ -13,6 +13,7 @@ import IngredientDetails from '../ingredient-details/ingredient-details';
 import { URLS } from '../../utils/consts';
 import FeedPage from '../../pages/feed-page';
 import FeedDetailPage from '../../pages/feed-detail-page';
+import FeedDetail from '../feed/feed-detail/feed-detail';
 
 function App() {
   const location = useLocation();
@@ -34,7 +35,7 @@ function App() {
         <Route path={URLS.PROFILE_ORDERS} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
         <Route path={URLS.PROFILE_ORDERS_ID} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
       </Routes>
-      { background && (
+      { background && background.type === 'ingredient' && (
         <Routes>
           <Route 
             path="/ingredients/:id" 
@@ -49,6 +50,23 @@ function App() {
             }
           />
         </Routes>
+      )}
+      { 
+        background && 
+        (background.type === 'feed' || background.type === 'profile') && (
+          <Routes>
+            <Route 
+              path={`${background.pathname}/:id`} 
+              element={
+                <Modal
+                  className="pt-10 pb-15"
+                  onClose={() => navigate(background.pathname)}
+                >
+                  <FeedDetail />
+                </Modal>
+              }
+            />
+          </Routes>
       )}
     </>
   );

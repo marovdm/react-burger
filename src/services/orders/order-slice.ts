@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit'
-import { createOrderQuery } from './action-creators';
+import { createOrderQuery, getOrderInfo } from './action-creators';
 
 import { IOrder } from "../../models/IOrder";
 
@@ -43,6 +43,19 @@ export const OrderDataSlice = createSlice({
         state.error = action.payload
       }
       state.isOpenedOrderModal = true;
+    })
+    builder.addCase(getOrderInfo.pending, (state) => {
+      state.isLoading = true;
+    })
+    builder.addCase(getOrderInfo.fulfilled, (state) => {
+      state.isLoading = false;
+      state.error = '';
+    })
+    builder.addCase(getOrderInfo.rejected, (state, action) => {
+      state.isLoading = false;
+      if (action.payload) {
+        state.error = action.payload
+      }
     })
   }
 })

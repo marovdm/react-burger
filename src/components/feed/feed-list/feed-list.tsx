@@ -1,28 +1,38 @@
-import React, { useEffect } from 'react'
+import { useEffect, useMemo } from 'react'
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
 import { IFeedDetail } from '../../../models/IFeed';
 import { fetchBurgersData } from '../../../services/burger/reducers/action-creators';
 import FeedItem from '../feed-item/feed-item';
-import styles from '../feed.module.scss';
 
-const FeedList = () => {
+type TFeedListPros = {
+  page?: 'profile' | 'feed'
+}
+
+const FeedList = ({page}: TFeedListPros) => {
   const { orders } = useAppSelector(state => state.feed);
   const { burgersData } = useAppSelector(state => state.burgers);
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    if (burgersData.length) return;
-    dispatch(fetchBurgersData());
-  }, [burgersData, dispatch])
+    if (!burgersData.length) dispatch(fetchBurgersData());
+  }, [burgersData, dispatch]);
+
+  //Для страницы профиля приходит сортировка обратном порядке
+  const orderSort= useMemo(() => {
+    if (page !== 'profile') return orders;
+    return[...orders].reverse();
+  }, [orders, page])
 
   return (
-    <section className={`${styles.feed_section} ${styles.feed_section__left} pr-2 custom-scroll`}>
+    <>
       {
-        !!orders.length && orders.map((item: IFeedDetail) => 
-          <FeedItem item={item} burgersData={burgersData} key={item._id} />
+        !!orderSort.length && orderSort.map((item: IFeedDetail) => {
+          return (
+            <FeedItem item={item} burgersData={burgersData} key={item._id} withStatus={page === 'profile'} />
+          )}
         )
       }
-    </section>
+    </>
   )
 }
 

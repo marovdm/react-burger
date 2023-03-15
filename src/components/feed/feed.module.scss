@@ -21,6 +21,7 @@
     background-color: var(--background);
     border-radius: var(--common-border-radius-s);
     display: block;
+    cursor: pointer;
     & + & {
       margin-top: 16px;
     }
@@ -57,8 +58,8 @@
   }
 
   &_detail {
-    margin: 10vh auto 0;
-    width: 640px;
+    margin: 0 auto;
+    text-align: left;
     &__title {
       text-align: center;
     }

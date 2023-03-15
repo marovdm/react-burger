@@ -37,6 +37,13 @@ export default function ProfileConstructor() {
 
   }, [matchProfile, matchProfileOrders, matchOrder]);
 
+  const footerText = useMemo(() => {
+    return (
+      matchProfile ? 'В этом разделе вы можете изменить свои персональные данные' :
+      matchProfileOrders ? 'В этом разделе вы можете просмотреть свою историю заказов' : null
+    )
+  }, [matchProfile, matchProfileOrders])
+
   const handleLogout = async () => {
     dispatch(userLogout());
   }
@@ -52,11 +59,10 @@ export default function ProfileConstructor() {
               <NavLink className={({isActive}) => isActive ? activeLink : link} to="/profile/orders" end>История заказов</NavLink>
               <p className={link} onClick={handleLogout}>Выход</p>
               <p className="text text_type_main-default text_color_inactive mt-20">
-                В этом разделе вы можете
-                изменить свои персональные данные
+                {footerText}
               </p>
             </aside>
-            <section>
+            <section className={styles.profile_section}>
               {content}
             </section>
           </main>
