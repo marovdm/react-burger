@@ -12,6 +12,7 @@ import classNames from 'classnames';
 import cnBind from 'classnames/bind';
 
 import styles from '../feed.module.scss';
+import { calculatePrice } from '../../../utils/helpers/calculate-price';
 
 const cx = cnBind.bind(styles);
 
@@ -19,10 +20,18 @@ const statusTranslate = {
   done: 'Выполнен',
   created: 'Создан',
   pending: 'Готовится'
+};
+
+type TForReduce = {
+  [key: string]: number
+}
+
+interface IIngredientInOrder extends IIngredient {
+  countInOrder: number
 }
 
 const FeedDetail = () => {
-  const [ingredientsInOrder, setIngredientsInOrder] = useState<IIngredient[]>([])
+  const [ingredientsInOrder, setIngredientsInOrder] = useState<IIngredientInOrder[]>([])
   const { burgersData } = useAppSelector(state => state.burgers);
   const { viewedOrder } = useAppSelector(state => state.feed);
   const { id } = useParams();
@@ -38,15 +47,27 @@ const FeedDetail = () => {
     if (!viewedOrder && id) dispatch(getOrderInfo(id));
     
     if (burgersData.length && viewedOrder) {
-      const filtered = burgersData.filter((ingredient) => viewedOrder.ingredients.includes(ingredient._id));
+      const countIngredients = viewedOrder.ingredients.reduce((acc, el) => {
+        acc[el] = (acc[el] || 0) + 1;
+        return acc;
+      }, {} as TForReduce);
+
+      const filtered = burgersData
+        .filter((ingredient) => viewedOrder.ingredients.includes(ingredient._id))
+        .map((ingredient) => { return { ...ingredient, countInOrder: countIngredients[ingredient._id] } });
+
       setIngredientsInOrder(filtered);
     }
   }, [burgersData, dispatch, id, viewedOrder]);
 
     // Вычисление стоимости заказа
-    const calculatePrice = useCallback(() => {
-      return ingredientsInOrder.reduce((acc, el) => acc + (el.type==='bun' ? el.price * 2 : el.price), 0)
-    }, [ingredientsInOrder]);
+    const orderPrice = useCallback(() => {
+      if (!viewedOrder) return;
+      const filteredToPrice = viewedOrder.ingredients.map(item => {
+        return burgersData.find(el => el._id === item)
+      }) as IIngredient[];
+      return calculatePrice(filteredToPrice);
+    }, [burgersData, viewedOrder]);
 
   return (
     <>
@@ -66,7 +87,7 @@ const FeedDetail = () => {
           <ul className={`${styles.feed_detail__list} custom-scroll mb-10`}>
             {
               !!ingredientsInOrder.length && ingredientsInOrder.map((item) => {
-                let count = item.type === 'bun' ? 2 : 1
+                let count = item.type === 'bun' ? 2 : item.countInOrder
                 return (
                   <li className={styles.feed_detail__item} key={item._id}>
                     <span className={styles.feed_detail__preview}>
@@ -85,7 +106,7 @@ const FeedDetail = () => {
           <div className={styles.feed_row}>
             <FormattedDate className='text text_type_main-default text_color_inactive' date={new Date(viewedOrder.createdAt)} />
             <span className={`${styles.feed_detail__price} text text_type_digits-default`}>
-              <span>{calculatePrice()}</span>
+              <span>{orderPrice()}</span>
               <CurrencyIcon type="primary" />
             </span>
           </div>

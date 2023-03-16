@@ -10,6 +10,7 @@ import classNames from 'classnames';
 import cnBind from 'classnames/bind';
 import { useAppDispatch } from '../../../hooks/redux-hooks';
 import { viewDetailOrder } from '../../../services/feed/actions/actions';
+import { calculatePrice } from '../../../utils/helpers/calculate-price';
 
 type TFeedItem = {
   item: IFeedDetail,
@@ -39,14 +40,17 @@ const FeedItem: FC<TFeedItem> = ({item, burgersData, withStatus}) => {
   const usedIngredients = useMemo(() => {
     // ингредиенты в заказе
     const ingredientsInOrder = item.ingredients;
-    // отфильтрованные данные
+    // отфильтрованные данные (без учета повторяющихся!)
     return burgersData.filter(ingredient => ingredientsInOrder.includes(ingredient._id))
   }, [burgersData, item.ingredients]);
 
   // Вычисление стоимости заказа
-  const calculatePrice = useCallback(() => {
-    return usedIngredients.reduce((acc, el) => acc + (el.type==='bun' ? el.price * 2 : el.price), 0)
-  }, [usedIngredients]);
+  const orderPrice = useCallback(() => {
+    const filteredToPrice = item.ingredients.map(item => {
+      return burgersData.find(el => el._id === item)
+    }) as IIngredient[];
+    return calculatePrice(filteredToPrice);
+  }, [burgersData, item.ingredients]);
 
   // видимые ингредиенты в заказе
   const previewIngredients = useMemo(() => {
@@ -56,7 +60,6 @@ const FeedItem: FC<TFeedItem> = ({item, burgersData, withStatus}) => {
   // для открытия модалки
   const handleViewDetailOrder = () => {
     dispatch(viewDetailOrder(item));
-    console.log('location', location)
     navigate(`${location.pathname}/${item.number}`, {state: { background: {...location, type: 'feed'}} })
   }
 
@@ -99,7 +102,7 @@ const FeedItem: FC<TFeedItem> = ({item, burgersData, withStatus}) => {
           }
         </ul>
         <div className={`${styles.feed_item__price} text text_type_digits-default`}>
-          <>{calculatePrice()}</>
+          <>{orderPrice()}</>
           <CurrencyIcon type="primary" />
         </div>
       </div>
