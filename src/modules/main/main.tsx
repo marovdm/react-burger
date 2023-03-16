@@ -1,12 +1,8 @@
-import { ReactNode, useEffect } from 'react'
+import { ReactNode } from 'react'
 import { DndProvider } from 'react-dnd';
 import { HTML5Backend } from 'react-dnd-html5-backend';
-import { fetchBurgersData } from '../../services/burger/actions/action-creators';
-
-// import BurgerConstructor from '../../components/burger-constructor/burger-constructor';
-// import BurgerIngredients from '../../components/burger-ingredients/burger-ingredients';
 import Preloader from '../../components/preloader/preloader';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
+import { useAppSelector } from '../../hooks/redux-hooks';
 
 type MainComponentProp = {
   children: ReactNode
@@ -14,11 +10,7 @@ type MainComponentProp = {
 
 export default function Main({children}: MainComponentProp) {
   const {burgersData, isLoading, hasError, error} = useAppSelector(state => state.burgers)
-  const dispatch = useAppDispatch();
 
-  useEffect(() => {
-    dispatch(fetchBurgersData())
-  }, [dispatch]);
 
   if (isLoading) {
     return <Preloader />

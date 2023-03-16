@@ -11,13 +11,12 @@ export default function ProfileOrders() {
   const dispatch = useAppDispatch();
 
   useEffect(() => {
-    const accessToken = localStorage.getItem('accessToken')
-    const url = `${WS.WS_USER_ORDERS}?token=${accessToken}` 
-    dispatch(connect(url))
+    const accessToken = localStorage.getItem('accessToken');
+    const url = `${WS.WS_USER_ORDERS}?token=${accessToken}`;
+    dispatch(connect(url));
 
-    return () => {
-      console.log('destroy');      
-      dispatch(disconnect())
+    return () => {   
+      dispatch(disconnect());
     }
   }, [dispatch]);
 

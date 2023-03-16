@@ -79,7 +79,7 @@ const FeedItem: FC<TFeedItem> = ({item, burgersData, withStatus}) => {
       <div className={styles.feed_row}>
         <ul className={styles.feed_item__ingredients}>
           {
-            !!previewIngredients.length && previewIngredients.map((item: IIngredient, idx) => {
+            !!previewIngredients.length && previewIngredients.map((item, idx) => {
               let diff = usedIngredients.length - previewIngredients.length
               return (
                 <FeedIngredient 

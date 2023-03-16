@@ -1,17 +1,10 @@
-import { useEffect } from 'react';
 import FeedDetail from '../../components/feed/feed-detail/feed-detail';
 import Preloader from '../../components/preloader/preloader';
-import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { fetchBurgersData } from '../../services/burger/actions/action-creators';
+import { useAppSelector } from '../../hooks/redux-hooks';
 import styles from './feed-detail-container.module.scss'
 
 const FeedDetailContainer = () => {
-  const { burgersData, isLoading, hasError, error } = useAppSelector(state => state.burgers);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => { 
-    if (!burgersData.length) dispatch(fetchBurgersData());
-  }, [burgersData.length, dispatch]);
+  const { isLoading, hasError, error } = useAppSelector(state => state.burgers);
 
   if (isLoading) {
     return <Preloader />

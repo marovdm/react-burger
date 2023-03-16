@@ -6,7 +6,6 @@ import IngredientDetails from "../../components/ingredient-details/ingredient-de
 import Preloader from '../../components/preloader/preloader';
 
 import { useAppDispatch, useAppSelector } from '../../hooks/redux-hooks';
-import { fetchBurgersData } from '../../services/burger/actions/action-creators';
 import { viewIngredient } from '../../services/burger/reducers/burger-data-slice';
 
 import styles from "./ingredient.module.scss";
@@ -19,7 +18,6 @@ export default function Ingredient() {
 
   useEffect(() => {
     if(viewedIngredient) return;
-    dispatch(fetchBurgersData());
     if (burgersData.length) {
       const ingredient = burgersData.find(el => el._id === id);
       if (ingredient) {

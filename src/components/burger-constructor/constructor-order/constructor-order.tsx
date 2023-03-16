@@ -8,7 +8,6 @@ import { allAddedSelector, totalPriceSelector, orderSelector } from '../../../se
 import { useNavigate } from 'react-router-dom';
 import { URLS } from '../../../utils/consts';
 import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
-import { IIngredient } from '../../../models/IIngredient';
 
 export default function ConstructorOrder() {
   const dispatch = useAppDispatch();
@@ -28,10 +27,10 @@ export default function ConstructorOrder() {
     // по нажатию на кнопку оформить заказ
     // проверяем авторизован ли пользователь
     if (!isAuth) {
-      navigate(URLS.MAIN, { state: { from: { pathname: '/' }} });
+      navigate(URLS.LOGIN, { state: { from: { pathname: '/' }} });
       return;
     }
-    const ids = allAddedIngredients.map((element: IIngredient) => element?._id);
+    const ids = allAddedIngredients.map((element) => element?._id);
     dispatch(createOrderQuery(ids));
   }
 

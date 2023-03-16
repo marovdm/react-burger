@@ -1,7 +1,5 @@
-import { useEffect, useMemo } from 'react'
-import { useAppDispatch, useAppSelector } from '../../../hooks/redux-hooks';
-import { IFeedDetail } from '../../../models/IFeed';
-import { fetchBurgersData } from '../../../services/burger/actions/action-creators';
+import { useMemo } from 'react'
+import { useAppSelector } from '../../../hooks/redux-hooks';
 import FeedItem from '../feed-item/feed-item';
 
 type TFeedListPros = {
@@ -11,11 +9,6 @@ type TFeedListPros = {
 const FeedList = ({page}: TFeedListPros) => {
   const { orders } = useAppSelector(state => state.feed);
   const { burgersData } = useAppSelector(state => state.burgers);
-  const dispatch = useAppDispatch();
-
-  useEffect(() => {
-    if (!burgersData.length) dispatch(fetchBurgersData());
-  }, [burgersData, dispatch]);
 
   //Для страницы профиля приходит сортировка обратном порядке
   const orderSort= useMemo(() => {
@@ -26,7 +19,7 @@ const FeedList = ({page}: TFeedListPros) => {
   return (
     <>
       {
-        !!orderSort.length && orderSort.map((item: IFeedDetail) => {
+        !!orderSort.length && orderSort.map((item) => {
           return (
             <FeedItem item={item} burgersData={burgersData} key={item._id} withStatus={page === 'profile'} />
           )}

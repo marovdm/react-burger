@@ -53,7 +53,7 @@ const FeedDetail = () => {
     {
       viewedOrder && (
         <div className={styles.feed_detail}>
-          <p className={`${styles.feed_detail__title} text text_type_digits-default mb-10`}>#034533</p>
+          <p className={`${styles.feed_detail__title} text text_type_digits-default mb-10`}>{viewedOrder.number}</p>
           <h5 className='text text_type_main-medium mb-6'>
             {viewedOrder.name}
           </h5>
@@ -65,7 +65,7 @@ const FeedDetail = () => {
           </h5>
           <ul className={`${styles.feed_detail__list} custom-scroll mb-10`}>
             {
-              !!ingredientsInOrder.length && ingredientsInOrder.map((item: IIngredient) => {
+              !!ingredientsInOrder.length && ingredientsInOrder.map((item) => {
                 let count = item.type === 'bun' ? 2 : 1
                 return (
                   <li className={styles.feed_detail__item} key={item._id}>

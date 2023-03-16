@@ -7,7 +7,6 @@ import BurgerChapter from './burger-chapter/burger-chapter';
 
 import styles from './burger-ingredients.module.scss'
 import { useAppSelector } from '../../hooks/redux-hooks';
-import { IIngredient } from '../../models/IIngredient';
 
 
 export default function BurgerIngredients() {
@@ -27,9 +26,9 @@ export default function BurgerIngredients() {
   const {burgersData} = useAppSelector(state => state.burgers);
 
 
-  const buns = useMemo(() => burgersData.filter((ingredient: IIngredient) => ingredient.type === 'bun'), [burgersData]);
-  const mains = useMemo(() => burgersData.filter((ingredient: IIngredient)  => ingredient.type === 'main'), [burgersData]);
-  const sauces = useMemo(() => burgersData.filter((ingredient: IIngredient)  => ingredient.type === 'sauce'), [burgersData]);
+  const buns = useMemo(() => burgersData.filter((ingredient) => ingredient.type === 'bun'), [burgersData]);
+  const mains = useMemo(() => burgersData.filter((ingredient)  => ingredient.type === 'main'), [burgersData]);
+  const sauces = useMemo(() => burgersData.filter((ingredient)  => ingredient.type === 'sauce'), [burgersData]);
 
   const onTabClick = (tab: string) => {
     setCurrentTab(tab);
