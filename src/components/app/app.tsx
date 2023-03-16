@@ -6,7 +6,6 @@ import ProfilePage from '../../pages/profile-page';
 import RegisterPage from '../../pages/register-page';
 import ResetPassswordPage from '../../pages/reset-password-page';
 import ProtectedRouteElement  from '../../hocs/protected-route-element';
-import UnAuthRouteElement from '../../hocs/unauth-route-element'; 
 import IngredientPage from '../../pages/ingredient-page';
 import Modal from '../modal/modal';
 import IngredientDetails from '../ingredient-details/ingredient-details';
@@ -27,10 +26,10 @@ function App() {
         <Route path={URLS.INGREDIENTS_ID} element={ <IngredientPage />} />
         <Route path={URLS.FEED} element={<FeedPage />} />
         <Route path={URLS.FEED_DETAIL} element={<FeedDetailPage />} />
-        <Route path={URLS.LOGIN} element={<UnAuthRouteElement element={<LoginPage />}/> } />
-        <Route path={URLS.REGISTER} element={<UnAuthRouteElement element={<RegisterPage />}/> } />
-        <Route path={URLS.FORGOT_PASSWORD} element={<UnAuthRouteElement element={<ForgotPassswordPage />}/> } />
-        <Route path={URLS.RESET_PASSWORD} element={<UnAuthRouteElement element={<ResetPassswordPage />}/> } />
+        <Route path={URLS.LOGIN} element={<ProtectedRouteElement anonymous element={<LoginPage />} /> } />
+        <Route path={URLS.REGISTER} element={<ProtectedRouteElement anonymous element={<RegisterPage />}/> } />
+        <Route path={URLS.FORGOT_PASSWORD} element={<ProtectedRouteElement anonymous element={<ForgotPassswordPage />}/> } />
+        <Route path={URLS.RESET_PASSWORD} element={<ProtectedRouteElement anonymous element={<ResetPassswordPage />}/> } />
         <Route path={URLS.PROFILE} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
         <Route path={URLS.PROFILE_ORDERS} element={ <ProtectedRouteElement element={ <ProfilePage /> } /> } />
         <Route path={URLS.PROFILE_ORDERS_ID} element={ <ProtectedRouteElement element={ <FeedDetailPage /> } /> } />
