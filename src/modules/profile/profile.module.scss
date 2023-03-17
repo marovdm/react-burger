@@ -12,8 +12,13 @@
     max-width: 320px;
   }
 
-  &_form {
-    text-align: center;
+  &_section {
+    flex-grow: 1;
+  }
+
+  &_orders {
+    max-height: calc(100vh - 170px);
+    overflow-y: scroll;
   }
 }
 

@@ -22,7 +22,7 @@ export default function BurgerConstructor() {
     dispatch(selectIngredient(ingredient));
   }; 
 
-  const [{ isHover }, dropTarget] = useDrop({
+  const [, dropTarget] = useDrop({
     accept: 'ingredient',
     drop(item: dropItem) { 
       onDropIngredient(item) 
@@ -60,7 +60,7 @@ export default function BurgerConstructor() {
         }
         <ul className={`${styles.content} custom-scroll`}>
           {
-            selectedIngredients.length ? selectedIngredients.map((ingredient: IIngredient, idx) =>
+            selectedIngredients.length ? selectedIngredients.map((ingredient, idx) =>
               <SelectedElement 
                 ingredient={ingredient}
                 index={idx}

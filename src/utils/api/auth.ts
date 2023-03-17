@@ -36,9 +36,7 @@ export default class Auth {
     return $api.post(AUTH.RESET_PASSWORD, { ...payload });
   }
 
-  static setTokensCredentials(data: IBaseResponse) {
-    console.log('data', data);
-    
+  static setTokensCredentials(data: IBaseResponse) {    
     const { accessToken, refreshToken } = data;
     const authToken = accessToken.split('Bearer ')[1];
 

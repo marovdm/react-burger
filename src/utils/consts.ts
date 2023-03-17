@@ -15,7 +15,10 @@ export const USER = {
 
 export const BURGER = {
   FETCH_DATA: '/ingredients/',
-  CREATE_ORDER: '/orders'
+}
+
+export const ORDER = {
+  BASE_URL_ORDER: '/orders',
 }
 
 export const URLS = {
@@ -27,5 +30,12 @@ export const URLS = {
   PROFILE_ORDERS: '/profile/orders',
   PROFILE_ORDERS_ID: '/profile/orders/:id',
   FORGOT_PASSWORD: '/forgot-password',
-  INGREDIENTS_ID: '/ingredients/:id'
+  INGREDIENTS_ID: '/ingredients/:id',
+  FEED: '/feed',
+  FEED_DETAIL: '/feed/:id',
+}
+
+export const WS = {
+  WS_USER_ORDERS: 'wss://norma.nomoreparties.space/orders',
+  WS_ALL_ORDERS: 'wss://norma.nomoreparties.space/orders/all',
 }

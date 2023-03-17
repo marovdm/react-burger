@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { v4 as uuidv4 } from 'uuid';
 import { IIngredient } from '../../../models/IIngredient';
 
-import { fetchBurgersData } from './action-creators';
+import { fetchBurgersData } from '../actions/action-creators';
 
 export type BurgersDataState = {
   burgersData: IIngredient [],
