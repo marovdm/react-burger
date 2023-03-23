@@ -3,7 +3,7 @@ import { createOrderQuery, getOrderInfo } from '../actions/action-creators';
 
 import { IOrder } from "../../../models/IOrder";
 
-type OrderState = {
+export type OrderState = {
   orderData: IOrder | null
   isOpenedOrderModal: boolean;
   isLoading: boolean,
