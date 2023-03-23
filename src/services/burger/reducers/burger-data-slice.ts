@@ -59,7 +59,7 @@ export const burgersDataSlice = createSlice({
       }
     },
     // Удаление ингредиента
-    deleteIngredient(state, action) {
+    deleteIngredient(state, action) {      
       state.lastUsedIngredient = state.selectedIngredients[action.payload];
       state.selectedIngredients.splice(action.payload, 1);
     },
