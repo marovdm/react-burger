@@ -4,7 +4,7 @@ import { WebSocketStatus } from "../../types/ws-types";
 import { viewDetailOrder, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "../actions/actions";
 
 
-type FeedState = {
+export type FeedState = {
   status: WebSocketStatus;
   connectionError: string,
   orders: IFeedDetail[];
