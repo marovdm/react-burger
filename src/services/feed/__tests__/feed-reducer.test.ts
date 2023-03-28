@@ -1,5 +1,5 @@
 import { WebSocketStatus } from "../../types/ws-types";
-import { connect, viewDetailOrder, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "../actions/actions";
+import { viewDetailOrder, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "../actions/actions";
 import { FeedState, feedReducer } from "../reducers/feed-reducer";
 
 const state: FeedState = {
