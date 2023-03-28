@@ -1,4 +1,5 @@
 import { IIngredient } from '../../../models/IIngredient';
+import { fetchBurgersData } from '../actions/action-creators';
 import burgerReducer, { 
   BurgersDataState, 
   viewIngredient, 
@@ -67,6 +68,31 @@ describe('burger-data-slice', () => {
     isOpenedIngedientDetail: false
   };
 
+  it('should be "fetchBurgersData.pending" action', () => {
+    const result = burgerReducer(state, fetchBurgersData.pending)
+
+    expect(result.isLoading).toBeTruthy();
+  })
+
+  it('should be "fetchBurgersData.fulfilled" action', () => {
+    const payload = [ingredient, ingredientM, bun];
+    const action = { type: fetchBurgersData.fulfilled.type, payload }
+    const result = burgerReducer(state, action)
+
+    expect(result.isLoading).toBeFalsy();
+    expect(result.hasError).toBeFalsy();
+    expect(result.error).toBe('');
+    expect(result.burgersData).toEqual(payload);
+  })
+
+  it('should be "fetchBurgersData.rejected" action', () => {
+    const action = { type: fetchBurgersData.rejected.type, payload: 'error' }
+    const result = burgerReducer(state, action)
+
+    expect(result.isLoading).toBeFalsy();
+    expect(result.hasError).toBeTruthy();
+    expect(result.error).toBe('error');
+  })
 
   it('should be viewed ingredient', () => {
     const action = { type: viewIngredient.type, payload: ingredient }
