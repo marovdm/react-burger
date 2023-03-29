@@ -14,7 +14,7 @@ const store = setupStore();
 
 root.render(
 <Provider store={store}>
-      <Router>
+      <Router basename='/'>
         <App />
       </Router>
     </Provider>
