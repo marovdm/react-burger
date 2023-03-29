@@ -25,7 +25,7 @@ const Modal: FC<ModalHeaderProps> = ({header, className, children, onClose}) => 
   
   return createPortal(
     <>
-      <div className={`${styles.modal} ${className}`} role="dialog">
+      <div className={`${styles.modal} ${className}`} role="dialog" data-cy='modal'>
         <ModalHeader text={header} onClose={onClose} />
         <div className={styles.content}>
           {children}

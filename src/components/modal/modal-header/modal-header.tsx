@@ -11,8 +11,7 @@ const ModalHeader: FC<ModalHeaderProps> = ({text, onClose}) => {
   return (
     <div className={styles.modalHeader}>
       {text && <p className="text text_type_main-large">{text}</p>}
-      <div onClick={onClose} className={styles.closeModal}>
-      </div>
+      <div onClick={onClose} className={styles.closeModal} data-cy='close-modal' />
     </div>
   )
 }
