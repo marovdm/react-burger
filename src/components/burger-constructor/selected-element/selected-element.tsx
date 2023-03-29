@@ -72,7 +72,7 @@ const SelectedElement = (props: SelectedElementProps) => {
     },
   });
 
-  const [{ isDragging }, drag] = useDrag({
+  const [, drag] = useDrag({
     type: 'selected',
     item: {ingredient },
     collect: (monitor) => ({
