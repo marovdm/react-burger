@@ -38,7 +38,14 @@ export default function ConstructorOrder() {
     <div className={styles.order}>
       <span className='text text_type_digits-medium mr-2'>{totalPriceOrder}</span>
       <CurrencyIcon type="primary" />
-      <Button htmlType="button" type="primary" size="medium" disabled={!totalPriceOrder} onClick={handleConfirmButton}>
+      <Button 
+        htmlType="button" 
+        type="primary" 
+        size="medium" 
+        disabled={!totalPriceOrder} 
+        onClick={handleConfirmButton}
+        data-cy='btn-order'
+      >
           Оформить заказ
       </Button>
       {
