@@ -1,11 +1,13 @@
+import { NORMA_API, ORDER } from '../../src/utils/consts';
+
 describe('app works correctly with routes', function() {
   const login = 'test@test123.ru';
   const password = '12345678';
 
   before(function() {
-    cy.visit('http://localhost:3000');
+    cy.visit('http://localhost:3000/react-burger');
     // перехватываем запрос к серверу
-    cy.intercept('POST', 'https://norma.nomoreparties.space/api/orders', {fixture: 'order-create.json'}).as('createOrder');
+    cy.intercept('POST', `${NORMA_API}/${ORDER.BASE_URL_ORDER}`, {fixture: 'order-create.json'}).as('createOrder');
   });
 
   it('should can create order', function() {
