@@ -4,7 +4,7 @@ export default defineConfig({
   viewportWidth: 1480,
   viewportHeight: 720,
   e2e: {
-    baseUrl: 'http://localhost:3000/react-burger',
+    baseUrl: 'http://localhost:3000/',
     setupNodeEvents(on, config) {
       // implement node event listeners here
     },
