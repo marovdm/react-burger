@@ -1,4 +1,4 @@
-import { NORMA_API, ORDER } from '../../src/utils/consts';
+import { DATA_CY_VARS, NORMA_API, ORDER } from '../../src/utils/consts';
 
 describe('app works correctly with routes', function() {
   const login = 'test@test123.ru';
@@ -13,26 +13,26 @@ describe('app works correctly with routes', function() {
   it('should can open detail info ingredient', function() {
     // заходим на страницу и перетаскиваем элемент
     cy.contains('Соберите бургер');
-    cy.get('[data-cy="ingredients"]')
+    cy.get(DATA_CY_VARS.INGREDIENTS_BLOCK)
       .contains("Краторная булка N-200i")
       .trigger("click")
-    cy.get('[data-cy=modal]')
+    cy.get(DATA_CY_VARS.MODAL)
       .should('exist')
       .contains('Краторная булка N-200i')
-    cy.get('[data-cy="close-modal"]').trigger("click")
-    cy.get('[data-cy=modal]')
+    cy.get(DATA_CY_VARS.CLOSE_MODAL).trigger("click")
+    cy.get(DATA_CY_VARS.MODAL)
       .should('not.exist')
   });
 
   it('should can create order', function() {
     // заходим на страницу и перетаскиваем элемент
     cy.contains('Соберите бургер');
-    cy.get('[data-cy="ingredients"]')
+    cy.get(DATA_CY_VARS.INGREDIENTS_BLOCK)
       .contains("Краторная булка N-200i")
       .trigger("dragstart")
     cy.get("[data-cy=constructor]").trigger("drop");
     // нажимаем оформить заказ
-    cy.get('[data-cy="btn-order"]')
+    cy.get(DATA_CY_VARS.BTN_ORDER)
       .trigger("click")
     // т.к. не авторизованы - логинимся
     cy.get('input[type="email"]')
@@ -41,15 +41,15 @@ describe('app works correctly with routes', function() {
       .type(password)
     cy.get('form')
       .submit()
-    cy.get('[data-cy="btn-order"]')
+    cy.get(DATA_CY_VARS.BTN_ORDER)
       .trigger("click")
 
     cy.wait("@createOrder")
-    cy.get('[data-cy=modal]')
+    cy.get(DATA_CY_VARS.MODAL)
       .should('exist')
     cy.contains('Ваш заказ начали готовить')
-    cy.get('[data-cy="close-modal"]').trigger("click")
-    cy.get('[data-cy=modal]')
+    cy.get(DATA_CY_VARS.CLOSE_MODAL).trigger("click")
+    cy.get(DATA_CY_VARS.MODAL)
       .should('not.exist')
   });
 }); 
