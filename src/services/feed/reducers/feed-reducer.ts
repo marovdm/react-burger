@@ -14,7 +14,7 @@ export type FeedState = {
   isLoading: boolean
 }
 
-const initialState: FeedState = {
+export const initialState: FeedState = {
   status: WebSocketStatus.OFFLINE,
   connectionError: '',
   orders: [],

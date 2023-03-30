@@ -5,7 +5,7 @@ describe('app works correctly with routes', function() {
   const password = '12345678';
 
   beforeEach(function() {
-    cy.visit('http://localhost:3000/');
+    cy.visit('/');
     // перехватываем запрос к серверу
     cy.intercept('POST', `${NORMA_API}/${ORDER.BASE_URL_ORDER}`, {fixture: 'order-create.json'}).as('createOrder');
   });

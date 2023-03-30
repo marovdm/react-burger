@@ -10,7 +10,7 @@ export type UserState = {
   error: string;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   user: {
     email: '',
     name: '',

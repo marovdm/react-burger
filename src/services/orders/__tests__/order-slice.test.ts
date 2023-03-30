@@ -1,15 +1,7 @@
 import { createOrderQuery, getOrderInfo } from '../actions/action-creators';
-import OrderReducer, {OrderState, toggleOpenedOrderModal} from '../reducers/order-slice';
+import OrderReducer, {initialState, toggleOpenedOrderModal} from '../reducers/order-slice';
 
 describe('order-data-slice', () => {
-  const state: OrderState = {
-    orderData: null,
-    isOpenedOrderModal: false,
-    isLoading: false,
-    error: '',
-    hasError: false,
-  }
-
   const order = {
     "ingredients": [
     {
@@ -42,15 +34,15 @@ describe('order-data-slice', () => {
       "price": 1335
   };
 
-  it('should be toggle state order modal', () => {
+  it('should be toggle initialState order modal', () => {
     const action = { type: toggleOpenedOrderModal.type, payload: true }
-    const result = OrderReducer(state, action);
+    const result = OrderReducer(initialState, action);
 
     expect(result.isOpenedOrderModal).toBeTruthy();
   })
 
   it('should be "createOrderQuery.pending" action', () => {
-    const result = OrderReducer(state, createOrderQuery.pending)
+    const result = OrderReducer(initialState, createOrderQuery.pending)
 
     expect(result.isLoading).toBeTruthy();
   })
@@ -58,7 +50,7 @@ describe('order-data-slice', () => {
   it('should be "createOrderQuery.fulfilled" action', () => {
     const payload = order;
     const action = { type: createOrderQuery.fulfilled.type, payload }
-    const result = OrderReducer(state, action)
+    const result = OrderReducer(initialState, action)
 
     expect(result.isLoading).toBeFalsy();
     expect(result.isOpenedOrderModal).toBeTruthy();
@@ -68,7 +60,7 @@ describe('order-data-slice', () => {
 
   it('should be "createOrderQuery.rejected" action', () => {
     const action = { type: createOrderQuery.rejected.type, payload: 'error' }
-    const result = OrderReducer(state, action)
+    const result = OrderReducer(initialState, action)
 
     expect(result.isLoading).toBeFalsy();
     expect(result.isOpenedOrderModal).toBeTruthy();
@@ -76,13 +68,13 @@ describe('order-data-slice', () => {
   })
 
   it('should be "getOrderInfo.pending" action', () => {
-    const result = OrderReducer(state, getOrderInfo.pending)
+    const result = OrderReducer(initialState, getOrderInfo.pending)
 
     expect(result.isLoading).toBeTruthy();
   })
 
   it('should be "getOrderInfo.fulfilled" action', () => {
-    const result = OrderReducer(state, getOrderInfo.fulfilled)
+    const result = OrderReducer(initialState, getOrderInfo.fulfilled)
 
     expect(result.isLoading).toBeFalsy();
     expect(result.error).toBe('');
@@ -90,7 +82,7 @@ describe('order-data-slice', () => {
 
   it('should be "getOrderInfo.rejected" action', () => {
     const action = { type: getOrderInfo.rejected.type, payload: 'error' }
-    const result = OrderReducer(state, action)
+    const result = OrderReducer(initialState, action)
 
     expect(result.isLoading).toBeFalsy();
     expect(result.error).toBe('error');

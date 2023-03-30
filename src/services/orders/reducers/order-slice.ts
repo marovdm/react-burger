@@ -11,7 +11,7 @@ export type OrderState = {
   hasError: boolean;
 }
 
-const initialState: OrderState = {
+export const initialState: OrderState = {
   orderData: null,
   isOpenedOrderModal: false,
   isLoading: false,

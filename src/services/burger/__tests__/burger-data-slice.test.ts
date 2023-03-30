@@ -1,13 +1,13 @@
 import { IIngredient } from '../../../models/IIngredient';
 import { fetchBurgersData } from '../actions/action-creators';
-import burgerReducer, { 
-  BurgersDataState, 
+import burgerReducer, {
   viewIngredient, 
   toggleIngedientDetail,
   setDefaultValues,
   selectIngredient,
   deleteIngredient,
-  sortIngredients
+  sortIngredients,
+  initialState
 } from '../reducers/burger-data-slice';
 
 describe('burger-data-slice', () => {
@@ -56,20 +56,8 @@ describe('burger-data-slice', () => {
     __v: 0
 }
 
-  let state: BurgersDataState = {
-    burgersData: [],
-    isLoading: false,
-    hasError: false,
-    error: '',
-    viewedIngredient: null,
-    selectedIngredients: [],
-    selectedBun: null,
-    lastUsedIngredient: null,
-    isOpenedIngedientDetail: false
-  };
-
   it('should be "fetchBurgersData.pending" action', () => {
-    const result = burgerReducer(state, fetchBurgersData.pending)
+    const result = burgerReducer(initialState, fetchBurgersData.pending)
 
     expect(result.isLoading).toBeTruthy();
   })
@@ -77,7 +65,7 @@ describe('burger-data-slice', () => {
   it('should be "fetchBurgersData.fulfilled" action', () => {
     const payload = [ingredient, ingredientM, bun];
     const action = { type: fetchBurgersData.fulfilled.type, payload }
-    const result = burgerReducer(state, action)
+    const result = burgerReducer(initialState, action)
 
     expect(result.isLoading).toBeFalsy();
     expect(result.hasError).toBeFalsy();
@@ -87,7 +75,7 @@ describe('burger-data-slice', () => {
 
   it('should be "fetchBurgersData.rejected" action', () => {
     const action = { type: fetchBurgersData.rejected.type, payload: 'error' }
-    const result = burgerReducer(state, action)
+    const result = burgerReducer(initialState, action)
 
     expect(result.isLoading).toBeFalsy();
     expect(result.hasError).toBeTruthy();
@@ -96,21 +84,21 @@ describe('burger-data-slice', () => {
 
   it('should be viewed ingredient', () => {
     const action = { type: viewIngredient.type, payload: ingredient }
-    const result = burgerReducer(state, action);
+    const result = burgerReducer(initialState, action);
 
     expect(result.viewedIngredient?._id).toEqual(ingredient._id);
   })
 
   it('should be toggle value flag', () => {
     const action = { type: toggleIngedientDetail.type, payload: true }
-    const result = burgerReducer(state, action);
+    const result = burgerReducer(initialState, action);
 
     expect(result.isOpenedIngedientDetail).toBeTruthy();
   })
 
   it('should be set default values', () => {
     const action = { type: setDefaultValues.type }    
-    const result = burgerReducer(state, action);
+    const result = burgerReducer(initialState, action);
     
     expect(result.selectedBun).toBeNull();
     expect(result.selectedIngredients).toEqual([]);
@@ -118,7 +106,7 @@ describe('burger-data-slice', () => {
 
   it('should be added ingredient', () => {
     const action = { type: selectIngredient.type, payload: ingredient }    
-    const result = burgerReducer(state, action);
+    const result = burgerReducer(initialState, action);
     expect
       (result.selectedIngredients[result.selectedIngredients.length - 1]._id)
       .toEqual(ingredient._id)
@@ -126,7 +114,7 @@ describe('burger-data-slice', () => {
 
   it('should be added bun', () => {
     const action = { type: selectIngredient.type, payload: bun }    
-    const result = burgerReducer(state, action);
+    const result = burgerReducer(initialState, action);
     expect
       (result.selectedBun?._id)
       .toEqual(bun._id)
@@ -138,7 +126,7 @@ describe('burger-data-slice', () => {
     tmp.push(ingredient);
     tmp.push(ingredient);
 
-    const newState = {...state, selectedIngredients: tmp}
+    const newState = {...initialState, selectedIngredients: tmp}
     const action = { type: deleteIngredient.type, payload: 2 }
     
     const result = burgerReducer(newState, action);
@@ -153,7 +141,7 @@ describe('burger-data-slice', () => {
     tmp.push(ingredient);
     tmp.push(ingredientM);
 
-    const newState = {...state, selectedIngredients: tmp}
+    const newState = {...initialState, selectedIngredients: tmp}
     const action = { type: sortIngredients.type, payload: {toIndex: 0, fromIndex: 1} }
     
     const result = burgerReducer(newState, action);

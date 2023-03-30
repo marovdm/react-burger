@@ -20,7 +20,7 @@ export type BurgersDataState = {
   isOpenedIngedientDetail: boolean
 }
 
-const initialState: BurgersDataState = {
+export const initialState: BurgersDataState = {
   burgersData: [],
   isLoading: false,
   hasError: false,

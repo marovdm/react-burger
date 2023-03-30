@@ -1,16 +1,6 @@
 import { WebSocketStatus } from "../../types/ws-types";
 import { viewDetailOrder, wsClose, wsConnecting, wsError, wsMessage, wsOpen } from "../actions/actions";
-import { FeedState, feedReducer } from "../reducers/feed-reducer";
-
-const state: FeedState = {
-  status: WebSocketStatus.OFFLINE,
-  connectionError: '',
-  orders: [],
-  total: 0,
-  totalToday: 0,
-  viewedOrder: null,
-  isLoading: false
-}
+import { feedReducer, initialState } from "../reducers/feed-reducer";
 
 const order = {
   "_id": "641ec96b936b17001be7350c",
@@ -32,7 +22,7 @@ const order = {
 describe("FeedReducer", () => {
   it("should be start connecting web socket", () => {
     const action = { type: wsConnecting.type, payload: WebSocketStatus.CONNECTING }
-    const result = feedReducer(state, action);
+    const result = feedReducer(initialState, action);
 
     expect(result.status).toEqual(WebSocketStatus.CONNECTING);
     expect(result.isLoading).toBeTruthy();
@@ -40,7 +30,7 @@ describe("FeedReducer", () => {
 
   it("should be connected success web socket", () => {
     const action = { type: wsOpen.type }
-    const result = feedReducer(state, action);
+    const result = feedReducer(initialState, action);
 
     expect(result.status).toEqual(WebSocketStatus.ONLINE);
     expect(result.connectionError).toBe('');
@@ -48,7 +38,7 @@ describe("FeedReducer", () => {
 
   it("should be connecting close web socket", () => {
     const action = { type: wsClose.type }
-    const result = feedReducer(state, action);
+    const result = feedReducer(initialState, action);
 
     expect(result.status).toEqual(WebSocketStatus.OFFLINE);
     expect(result.isLoading).toBeFalsy();
@@ -56,7 +46,7 @@ describe("FeedReducer", () => {
 
   it("should be connecting error web socket", () => {
     const action = { type: wsError.type, payload: 'error' }
-    const result = feedReducer(state, action);
+    const result = feedReducer(initialState, action);
 
     expect(result.connectionError).toBe('error');
     expect(result.isLoading).toBeFalsy();
@@ -69,7 +59,7 @@ describe("FeedReducer", () => {
       totalToday: 2
     }
     const action = { type: wsMessage.type, payload: payload}
-    const result = feedReducer(state, action);
+    const result = feedReducer(initialState, action);
 
     expect(result.orders).toBe(payload.orders);
     expect(result.total).toBe(payload.total);
@@ -79,7 +69,7 @@ describe("FeedReducer", () => {
 
   it("should be viewed order", () => {
     const action = { type: viewDetailOrder.type, payload: order }
-    const result = feedReducer(state, action);
+    const result = feedReducer(initialState, action);
 
     expect(result.viewedOrder).toBe(order);
   })
