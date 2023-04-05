@@ -39,3 +39,10 @@ export const WS = {
   WS_USER_ORDERS: 'wss://norma.nomoreparties.space/orders',
   WS_ALL_ORDERS: 'wss://norma.nomoreparties.space/orders/all',
 }
+
+export const DATA_CY_VARS = {
+  MODAL: '[data-cy=modal]',
+  BTN_ORDER: '[data-cy=btn-order]',
+  INGREDIENTS_BLOCK: '[data-cy=ingredients]',
+  CLOSE_MODAL: '[data-cy=close-modal]'
+}

@@ -1,0 +1,49 @@
+{
+  "success": true,
+  "name": "Space флюоресцентный бургер",
+  "order": {
+      "ingredients": [
+          {
+              "_id": "60d3b41abdacab0026a733cd",
+              "name": "Соус фирменный Space Sauce",
+              "type": "sauce",
+              "proteins": 50,
+              "fat": 22,
+              "carbohydrates": 11,
+              "calories": 14,
+              "price": 80,
+              "image": "https://code.s3.yandex.net/react/code/sauce-04.png",
+              "image_mobile": "https://code.s3.yandex.net/react/code/sauce-04-mobile.png",
+              "image_large": "https://code.s3.yandex.net/react/code/sauce-04-large.png",
+              "__v": 0
+          },
+          {
+              "_id": "60d3b41abdacab0026a733c7",
+              "name": "Флюоресцентная булка R2-D3",
+              "type": "bun",
+              "proteins": 44,
+              "fat": 26,
+              "carbohydrates": 85,
+              "calories": 643,
+              "price": 988,
+              "image": "https://code.s3.yandex.net/react/code/bun-01.png",
+              "image_mobile": "https://code.s3.yandex.net/react/code/bun-01-mobile.png",
+              "image_large": "https://code.s3.yandex.net/react/code/bun-01-large.png",
+              "__v": 0
+          }
+      ],
+      "_id": "64246b8a0905fd001b6247e7",
+      "owner": {
+          "name": "lalala123",
+          "email": "test@test123.ru",
+          "createdAt": "2023-02-04T16:59:07.499Z",
+          "updatedAt": "2023-02-06T19:01:55.500Z"
+      },
+      "status": "done",
+      "name": "Space флюоресцентный бургер",
+      "createdAt": "2023-03-29T16:47:06.924Z",
+      "updatedAt": "2023-03-29T16:47:07.357Z",
+      "number": 46668,
+      "price": 1068
+  }
+}

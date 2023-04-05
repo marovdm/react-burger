@@ -64,7 +64,7 @@ export default function BurgerIngredients() {
           Начинки
         </Tab>
       </div>
-      <div className={`${styles.ingredientsWrapper} custom-scroll`}>
+      <div className={`${styles.wrapper} custom-scroll`} data-cy='ingredients'>
         {buns && <BurgerChapter 
           chapter={buns} 
           title={"Булки"} 

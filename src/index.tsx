@@ -11,10 +11,11 @@ const root = ReactDOM.createRoot(
 );
 
 const store = setupStore();
+const baseUrl = process.env.NODE_ENV !== 'production' ? '/' : '/react-burger';
 
 root.render(
 <Provider store={store}>
-      <Router>
+      <Router basename={baseUrl}>
         <App />
       </Router>
     </Provider>

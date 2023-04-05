@@ -44,7 +44,7 @@ export default function BurgerConstructor() {
   }, [dispatch]);
 
   return (
-    <section className={styles.wrapper}>
+    <section className={styles.wrapper} data-cy='constructor'>
       <div ref={dropTarget} className='mb-10'>
         { 
           selectedBun ? 

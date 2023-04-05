@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { IUser } from '../../../models/IUser';
 import { fetchUserProfile, userLogin, userLogout, userRegister, } from '../actions/action-creators';
 
-type UserState = {
+export type UserState = {
   user: IUser;
   isAuth: boolean;
   isLoading: boolean;
@@ -10,7 +10,7 @@ type UserState = {
   error: string;
 }
 
-const initialState: UserState = {
+export const initialState: UserState = {
   user: {
     email: '',
     name: '',
@@ -32,7 +32,7 @@ export const userSlice = createSlice({
       state.isLoading = action.payload;
     },
     setError: (state, action) => {
-      state.hasError = action.payload;
+      state.hasError = true;
       state.error = action.payload;
     },
     resetError: (state) => {
